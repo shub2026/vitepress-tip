@@ -79,27 +79,27 @@ export default withMermaid(
         { text: '首页', link: '/' },
         { text: '内容A', link: '/content_A/A1' },
         { text: '内容B', link: '/content_B/B1' },
-        { text: '导航', link: 'https:/my.sntip.cn' },
+        { text: '导航', link: 'https://my.sntip.cn' },
         { text: '网盘', link: 'https://p.sntip.cn' }
       ],
       sidebar: [
         {
           text: ' 建站指南',
           items: [
-            { text: '基本命令', link: '/content_A/A1' },
+            { text: '基本构建命令', link: '/content_A/A1' },
             { text: '网站模板使用手册', link: '/content_A/README' },
             { text: '速查', link: '/content_A/Markdown语法速查' },
           ]
         },
         {
-          text: ' 替换为你自己的内容',
+          text: ' 说说',
           items: [
             { text: '产品对比', link: '/content_B/B1' },
             { text: '方法对比', link: '/content_B/B2' },
           ]
         },
         {
-          text: ' 替换为你自己的内容',
+          text: ' 关于',
           items: [
             { text: '模型对比', link: '/content_C/C1' },
           ]
