@@ -77,8 +77,7 @@ export default withMermaid(
       },
       nav: [
         { text: '首页', link: '/' },
-        { text: '内容A', link: '/content_A/A1' },
-        { text: '内容B', link: '/content_B/B1' },
+        { text: '指南', link: '/content_A/A1' },
         { text: '导航', link: 'https://my.sntip.cn' },
         { text: '网盘', link: 'https://p.sntip.cn' }
       ],
@@ -111,7 +110,7 @@ export default withMermaid(
       ],
 
       footer: {
-        message: '© 2024-2026 知行笔记 sntip.cn',
+        message: '© 2026 知行笔记 SNTIP.CN',
         copyright: `
           <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">滇ICP备2025076967号</a>
           &nbsp;|&nbsp;
