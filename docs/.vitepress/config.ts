@@ -80,15 +80,15 @@ export default withMermaid(
         { text: '内容A', link: '/content_A/A1' },
         { text: '内容B', link: '/content_B/B1' },
         { text: '导航', link: 'https:/my.sntip.cn' },
-        { text: '内容D', link: '/content_C/C1' }
+        { text: '网盘', link: 'https://p.sntip.cn' }
       ],
       sidebar: [
         {
-          text: ' 替换为你自己的内容',
+          text: ' 建站指南',
           items: [
-            { text: '精选教程', link: '/content_A/A1' },
-            { text: '使用教程', link: '/content_A/README' },
-
+            { text: '基本命令', link: '/content_A/A1' },
+            { text: '网站模板使用手册', link: '/content_A/README' },
+            { text: '速查', link: '/content_A/Markdown语法速查' },
           ]
         },
         {

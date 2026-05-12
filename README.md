@@ -1,6 +1,7 @@
-# VitePress 知识分享类网站模板使用手册
+## VitePress 模板使用手册
 
-这是一个基于 [VitePress](https://vitepress.dev/) 的中文教程网站模板。它以简约风格设计。无论你是程序员、写手还是知识工作者，都可以用它快速搭建一个专业的知识分享网站。
+这是一个基于 [VitePress](https://vitepress.dev/) 的中文教程网站模板。
+它以简约风格设计。无论你是程序员、写手还是知识工作者，都可以用它快速搭建一个专业的知识分享网站。
 
 **关键特性：**
 - 📝 完全基于 Markdown，自动生成网站
@@ -12,6 +13,6 @@
 
 [本教程的飞书文档版](https://my.feishu.cn/docx/W9yed2jjqoB01qxkeBmcLHqUn0e?from=from_copylink)
 
-*一个我与Gemini, Claude共同创作的项目*
+
 
 
