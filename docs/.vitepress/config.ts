@@ -98,8 +98,12 @@ export default withMermaid(
           ]
         },
         {
-          text: ' 关于',
+          text: ' 示例',
           items: [
+            { text: '模型对比', link: '/content_C/C1' },
+            { text: '示例展示', link: '/content_C/2-示例展示' },
+            { text: '链接添加动态渐变色', link: '/content_C/3-链接添加动态渐变色' },
+            { text: 'GitHub emoji表情', link: '/content_C/4-GitHub emoji表情' },
             { text: '模型对比', link: '/content_C/C1' },
           ]
         }
