@@ -83,10 +83,10 @@ export default withMermaid(
       ],
       sidebar: [
         {
-          text: ' 建站指南',
+          text: ' 构建指南',
           items: [
             { text: '基本构建命令', link: '/content_A/A1' },
-            { text: '网站模板使用手册', link: '/content_A/README' },
+            { text: '网站模板使用手册', link: '/content_A/A2' },
             { text: '速查', link: '/content_A/Markdown语法速查' },
           ]
         },
@@ -114,7 +114,7 @@ export default withMermaid(
       ],
 
       footer: {
-        message: '© 2026 知行笔记 SNTIP.CN',
+        message: '© 2026 知行笔记 Sntip.cn',
         copyright: `
           <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">滇ICP备2025076967号</a>
           &nbsp;|&nbsp;
