@@ -1,9 +1,12 @@
 ﻿import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid' // 1. 引入插件
 
+
 export default withMermaid(
   defineConfig({
     head: [
+      ['link', { rel: 'icon', href: '/favicon.ico' }],
+      ['link', { rel: 'icon', type: 'image/png', href: '/images/logo.png' }],
       ['style', {}, `
         /* Hero 布局：标题左，图片右 */
         .VPHero {
@@ -42,8 +45,8 @@ export default withMermaid(
         }
       `]
     ],
-    base: '/vitepress-tutorial-template-cn/',
-    title: "Vitepress Tutorial Template",
+    base: '/vitepress-tip/',
+    title: "Vitepress",
     description: "Starter template for Vitepress documentation sites, especially for tutorials and academic documentation.",
     lang: 'zh-CN',
     // 3. 这里可以添加 Mermaid 的专属配置（可选）
@@ -51,6 +54,7 @@ export default withMermaid(
       theme: 'default' // 可以设置主题，例如 'dark', 'forest' 等
     },
     themeConfig: {
+      logo: '/images/logo.png',
       search: {
         provider: 'local',
         options: {
@@ -100,9 +104,18 @@ export default withMermaid(
         }
       ],
       socialLinks: [
-        { icon: 'github', link: 'https://github.com/lucas-c-lin/openclaw-learning-hub-cn' }
+        { icon: 'github', link: 'https://github.com/shub2026/Vitepress-tip/' }
         // 提示：请将上面的GitHub链接替换为您自己的GitHub仓库链接
-      ]
+      ],
+
+      footer: {
+        message: '© 2024-2026 知行笔记 sntip.cn',
+        copyright: `
+          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">滇ICP备2025076967号</a>
+          &nbsp;|&nbsp;
+          <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=53000002000001" target="_blank" rel="noopener">滇公网安备53000002000001号</a>
+        `
+      }
     }
   })
 )
