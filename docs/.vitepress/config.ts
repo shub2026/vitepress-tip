@@ -45,7 +45,7 @@ export default withMermaid(
         }
       `]
     ],
-    base: '/vitepress-tip/',
+    base: '/',
     title: "Vitepress",
     description: "Starter template for Vitepress documentation sites, especially for tutorials and academic documentation.",
     lang: 'zh-CN',
