@@ -46,7 +46,7 @@ export default withMermaid(
       `]
     ],
     base: '/',
-    title: "Vitepress",
+    title: "知行笔记",
     description: "Starter template for Vitepress documentation sites, especially for tutorials and academic documentation.",
     lang: 'zh-CN',
     // 3. 这里可以添加 Mermaid 的专属配置（可选）
@@ -79,7 +79,7 @@ export default withMermaid(
         { text: '首页', link: '/' },
         { text: '内容A', link: '/content_A/A1' },
         { text: '内容B', link: '/content_B/B1' },
-        { text: '内容C', link: '/content_B/B2' },
+        { text: '导航', link: 'https:/my.sntip.cn' },
         { text: '内容D', link: '/content_C/C1' }
       ],
       sidebar: [
@@ -87,6 +87,8 @@ export default withMermaid(
           text: ' 替换为你自己的内容',
           items: [
             { text: '精选教程', link: '/content_A/A1' },
+            { text: '使用教程', link: '/content_A/README' },
+
           ]
         },
         {
