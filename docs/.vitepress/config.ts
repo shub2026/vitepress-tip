@@ -87,7 +87,7 @@ export default withMermaid(
           items: [
             { text: '基本构建命令', link: '/content_A/A1' },
             { text: '网站模板使用手册', link: '/content_A/A2' },
-            { text: '速查', link: '/content_A/Markdown语法速查' },
+            { text: '部署速查', link: '/content_A/A3' },
           ]
         },
         {
