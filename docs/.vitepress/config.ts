@@ -86,6 +86,7 @@ export default withMermaid(
           text: ' 构建指南',
           items: [
             { text: '基本构建命令', link: '/content_A/A1' },
+            { text: 'Git常用命令', link: '/content_A/A4' },            
             { text: '网站模板使用手册', link: '/content_A/A2' },
             { text: '1Panel部署项目', link: '/content_A/A3' },
             { text: 'Markdown语法', link: '/content_A/Markdown' },
