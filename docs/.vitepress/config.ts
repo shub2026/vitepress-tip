@@ -87,14 +87,14 @@ export default withMermaid(
           items: [
             { text: '基本构建命令', link: '/content_A/A1' },
             { text: '网站模板使用手册', link: '/content_A/A2' },
-            { text: '部署速查', link: '/content_A/A3' },
+            { text: '1Panel部署项目', link: '/content_A/A3' },
+            { text: 'Markdown语法', link: '/content_A/Markdown' },
           ]
         },
         {
-          text: ' 说说',
+          text: ' 测试',
           items: [
             { text: '产品对比', link: '/content_B/B1' },
-            { text: '方法对比', link: '/content_B/B2' },
           ]
         },
         {
