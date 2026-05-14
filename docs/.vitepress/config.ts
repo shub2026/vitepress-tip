@@ -85,7 +85,7 @@ export default withMermaid(
         {
           text: ' 构建指南',
           items: [
-            { text: '基本构建命令', link: '/content_A/构建命令' },
+            { text: '构建命令', link: '/content_A/构建命令' },
             { text: '远程关联', link: '/content_A/远程关联' },
             { text: 'Git常用命令', link: '/content_A/Git常用命令' },            
             { text: '网站模板使用手册', link: '/content_A/模板手册' },
@@ -94,19 +94,19 @@ export default withMermaid(
           ]
         },
         {
-          text: ' 测试',
+          text: ' 分类测试',
           items: [
             { text: '产品对比', link: '/content_B/B1' },
           ]
         },
         {
-          text: ' 示例',
+          text: ' 其他示例',
           items: [
             { text: '模型对比', link: '/content_C/C1' },
             { text: '示例展示', link: '/content_C/2-示例展示' },
             { text: '链接添加动态渐变色', link: '/content_C/3-链接添加动态渐变色' },
             { text: 'GitHub emoji表情', link: '/content_C/4-GitHub emoji表情' },
-            { text: '模型对比', link: '/content_C/C1' },
+            { text: '模型对比', link: '/content_C/C3' },
           ]
         }
       ],
