@@ -1,7 +1,7 @@
 # Git常用命令
 
 ## 查看所有仓库
-```yaml
+```sh
 # 查看远程仓库的简写名
 git remote
 
@@ -13,13 +13,13 @@ git remote show origin
 ```
 
 ## 添加仓库
-```yaml
+```sh
 # git remote add <shortname> <url>
 git remote add origin xxx.git
 ```
 
 ## 修改仓库地址
-```yaml
+```sh
 # git remote set-url <remote> <new url>
 git remote set-url origin xxx2.git
 ```
@@ -28,7 +28,7 @@ git remote set-url origin xxx2.git
 fetch会访问远程仓库并从中拉取所有你还没有的数据，包括所有分值的引用。
 如果你是 clone 项目，那么会自动添加为远程仓库并默认为 origin。
 > Tip git fetch 只会拉取数据到本地仓库，并不会合并或修改你当前的工作
-```yaml
+```sh
 # git fetch <remote> 来抓取远程仓库的新数据
 git fetch origin
 
@@ -38,15 +38,16 @@ git pull origin
 如果未指定简写名，将默认识别最初设置的服务器
 
 ## 推送到远程仓库
-```yaml
+```sh
 # git push <remote> <branch>
-git push origin master
+git push origin main
 ```
 
 ## 仓库重命名和删除
-```yaml
+```sh
 # git remote rename <old remote> <new remote> 重命名仓库
 git remote rename origin pb
+
 # git remote remove <remote> 删除仓库
 git remote remove origin
 ```

@@ -11,10 +11,10 @@ hero:
     alt: 项目 Logo 占位符
   actions:
     - theme: brand
-      text: 🚀 指南
+      text: 📖 指南
       link: /content_A/构建命令
     - theme: alt
-      text: 📊 书签
+      text: 🔖 书签
       link: https://my.sntip.cn
 
 
