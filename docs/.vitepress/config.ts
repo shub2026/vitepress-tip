@@ -77,7 +77,7 @@ export default withMermaid(
       },
       nav: [
         { text: '首页', link: '/' },
-        { text: '指南', link: '/content_A/A1' },
+        { text: '指南', link: '/content_A/构建命令' },
         { text: '导航', link: 'https://my.sntip.cn' },
         { text: '网盘', link: 'https://p.sntip.cn' }
       ],
@@ -85,11 +85,12 @@ export default withMermaid(
         {
           text: ' 构建指南',
           items: [
-            { text: '基本构建命令', link: '/content_A/A1' },
-            { text: 'Git常用命令', link: '/content_A/A4' },            
-            { text: '网站模板使用手册', link: '/content_A/A2' },
-            { text: '1Panel部署项目', link: '/content_A/A3' },
-            { text: 'Markdown语法', link: '/content_A/Markdown' },
+            { text: '基本构建命令', link: '/content_A/构建命令' },
+            { text: '远程关联', link: '/content_A/远程关联' },
+            { text: 'Git常用命令', link: '/content_A/Git常用命令' },            
+            { text: '网站模板使用手册', link: '/content_A/模板手册' },
+            { text: '1Panel部署项目', link: '/content_A/1Panel部署项目' },
+            { text: 'Markdown语法', link: '/content_A/Markdown语法' },
           ]
         },
         {
