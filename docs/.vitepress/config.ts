@@ -95,7 +95,8 @@ export default withMermaid(
             { text: '远程关联', link: '/content_A/远程关联' },
             { text: 'Git常用命令', link: '/content_A/Git常用命令' },            
             { text: '模版手册', link: '/content_A/模版手册' },
-            { text: '1Panel部署', link: '/content_A/1Panel部署' },
+            { text: '1Panel部署', link: '/content_A/1Panel部署' },   
+            { text: '自动更新', link: '/content_A/自动更新' },
             { text: 'Markdown语法', link: '/content_A/Markdown语法' },
           ]
         },
