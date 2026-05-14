@@ -7,7 +7,7 @@ hero:
   tagline: "使用VitePress构建的极简风格网站，初次使用，从零开始"
   # 💡 提示：图片建议放在 public 文件夹下，更名为 your-photo.png
   image:
-    src: /images/your-photo.png
+    src: /images/img1.jpg
     alt: 项目 Logo 占位符
   actions:
     - theme: brand
