@@ -2,8 +2,14 @@
 import { withMermaid } from 'vitepress-plugin-mermaid' // 1. 引入插件
 
 
+// https://vitepress.dev/reference/site-config
 export default withMermaid(
   defineConfig({
+    vite: {
+      build: {
+        chunkSizeWarningLimit: 1500, // 4. 提高 chunk 大小警告阈值到 1500kB（消除警告）
+      }
+    },
     head: [
       ['link', { rel: 'icon', href: '/favicon.ico' }],
       ['link', { rel: 'icon', type: 'image/png', href: '/images/logo.png' }],
