@@ -23,7 +23,7 @@ pnpm config set registry https://registry.npmmirror.com/ # 设置淘宝镜像源
 
 ### 克隆项目代码
 在服务器上创建一个存放代码的目录（例如 /home/web/project），并将你的GitHub仓库克隆下来：
-```
+```yaml
 bashmkdir -p /home/web/project
 cd /home/web/project
 git clone https://github.com/你的用户名/你的VitePress仓库.git
@@ -34,12 +34,12 @@ cd 你的VitePress仓库
 VitePress是一个静态站点生成器（SSG），部署上线需要先将Markdown源码构建为HTML静态文件。
 
 - 如果项目使用 pnpm，执行：
-```
+```yaml
 bashpnpm install       # 安装项目依赖
 pnpm run docs:build # 执行构建命令
 ```
 - 如果项目使用 npm，执行：
-```
+```yaml
 bashnpm i
 npm run docs:build
 ```
@@ -58,7 +58,7 @@ npm run docs:build
 根目录：将默认的根目录路径修改为你刚才构建产出的 dist 目录的绝对路径，例如：/home/web/project/你的VitePress仓库/docs/.vitepress/dist。
 点击创建。
 
-# 配置伪静态（关键步骤）
+#### 配置伪静态（关键步骤）
 VitePress是基于Vue的单页应用（SPA），直接访问子路径刷新会出现404，需要将所有找不到的路径重定向到 index.html。
 
 在1Panel的网站列表中，找到刚创建的网站，点击设置。
@@ -83,7 +83,7 @@ pnpm run docs:build # 重新构建
 ```
 由于1Panel中网站的根目录直接指向了 dist 文件夹，构建完成后网站内容会自动生效，无需重启Nginx。
 
-# 💡 进阶自动化提示：
+***💡 进阶自动化提示：***
 如果希望每次推送代码到GitHub后服务器能自动更新，可以借助1Panel的计划任务功能或编写简单的Shell脚本监听GitHub Webhooks，实现 git pull 和 docs:build 的自动化执行，从而打造真正的持续集成/持续部署（CI/CD）流。生成脑图如何配置Node.js环境变量如何使用SSH克隆GitHub项目如何解决VitePress构建失败问题继续进行自动化部署，推送代码到Github后，实现自动更新2026-05-12 22:06ima引用 8 篇资料作为参考在1Panel环境中实现VitePress项目的自动化部署，核心痛点在于1Panel官方目前暂未原生支持Webhook来通知服务器执行更新。因此，我们需要借助GitHub Actions与服务器SSH的联动，实现“代码推送到GitHub -> 触发Action构建静态文件 -> SSH连接服务器拉取更新”的完整CI/CD闭环。
 以下是实现VitePress自动化部署的详细方案：
 ## 一、 整体架构与构建策略选择
