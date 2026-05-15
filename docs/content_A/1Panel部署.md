@@ -57,7 +57,7 @@ npm run docs:build
 在1Panel左侧菜单点击网站，选择创建网站。
 选择反向代理或静态网站（此处选择静态网站）。
 主域名：填写你要绑定的域名（需提前解析到服务器IP）。
-根目录：将默认的根目录路径修改为你刚才构建产出的 dist 目录的绝对路径，例如：/home/web/project/你的VitePress仓库/docs/.vitepress/dist。
+根目录：将默认的根目录路径修改为你刚才构建产出的 dist 目录的绝对路径，例如：`/home/web/project/你的VitePress仓库/docs/.vitepress/dist`
 点击创建。
 
 #### 配置伪静态（关键步骤）
@@ -85,8 +85,9 @@ pnpm run docs:build # 重新构建
 ```
 由于1Panel中网站的根目录直接指向了 dist 文件夹，构建完成后网站内容会自动生效，无需重启Nginx。
 
-***💡 进阶自动化提示：***
+:::tip 💡 进阶自动化提示
 如果希望每次推送代码到GitHub后服务器能自动更新，可以借助1Panel的计划任务功能或编写简单的Shell脚本监听GitHub Webhooks，实现 git pull 和 docs:build 的自动化执行，从而打造真正的持续集成/持续部署（CI/CD）流。生成脑图如何配置Node.js环境变量如何使用SSH克隆GitHub项目如何解决VitePress构建失败问题继续进行自动化部署，推送代码到Github后，实现自动更新2026-05-12 22:06ima引用 8 篇资料作为参考在1Panel环境中实现VitePress项目的自动化部署，核心痛点在于1Panel官方目前暂未原生支持Webhook来通知服务器执行更新。因此，我们需要借助GitHub Actions与服务器SSH的联动，实现“代码推送到GitHub -> 触发Action构建静态文件 -> SSH连接服务器拉取更新”的完整CI/CD闭环。
+:::
 以下是实现VitePress自动化部署的详细方案：
 ## 一、 整体架构与构建策略选择
 自动化部署有两种常见策略，结合VitePress的特性，推荐采用策略二：
@@ -147,8 +148,9 @@ jobs:
 ```
 
 
-💡 进阶优化：如果选择策略一（GitHub端构建），你需要在Action中先构建，然后利用 git push --force 将产物推送到CNB或Gitee等国内镜像仓库，然后在上述SSH的 script 中，让服务器进入1Panel挂载的网站目录（如包含 .git 的index文件夹）执行 git pull 即可。
-
+:::tip 💡 进阶优化
+如果选择策略一（GitHub端构建），你需要在Action中先构建，然后利用 git push --force 将产物推送到CNB或Gitee等国内镜像仓库，然后在上述SSH的 script 中，让服务器进入1Panel挂载的网站目录（如包含 .git 的index文件夹）执行 git pull 即可。
+:::
 ## 四、 1Panel目录权限与防坑指南
 由于1Panel V1版本对网站目录有特定的管理方式，自动化部署时需特别注意以下两点：
 

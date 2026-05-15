@@ -96,3 +96,7 @@ git tag -d v1.0
 # 将本地标签推送到远程仓库
 git push origin v1.0
 ```
+
+>[!tip]
+更多`Git`命令查询学习 
+[菜园前端](https://note.noxussj.top/documents/part1/git/git.html)
