@@ -96,7 +96,6 @@ export default withMermaid(
             { text: 'Git常用命令', link: '/content_A/Git常用命令' },            
             { text: '模版手册', link: '/content_A/模版手册' },
             { text: '1Panel部署', link: '/content_A/1Panel部署' },   
-            { text: '自动更新', link: '/content_A/自动更新' },
             { text: 'Markdown语法', link: '/content_A/Markdown语法' },
           ]
         },
@@ -113,7 +112,6 @@ export default withMermaid(
             { text: '示例展示', link: '/content_C/2-示例展示' },
             { text: '链接添加动态渐变色', link: '/content_C/3-链接添加动态渐变色' },
             { text: 'GitHub emoji表情', link: '/content_C/4-GitHub emoji表情' },
-            { text: '模型对比', link: '/content_C/C3' },
           ]
         }
       ],
