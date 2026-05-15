@@ -83,7 +83,7 @@ export default withMermaid(
       },
       nav: [
         { text: '首页', link: '/' },
-        { text: '指南', link: '/content_A/构建命令' },
+        { text: '指南', link: '/content_A/基本构建' },
         { text: '导航', link: 'https://my.sntip.cn' },
         { text: '网盘', link: 'https://p.sntip.cn' }
       ],
@@ -91,7 +91,7 @@ export default withMermaid(
         {
           text: ' 构建指南',
           items: [
-            { text: '构建命令', link: '/content_A/构建命令' },
+            { text: '基本构建', link: '/content_A/基本构建' },
             { text: '远程关联', link: '/content_A/远程关联' },
             { text: 'Git常用命令', link: '/content_A/Git常用命令' },            
             { text: '模版手册', link: '/content_A/模版手册' },
@@ -111,7 +111,6 @@ export default withMermaid(
             { text: '模型对比', link: '/content_C/C1' },
             { text: '示例展示', link: '/content_C/2-示例展示' },
             { text: '链接添加动态渐变色', link: '/content_C/3-链接添加动态渐变色' },
-            { text: 'GitHub emoji表情', link: '/content_C/4-GitHub emoji表情' },
           ]
         }
       ],

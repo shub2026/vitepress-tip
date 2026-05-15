@@ -12,7 +12,7 @@ hero:
   actions:
     - theme: brand
       text: 📖 指南
-      link: /content_A/构建命令
+      link: /content_A/基本构建
     - theme: alt
       text: 🔖 书签
       link: https://my.sntip.cn
