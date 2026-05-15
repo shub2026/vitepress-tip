@@ -24,7 +24,7 @@ export default withMermaid(
 
         .VPHero .container { flex: 1; }
 
-        /* 图片容器：1:1 正方形 */
+        /* 图片容器: 1:1 正方形 */
         .VPHero .image-container {
           width: 400px;
           height: 400px;
