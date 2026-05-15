@@ -16,6 +16,10 @@ hero:
     - theme: alt
       text: 🔖 书签
       link: https://my.sntip.cn
+    - theme: alt
+      text: 🔖 美化
+      link: https://vitepress.yiov.top/
+
 
 
 features:

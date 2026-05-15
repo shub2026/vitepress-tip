@@ -100,9 +100,13 @@ export default withMermaid(
           ]
         },
         {
-          text: ' 分类测试',
+          text: ' VitePress',
           items: [
-            { text: '产品对比', link: '/content_B/B1' },
+            { text: '产品对比', link: '/content_B/01_搭建VitePress' },
+            { text: '产品对比', link: '/content_B/02_VitePress美化' },
+            { text: '产品对比', link: '/content_B/03_VitePress优化' },
+
+
           ]
         },
         {
