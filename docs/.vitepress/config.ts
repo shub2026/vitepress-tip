@@ -1,29 +1,33 @@
 import { defineConfig } from 'vitepress'
-import { withMermaid } from 'vitepress-plugin-mermaid' // 1. 引入插件
-
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
   defineConfig({
     vite: {
       build: {
-        chunkSizeWarningLimit: 1500, // 4. 提高 chunk 大小警告阈值到 1500kB（消除警告）
+        chunkSizeWarningLimit: 1500,
       }
     },
     head: [
       ['link', { rel: 'icon', href: '/favicon.ico' }],
+      ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/images/logo.png' }],
+      ['meta', { name: 'keywords', content: 'VitePress,文档,知识分享,知行笔记,教程' }],
+      ['meta', { property: 'og:title', content: '知行笔记' }],
+      ['meta', { property: 'og:description', content: '基于 VitePress 的极简风格知识分享平台' }],
     ],
     base: '/',
     title: "知行笔记",
-    description: "Starter template for Vitepress documentation sites, especially for tutorials and academic documentation.",
+    description: "基于 VitePress 的极简风格知识分享平台，知行合一，止于至善",
     lang: 'zh-CN',
-    // 3. 这里可以添加 Mermaid 的专属配置（可选）
+    sitemap: {
+      hostname: 'https://sntip.cn'
+    },
     mermaid: {
-      theme: 'default' // 可以设置主题，例如 'dark', 'forest' 等
+      theme: 'default'
     },
     themeConfig: {
       logo: '/images/logo.png',
-// 搜索框
       search: {
         provider: 'local',
         options: {
@@ -44,23 +48,21 @@ export default withMermaid(
           }
         }
       },
-// 导航栏
       nav: [
         { text: '首页', link: '/' },
         { text: '指南', link: '/content_A/基本构建' },
         { text: '导航', link: 'https://my.sntip.cn' },
         { text: '网盘', link: 'https://p.sntip.cn' }
       ],
-// 侧边栏
       sidebar: [
         {
           text: ' 构建指南',
           items: [
             { text: '基本构建', link: '/content_A/基本构建' },
             { text: '远程关联', link: '/content_A/远程关联' },
-            { text: 'Git常用命令', link: '/content_A/Git常用命令' },            
+            { text: 'Git常用命令', link: '/content_A/Git常用命令' },
             { text: '模版手册', link: '/content_A/模版手册' },
-            { text: '1Panel部署', link: '/content_A/1Panel部署' },   
+            { text: '1Panel部署', link: '/content_A/1Panel部署' },
             { text: 'Markdown语法', link: '/content_A/Markdown语法' },
           ]
         },
@@ -79,12 +81,15 @@ export default withMermaid(
           ]
         }
       ],
-// 导航GIT图标
       socialLinks: [
-        { icon: 'github', link: 'https://gitee.com/shub77/Vitepress-tip/' }
-        // 提示：请将上面的GitHub链接替换为您自己的GitHub仓库链接
+        { icon: 'github', link: 'https://github.com/shub2026/Vitepress-tip' },
+        {
+          icon: {
+            svg: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="currentColor"/></svg>'
+          },
+          link: 'https://gitee.com/shub77/vitepress-tip/'
+        }
       ],
-// 页脚
       footer: {
         message: '© 2026 知行笔记 Sntip.cn',
         copyright: `
