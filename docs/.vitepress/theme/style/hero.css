@@ -1,0 +1,35 @@
+/* Hero 布局：标题左，图片右 */
+.VPHero {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 40px;
+}
+
+.VPHero .container { flex: 1; }
+
+/* 图片容器: 1:1 正方形 */
+.VPHero .image-container {
+  width: 400px;
+  height: 400px;
+}
+
+/* 图片：圆角显示 */
+.VPImage.image-src {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+/* 手机端：上下布局 */
+@media (max-width: 768px) {
+  .VPHero {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .VPHero .image-container {
+    width: 280px;
+    height: 280px;
+  }
+}

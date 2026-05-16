@@ -12,44 +12,7 @@ export default withMermaid(
     },
     head: [
       ['link', { rel: 'icon', href: '/favicon.ico' }],
-      ['link', { rel: 'icon', type: 'image/png', href: '/images/logo.png' }],
-      ['style', {}, `
-        /* Hero 布局：标题左，图片右 */
-        .VPHero {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 40px;
-        }
-
-        .VPHero .container { flex: 1; }
-
-        /* 图片容器: 1:1 正方形 */
-        .VPHero .image-container {
-          width: 400px;
-          height: 400px;
-        }
-
-        /* 图片：圆角显示 */
-        .VPImage.image-src {
-          width: 100%;
-          height: 100%;
-          border-radius: 16px;
-          object-fit: cover;
-        }
-
-        /* 手机端：上下布局 */
-        @media (max-width: 768px) {
-          .VPHero {
-            flex-direction: column;
-            gap: 24px;
-          }
-          .VPHero .image-container {
-            width: 280px;
-            height: 280px;
-          }
-        }
-      `]
+      ['link', { rel: 'icon', type: 'image/png', href: '/images/logo.png' }]
     ],
     base: '/',
     title: "知行笔记",
@@ -102,11 +65,7 @@ export default withMermaid(
         {
           text: ' VitePress',
           items: [
-            { text: '产品对比', link: '/content_B/01_搭建VitePress' },
-            { text: '产品对比', link: '/content_B/02_VitePress美化' },
-            { text: '产品对比', link: '/content_B/03_VitePress优化' },
-
-
+            { text: '内容示例', link: '/content_B/B1' }
           ]
         },
         {
