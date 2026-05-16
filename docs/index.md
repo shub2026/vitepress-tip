@@ -23,7 +23,7 @@ hero:
 
 
 features:
-  - title: 📖 结构化笔记/教程
+  - title: 📖 结构化笔记
     details: 按照认知逻辑分层，从零开始构建知识体系。Docs-as-Code, 轻松记录、分享、检索。
   - title: 📊 费曼式学习
     details: 将自己的思考和知识分享在开源社区，在输出中学习。

@@ -1,6 +1,6 @@
 ### VitePress说明
 
-本站基于 [VitePress](https://vitepress.dev/) 构建。
+本站基于 [VitePress](https://vitepress.dev/) 构建
 
 
 ### 关键特性

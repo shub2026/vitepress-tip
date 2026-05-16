@@ -12,7 +12,6 @@ export default withMermaid(
     },
     head: [
       ['link', { rel: 'icon', href: '/favicon.ico' }],
-      ['link', { rel: 'icon', type: 'image/png', href: '/images/logo.png' }]
     ],
     base: '/',
     title: "知行笔记",
@@ -24,6 +23,7 @@ export default withMermaid(
     },
     themeConfig: {
       logo: '/images/logo.png',
+// 搜索框
       search: {
         provider: 'local',
         options: {
@@ -44,12 +44,14 @@ export default withMermaid(
           }
         }
       },
+// 导航栏
       nav: [
         { text: '首页', link: '/' },
         { text: '指南', link: '/content_A/基本构建' },
         { text: '导航', link: 'https://my.sntip.cn' },
         { text: '网盘', link: 'https://p.sntip.cn' }
       ],
+// 侧边栏
       sidebar: [
         {
           text: ' 构建指南',
@@ -77,11 +79,12 @@ export default withMermaid(
           ]
         }
       ],
+// 导航GIT图标
       socialLinks: [
         { icon: 'github', link: 'https://gitee.com/shub77/Vitepress-tip/' }
         // 提示：请将上面的GitHub链接替换为您自己的GitHub仓库链接
       ],
-
+// 页脚
       footer: {
         message: '© 2026 知行笔记 Sntip.cn',
         copyright: `
