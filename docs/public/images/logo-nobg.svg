@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="512" height="512">
+  <!-- Diagonal line from bottom-left to top-right -->
+  <line x1="34" y1="67" x2="65" y2="32" 
+        stroke="#05C0C7" stroke-width="16" stroke-linecap="round"/>
+  
+  <!-- Top-left small dot -->
+  <circle cx="32.5" cy="25.5" r="5" fill="#05C0C7"/>
+  <!-- Top-left medium dot -->  
+  <circle cx="44" cy="34" r="7.3" fill="#05C0C7"/>
+  <!-- Bottom-right medium dot -->
+  <circle cx="55.5" cy="65" r="7.3" fill="#05C0C7"/>
+  <!-- Bottom-right small dot -->
+  <circle cx="66.5" cy="73" r="5" fill="#05C0C7"/>
+</svg>
