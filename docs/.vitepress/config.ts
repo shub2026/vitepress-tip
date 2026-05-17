@@ -9,6 +9,7 @@ export default withMermaid(
         chunkSizeWarningLimit: 1500,
       }
     },
+    lastUpdated: true, //首次配置不会立即生效，需git提交后爬取时间戳
     head: [
       ['link', { rel: 'icon', href: '/favicon.ico' }],
       ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/images/logo.png' }],
@@ -48,6 +49,14 @@ export default withMermaid(
           }
         }
       },
+        //上次更新时间
+    lastUpdated: {
+      text: '最后更新于',
+      formatOptions: {
+        dateStyle: 'short', // 可选值full、long、medium、short
+        timeStyle: 'medium' // 可选值full、long、medium、short
+      },
+    },
       outline: { 
       level: [2,4], // 显示2-4级标题
       // level: 'deep', // 显示2-6级标题
@@ -72,17 +81,19 @@ export default withMermaid(
           ]
         },
         {
-          text: ' VitePress',
+          text: ' 收藏',
           items: [
-            { text: '内容示例', link: '/content_B/B1' }
+            { text: '示例展示', link: '/content_B/示例展示' },
+            { text: '证件照尺寸', link: '/content_B/证件照常用尺寸' },
+            { text: '页面样式示例', link: '/content_B/page' },
+            { text: '链接添加动态渐变色', link: '/content_B/链接添加动态渐变色' },
           ]
         },
         {
           text: ' 其他示例',
           items: [
             { text: '模型对比', link: '/content_C/C1' },
-            { text: '示例展示', link: '/content_C/2-示例展示' },
-            { text: '链接添加动态渐变色', link: '/content_C/3-链接添加动态渐变色' },
+            { text: '示例对比', link: '/content_C/C2' },
           ]
         }
       ],
