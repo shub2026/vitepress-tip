@@ -11,7 +11,7 @@ export default withMermaid(
     },
     head: [
       ['link', { rel: 'icon', href: '/favicon.ico' }],
-      ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/images/logo.svg' }],
+      ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/images/logo.png' }],
       ['meta', { name: 'keywords', content: 'VitePress,文档,知识分享,知行笔记,教程' }],
       ['meta', { property: 'og:title', content: '知行笔记' }],
       ['meta', { property: 'og:description', content: '基于 VitePress 的极简风格知识分享平台' }],
@@ -27,7 +27,7 @@ export default withMermaid(
       theme: 'default'
     },
     themeConfig: {
-      logo: '/images/logo.svg',
+      logo: '/images/logo.png',
       search: {
         provider: 'local',
         options: {
