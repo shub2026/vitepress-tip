@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: "知行笔记"
-  text: "知行合一 止于至善"
-  tagline: "使用VitePress构建的极简风格网站，初次使用，从零开始"
+  name: '知行笔记'
+  text: '知行合一 止于至善'
+  tagline: '使用VitePress构建的极简风格网站，初次使用，从零开始'
   # 💡 提示：图片建议放在 public 文件夹下，更名为 your-photo.png
   image:
     src: /images/img1.jpg
@@ -19,8 +19,6 @@ hero:
     - theme: alt
       text: 🎨 美化
       link: https://vitepress.yiov.top/
-
-
 
 features:
   - title: 📖 结构化笔记

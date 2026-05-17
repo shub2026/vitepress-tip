@@ -1,0 +1,15 @@
+node_modules
+dist
+.cache
+.vitepress
+public
+*.ico
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

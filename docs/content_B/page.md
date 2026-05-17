@@ -1,7 +1,5 @@
 # 页面
 
-
-
 ## 站点配置
 
 ### 元数据
@@ -25,7 +23,7 @@ export default defineConfig({
 ::: tip 说明
 网页标题随着每个页面的 `<h1>` 标题而变动，
 
-如 标题是 `# 页面` ，那么显示的就是 `页面 | VitePress` 
+如 标题是 `# 页面` ，那么显示的就是 `页面 | VitePress`
 :::
 
 ```ts{5}
@@ -38,10 +36,6 @@ export default defineConfig({
   // titleTemplate: false, //关闭标题
 })
 ```
-
-
-
-
 
 ### Fav图标
 
@@ -61,11 +55,8 @@ export default defineConfig({
 ::: warning 注意
 如果你使用路径 `/logo.png` 无反应，可尝试先用相对路径 `../public/logo.png`
 
-另：如果你的 [Base 设置非根目录](./assets.md#base)，fav图标路径也要做出改变
+另：如果你的 Base 设置非根目录，fav图标路径也要做出改变
 :::
-
-
-
 
 :::: details Head其他配置
 
@@ -74,39 +65,30 @@ export default defineConfig({
 ```ts [添加谷歌字体]
 export default defineConfig({
   head: [
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     [
       'link',
-      { rel: 'preconnect', href: 'https://fonts.googleapis.com' }
+      { href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap', rel: 'stylesheet' },
     ],
-    [
-      'link',
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
-    ],
-    [
-      'link',
-      { href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap', rel: 'stylesheet' }
-    ]
-  ]
-})
+  ],
+});
 ```
 
 ```ts [添加谷歌分析]
 export default defineConfig({
   head: [
-    [
-      'script',
-      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=TAG_ID' }
-    ],
+    ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=TAG_ID' }],
     [
       'script',
       {},
       `window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'TAG_ID');`
-    ]
-  ]
-})
+      gtag('config', 'TAG_ID');`,
+    ],
+  ],
+});
 ```
 
 ```ts [添加谷歌分析]
@@ -119,17 +101,13 @@ export default defineConfig({
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('/sw.js')
         }
-      })()`
-    ]
-  ]
-})
+      })()`,
+    ],
+  ],
+});
 ```
 
 ::::
-
-
-
-
 
 ### 深色主题
 
@@ -146,8 +124,6 @@ export default defineConfig({
 
 })
 ```
-
-
 
 ### 多语言
 
@@ -167,7 +143,7 @@ export default defineConfig({
 │  └─ fr
 │  │  ├─ index.md   <--法语首页
 │  │  ├─ ...
-│  │  ...  
+│  │  ...
 │  └─ index.md      <--中文首页(默认)
 └─ package.json
 ```
@@ -175,7 +151,7 @@ export default defineConfig({
 默认读取目录的index文件，无需手动填写 `index`
 
 ::: tip 说明
-更详情的使用可根据 [官方配置](https://github.com/vuejs/vitepress/tree/main/docs/.vitepress/config)，参考单独的教程 [☛多语言](./multi-language.md)
+更详情的使用可根据官方配置参考
 :::
 
 ```ts{3-19}
@@ -233,10 +209,6 @@ export default defineConfig({
 })
 ```
 
-
-
-
-
 ### Logo
 
 网站的Logo图标还没有，参考下方目录表
@@ -252,6 +224,7 @@ export default defineConfig({
 └─ package.json
 
 ```
+
 按照目录新建public文件夹，并在 `doc\public` 中 放入logo
 
 然后在 `config.mts` 中配置
@@ -281,8 +254,6 @@ export default defineConfig({
 })
 ```
 
-
-
 ### 站点标题
 
 如果设置后，会覆盖原本的 [网页标题](#网页标题) !
@@ -299,17 +270,11 @@ export default defineConfig({
 })
 ```
 
-
-
-
-
 ### 站点地图
 
 VitePress 提供开箱即用的配置，由 [sitemap](https://vitepress.dev/zh/guide/sitemap-generation) 模块提供支持，为站点生成 `sitemap.xml` 文件。
 
 要启用它，请将以下内容添加到 `.vitepress/config.mts` 中
-
-
 
 ```ts{4-7}
 import { defineConfig } from 'vitepress'
@@ -322,16 +287,7 @@ export default defineConfig({
 })
 ```
 
-
-
-
-
-
-
-
-
 ## 导航栏
-
 
 ### 导航菜单
 
@@ -349,10 +305,10 @@ export default defineConfig({
   themeConfig: {
     //导航栏
     nav: [
-      { text: '首页', link: '/' }, 
+      { text: '首页', link: '/' },
       { text: '快速上手', link: '/getting-started' },
       { text: 'VitePress', link: 'https://vitepress.dev/' },
-    ], 
+    ],
   },
 
 })
@@ -360,14 +316,13 @@ export default defineConfig({
 
 若想要下拉式菜单导航，就需要加一个 `iteams`
 
-
 ```ts{4-16}
 export default defineConfig({
 
   themeConfig: {
     //导航栏
     nav: [
-      { text: '首页', link: '/' }, 
+      { text: '首页', link: '/' },
       {
         text: '指南',
         items: [
@@ -377,14 +332,13 @@ export default defineConfig({
         ]
       },
       { text: 'VitePress', link: 'https://vitepress.dev/' },
-    ], 
+    ],
   },
 
 })
 ```
 
 给下拉菜单赋予分组标题，就要再次嵌套 `iteams`
-
 
 ```ts{4-38}
 export default defineConfig({
@@ -439,14 +393,13 @@ export default defineConfig({
     //导航栏
     nav: [
       { text: '首页', link: '/' },
-      
+
       { text: 'VitePress', link: 'https://vitepress.dev/zh/' , noIcon: true },
     ],
   },
 
 })
 ```
-
 
 ### 版本号
 
@@ -491,13 +444,12 @@ export default defineConfig({
 })
 
 ```
-:::
 
+:::
 
 ### 社交链接
 
 可以自行添加，支持SVG
-
 
 ```ts{4-9}
 export default defineConfig({
@@ -543,7 +495,21 @@ export type SocialLinkIcon =
 我这里使用的是这个
 
 ```html
-<svg t="1703483542872" class="icon" viewBox="0 0 1309 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6274" width="200" height="200"><path d="M1147.26896 912.681417l34.90165 111.318583-127.165111-66.823891a604.787313 604.787313 0 0 1-139.082747 22.263717c-220.607239 0-394.296969-144.615936-394.296969-322.758409s173.526026-322.889372 394.296969-322.889372C1124.219465 333.661082 1309.630388 478.669907 1309.630388 656.550454c0 100.284947-69.344929 189.143369-162.361428 256.130963zM788.070086 511.869037a49.11114 49.11114 0 0 0-46.360916 44.494692 48.783732 48.783732 0 0 0 46.360916 44.494693 52.090549 52.090549 0 0 0 57.983885-44.494693 52.385216 52.385216 0 0 0-57.983885-44.494692z m254.985036 0a48.881954 48.881954 0 0 0-46.09899 44.494692 48.620028 48.620028 0 0 0 46.09899 44.494693 52.385216 52.385216 0 0 0 57.983886-44.494693 52.58166 52.58166 0 0 0-57.951145-44.494692z m-550.568615 150.018161a318.567592 318.567592 0 0 0 14.307712 93.212943c-14.307712 1.080445-28.746387 1.768001-43.283284 1.768001a827.293516 827.293516 0 0 1-162.394168-22.296458l-162.001279 77.955749 46.328175-133.811485C69.410411 600.858422 0 500.507993 0 378.38496 0 166.683208 208.689602 0 463.510935 0c227.908428 0 427.594322 133.18941 467.701752 312.379588a427.463358 427.463358 0 0 0-44.625655-2.619261c-220.24709 0-394.100524 157.74498-394.100525 352.126871zM312.90344 189.143369a64.270111 64.270111 0 0 0-69.803299 55.659291 64.532037 64.532037 0 0 0 69.803299 55.659292 53.694846 53.694846 0 0 0 57.852923-55.659292 53.465661 53.465661 0 0 0-57.852923-55.659291z m324.428188 0a64.040926 64.040926 0 0 0-69.574114 55.659291 64.302852 64.302852 0 0 0 69.574114 55.659292 53.694846 53.694846 0 0 0 57.951145-55.659292 53.465661 53.465661 0 0 0-57.951145-55.659291z" p-id="6275"></path></svg>
+<svg
+  t="1703483542872"
+  class="icon"
+  viewBox="0 0 1309 1024"
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  p-id="6274"
+  width="200"
+  height="200"
+>
+  <path
+    d="M1147.26896 912.681417l34.90165 111.318583-127.165111-66.823891a604.787313 604.787313 0 0 1-139.082747 22.263717c-220.607239 0-394.296969-144.615936-394.296969-322.758409s173.526026-322.889372 394.296969-322.889372C1124.219465 333.661082 1309.630388 478.669907 1309.630388 656.550454c0 100.284947-69.344929 189.143369-162.361428 256.130963zM788.070086 511.869037a49.11114 49.11114 0 0 0-46.360916 44.494692 48.783732 48.783732 0 0 0 46.360916 44.494693 52.090549 52.090549 0 0 0 57.983885-44.494693 52.385216 52.385216 0 0 0-57.983885-44.494692z m254.985036 0a48.881954 48.881954 0 0 0-46.09899 44.494692 48.620028 48.620028 0 0 0 46.09899 44.494693 52.385216 52.385216 0 0 0 57.983886-44.494693 52.58166 52.58166 0 0 0-57.951145-44.494692z m-550.568615 150.018161a318.567592 318.567592 0 0 0 14.307712 93.212943c-14.307712 1.080445-28.746387 1.768001-43.283284 1.768001a827.293516 827.293516 0 0 1-162.394168-22.296458l-162.001279 77.955749 46.328175-133.811485C69.410411 600.858422 0 500.507993 0 378.38496 0 166.683208 208.689602 0 463.510935 0c227.908428 0 427.594322 133.18941 467.701752 312.379588a427.463358 427.463358 0 0 0-44.625655-2.619261c-220.24709 0-394.100524 157.74498-394.100525 352.126871zM312.90344 189.143369a64.270111 64.270111 0 0 0-69.803299 55.659291 64.532037 64.532037 0 0 0 69.803299 55.659292 53.694846 53.694846 0 0 0 57.852923-55.659292 53.465661 53.465661 0 0 0-57.852923-55.659291z m324.428188 0a64.040926 64.040926 0 0 0-69.574114 55.659291 64.302852 64.302852 0 0 0 69.574114 55.659292 53.694846 53.694846 0 0 0 57.951145-55.659292 53.465661 53.465661 0 0 0-57.951145-55.659291z"
+    p-id="6275"
+  ></path>
+</svg>
 ```
 
 粘贴到 `config.mts` 配置文件中
@@ -552,7 +518,7 @@ export type SocialLinkIcon =
 export default defineConfig({
 
   themeConfig: {
-    //自定义社交链接 
+    //自定义社交链接
     socialLinks: [
       {
         icon: {
@@ -562,7 +528,7 @@ export default defineConfig({
         // You can include a custom label for accessibility too (optional but recommended):
         ariaLabel: 'wechat'
       }
-    ], 
+    ],
   },
 
 })
@@ -573,8 +539,6 @@ export default defineConfig({
 
 自己搭一个，界面也很美观
 :::
-
-
 
 ### 深浅模式文字
 
@@ -591,20 +555,13 @@ export default defineConfig({
 })
 ```
 
-
-
-
-
 ## 搜索框
 
-
 本地的 [minisearch](https://github.com/lucaong/minisearch/) 和 [Algolia DocSearch](https://docsearch.algolia.com/) 都是全局搜索都好用
-
 
 ### 本地搜索
 
 得益于 [minisearch](https://github.com/lucaong/minisearch/)，VitePress 支持使用浏览器内索引进行模糊全文搜索
-
 
 ```ts{4-8}
 export default defineConfig({
@@ -618,7 +575,6 @@ export default defineConfig({
 
 })
 ```
-
 
 如果你搭建了多语言站点，可以更细致的配置搜索
 
@@ -655,40 +611,31 @@ export default defineConfig({
 })
 ```
 
-
-
-
 ### Algolia
 
-请完成文档后，再来 [DocSearch参考教程](./docsearch.md) 来配置，步骤有些许繁琐
-
-
+请完成文档后，再来配置 DocSearch，步骤有些许繁琐
 
 ## 首页
 
-我们使用 [Frontmatter](./frontmatter.md) ，在 `index.md` 中进行配置和修改
-
-
+我们使用 Frontmatter，在 `index.md` 中进行配置和修改
 
 ## 页脚
-
 
 ```ts{4-9}
 export default defineConfig({
 
   themeConfig: {
     //页脚 // [!code focus:6]
-    footer: { 
-      message: 'Released under the MIT License.', 
-      copyright: 'Copyright © 2019-2023 present Evan You', 
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2019-2023 present Evan You',
       // 自动更新时间
-      //copyright: `Copyright © 2019-${new Date().getFullYear()} present Evan You`, 
-    }, 
+      //copyright: `Copyright © 2019-${new Date().getFullYear()} present Evan You`,
+    },
   },
 
 })
 ```
-
 
 如果你有备案，会需要跳转到工信部，使用html代码就行了
 
@@ -701,15 +648,12 @@ export default defineConfig({
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2023-2024 备案号：<a href="https://beian.miit.gov.cn/" target="_blank">京****号</a>', // [!code focus:3]
       // 自动更新时间
-      // copyright: `Copyright © 2023-${new Date().getFullYear()} 备案号：<a href="https://beian.miit.gov.cn/" target="_blank">京****号</a>`, 
+      // copyright: `Copyright © 2023-${new Date().getFullYear()} 备案号：<a href="https://beian.miit.gov.cn/" target="_blank">京****号</a>`,
     },
   },
 
 })
 ```
-
-
-
 
 ## 侧边栏
 
@@ -743,7 +687,6 @@ export default defineConfig({
 
 })
 ```
-
 
 当然我们也可以进行多个分组
 
@@ -784,9 +727,7 @@ export default defineConfig({
 })
 ```
 
-
 多个侧边栏也是可以的，有其他目录可以参考官方的目录表样式
-
 
 ```
 .
@@ -801,7 +742,6 @@ export default defineConfig({
 ```
 
 那么我们的配置就是
-
 
 ```ts{4-31}
 export default defineConfig({
@@ -844,7 +784,6 @@ export default defineConfig({
 如果你不想开启，将它设为 `true` ，或者直接不配置
 :::
 
-
 ```ts{4-31}
 export default defineConfig({
 
@@ -862,11 +801,9 @@ export default defineConfig({
 })
 ```
 
-
 ### 侧边栏(移动端)
 
 更改手机端菜单文字显示，默认 `Menu`
-
 
 ```ts{4-5}
 export default defineConfig({
@@ -894,7 +831,6 @@ export default defineConfig({
 })
 ```
 
-
 ### 大纲
 
 右侧的大纲，默认显示是二级标题，通过设置 `outline` 实现多级标题
@@ -915,13 +851,10 @@ export default defineConfig({
 })
 ```
 
-
-
-
 ## 编辑本页
 
 ::: warning 注意
-会被 [Frontmatter配置](./frontmatter.md#编辑本页) 覆盖
+会被 Frontmatter配置 覆盖
 :::
 
 ```ts{4-8}
@@ -929,7 +862,7 @@ export default defineConfig({
 
   themeConfig: {
     //编辑本页 // [!code focus:5]
-    editLink: { 
+    editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path', // 改成自己的仓库
       text: '在GitHub编辑本页'
     },
@@ -938,19 +871,17 @@ export default defineConfig({
 })
 ```
 
-
-
-
 ## 上次更新
 
 如果你想添加页面的更新时间就配置
 
 ::: details 报错：spawn git EAGAIN
-* 原因：没有 [安装git](https://yiov.top/website/pages/git.html) ，配置 lastUpdated 必须安装
 
-* 相关：打开项目时，也会提示 `未找到 Git。请安装 Git，或在 "git.path" 设置中配置`
+- 原因：没有 [安装git](https://yiov.top/website/pages/git.html) ，配置 lastUpdated 必须安装
 
-* 解决：安装好git后，打开VScode - 文件 - 首选项 - 设置  - 搜索 `git.path` - 点击 `在 settings.json 中编辑`，添加正确的 git.path 安装路径
+- 相关：打开项目时，也会提示 `未找到 Git。请安装 Git，或在 "git.path" 设置中配置`
+
+- 解决：安装好git后，打开VScode - 文件 - 首选项 - 设置 - 搜索 `git.path` - 点击 `在 settings.json 中编辑`，添加正确的 git.path 安装路径
 
 ```json:no-line-numbers{5-6}
 {
@@ -961,6 +892,7 @@ export default defineConfig({
     "git.path": "D:/Program Files/Git/bin/git.exe", // 请使用正确Linux的斜杠 // [!code ++]
 }
 ```
+
 :::
 
 ```ts{3,7-14}
@@ -983,10 +915,9 @@ export default defineConfig({
 })
 ```
 
-
 ## 上/下页
 
-默认从侧边栏配置中读取，如果想单独关闭或自定义请参照 [Frontmatter](./frontmatter.md#上-下页)
+默认从侧边栏配置中读取，如果想单独关闭或自定义请参照 Frontmatter
 
 ::: tip 说明
 仅修改显示的文字
@@ -995,7 +926,6 @@ export default defineConfig({
 
 `Proxima pagina` 可以改成 下一页
 :::
-
 
 ```ts{4-8}
 export default defineConfig({
@@ -1010,8 +940,6 @@ export default defineConfig({
 
 })
 ```
-
-
 
 ## 广告
 
@@ -1031,6 +959,3 @@ export default defineConfig({
 
 })
 ```
-
-
-
