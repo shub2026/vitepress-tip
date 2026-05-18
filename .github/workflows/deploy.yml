@@ -37,9 +37,10 @@ jobs:
         run: npm ci
 
       - name: Build with VitePress
-        run: |
-          export DEPLOY_TARGET=github
-          npm run docs:build
+        run: npm run docs:build
+
+      - name: Add CNAME
+        run: echo "docs.sntip.cn" > docs/.vitepress/dist/CNAME
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -53,7 +54,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: https://docs.sntip.cn
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
