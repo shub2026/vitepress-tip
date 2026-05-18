@@ -175,7 +175,7 @@ Markdown语法主要分为如下几大部分：
 
 相当于**反转义**作用。使符号成为普通符号。
 
-#### 4.11 符号'`'
+#### 2.11 符号'`'
 
 起到标记作用。如：
 
@@ -209,10 +209,11 @@ Markdown的使用者：
 
 ---
 
-**注意**：不同的Markdown解释器或工具对相应语法（扩展语法）的解释效果不尽相同，具体可参见工具的使用说明。
+:::info 注意
+不同的Markdown解释器或工具对相应语法（扩展语法）的解释效果不尽相同，具体可参见工具的使用说明。
 虽然有人想出面搞一个所谓的标准化的Markdown，[没想到还惹怒了健在的创始人John Gruber]
 (http://blog.codinghorror.com/standard-markdown-is-now-common-markdown/ )。
-
+:::
 ---
 
 以上基本是所有traditonal markdown的语法。

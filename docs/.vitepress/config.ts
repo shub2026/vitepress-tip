@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+﻿import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
 // https://vitepress.dev/reference/site-config
@@ -74,9 +74,9 @@ export default withMermaid(
           items: [
             { text: '基本构建', link: '/content_A/基本构建' },
             { text: '远程关联', link: '/content_A/远程关联' },
-            { text: '执行脚本', link: '/content_A/执行脚本' },
             { text: 'Git常用命令', link: '/content_A/Git常用命令' },
             { text: '1Panel部署', link: '/content_A/1Panel部署' },
+            { text: '1Panel脚本', link: '/content_A/1Panel脚本' },
             { text: 'Markdown语法', link: '/content_A/Markdown语法' },
           ]
         },
