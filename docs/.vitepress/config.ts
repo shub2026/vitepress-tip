@@ -85,8 +85,8 @@ export default withMermaid(
           items: [
             { text: '示例展示', link: '/content_B/示例展示' },
             { text: '证件照尺寸', link: '/content_B/证件照常用尺寸' },
+            { text: '证件照美白', link: '/content_B/证件照美白教程' },
             { text: '页面样式示例', link: '/content_B/page' },
-            { text: '链接添加动态渐变色', link: '/content_B/链接添加动态渐变色' },
           ]
         },
         {
