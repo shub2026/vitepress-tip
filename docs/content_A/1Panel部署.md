@@ -66,11 +66,10 @@ npm run docs:build
 
 2. 创建网站并绑定目录
 
-在1Panel左侧菜单点击网站，选择创建网站。
-选择反向代理或静态网站（此处选择静态网站）。
-主域名：填写你要绑定的域名（需提前解析到服务器IP）。
-根目录：将默认的根目录路径修改为你刚才构建产出的 dist 目录的绝对路径，例如：`/home/web/project/你的VitePress仓库/docs/.vitepress/dist`
-点击创建。
+>在1Panel左侧菜单点击网站，选择创建网站。
+>选择反向代理或静态网站（此处选择静态网站）。
+>主域名：填写你要绑定的域名（需提前解析到服务器IP）。
+>根目录：将默认的根目录路径修改为你刚才构建产出的 dist 目录的绝对路径，例如：`/home/web/project/你的VitePress仓库/docs/.vitepress/dist`点击创建。
 
 #### 配置伪静态（关键步骤）
 
@@ -107,7 +106,8 @@ pnpm run docs:build # 重新构建
 :::tip 💡 进阶自动化提示
 如果希望每次推送代码到GitHub后服务器能自动更新，可以借助1Panel的计划任务功能或编写简单的Shell脚本监听GitHub Webhooks，实现 git pull 和 docs:build 的自动化执行，从而打造真正的持续集成/持续部署（CI/CD）流。生成脑图如何配置Node.js环境变量如何使用SSH克隆GitHub项目如何解决VitePress构建失败问题继续进行自动化部署，推送代码到Github后，实现自动更新2026-05-12 22:06ima引用 8 篇资料作为参考在1Panel环境中实现VitePress项目的自动化部署，核心痛点在于1Panel官方目前暂未原生支持Webhook来通知服务器执行更新。因此，我们需要借助GitHub Actions与服务器SSH的联动，实现“代码推送到GitHub -> 触发Action构建静态文件 -> SSH连接服务器拉取更新”的完整CI/CD闭环。
 :::
-以下是实现VitePress自动化部署的详细方案：
+
+## 实现VitePress自动化部署的详细方案
 
 ## 一、 整体架构与构建策略选择
 
@@ -115,24 +115,25 @@ pnpm run docs:build # 重新构建
 
 ### 策略一：GitHub端构建，推送静态产物
 
-在GitHub Actions中完成 pnpm run docs:build，将生成的 dist 目录推送到另一个静态仓库或分支，服务器只需拉取纯静态文件。这种方式服务器无需安装Node.js环境，拉取速度快，尤其适合国内服务器访问GitHub较慢的场景（可配合CNB、Gitee等国内镜像中转）。
+在GitHub Actions中完成 `npm run docs:build`，将生成的 dist 目录推送到另一个静态仓库或分支，服务器只需拉取纯静态文件。这种方式服务器无需安装Node.js环境，拉取速度快，尤其适合国内服务器访问GitHub较慢的场景（可配合CNB、Gitee等国内镜像中转）。
 
 ### 策略二：服务器端构建，拉取源码直接编译
 
-GitHub Actions通过SSH通知服务器，服务器执行 git pull 拉取最新源码，随后在服务器内执行 pnpm install 和 pnpm run docs:build。这种方式配置相对简单，不需要处理跨仓库推送和镜像中转的问题。
+GitHub Actions通过SSH通知服务器，服务器执行 `git pull` 拉取最新源码，随后在服务器内执行 `npm install` 和 `npm run docs:build`。这种方式配置相对简单，不需要处理跨仓库推送和镜像中转的问题。
 
 ## 二、 配置服务器SSH免密登录（核心前置）
 
 为了让GitHub Actions能安全地连接到你的服务器执行命令，建议采用密钥对方式进行SSH认证。
 
-在1Panel生成密钥：在1Panel的“主机”-“密钥信息”中生成密码和密钥对。
-配置GitHub Secrets：在你的VitePress GitHub仓库中，进入 Settings -> Secrets and variables -> Actions，添加以下变量：
+1. **在1Panel生成密钥**：在1Panel的“主机”-“密钥信息”中生成密码和密钥对。
 
-SERVER_IP：你的服务器公网IP
-USERNAME：SSH登录用户名（通常为root）
-PORT：SSH登录端口（1Panel默认可能不是22，请在1Panel面板安全设置中确认）
-KEY：刚刚生成的私钥内容
-PASSPHRASE：密钥密码（如果设置了的的话）
+2. **配置GitHub Secrets**：在你的VitePress GitHub仓库中，进入 Settings -> Secrets and variables -> Actions，添加以下变量：
+
+- SERVER_IP：你的服务器公网IP
+- USERNAME：SSH登录用户名（通常为root）
+- PORT：SSH登录端口（1Panel默认可能不是22，请在1Panel面板安全设置中确认）
+- KEY：刚刚生成的私钥内容
+- PASSPHRASE：密钥密码（如果设置了的的话）
 
 ## 三、 编写GitHub Actions工作流
 
@@ -182,11 +183,16 @@ jobs:
 
 由于1Panel V1版本对网站目录有特定的管理方式，自动化部署时需特别注意以下两点：
 
-Git仓库与网站根目录的映射
-1Panel默认的网站根目录（如 /opt/1panel/apps/openresty/openresty/www/sites/你的域名/index）如果是空的，直接 git clone 会多出一层目录。正确的做法是：先手动克隆一次仓库，将克隆下来的文件夹内的所有文件（包括隐藏的 .git 文件夹），复制到1Panel的 index 文件夹内。这样后续才能直接在 index 文件夹内执行 git pull 实现增量更新。
-如果采用服务器端构建，你需要将1Panel网站的根目录软链接或直接指向你项目内的 docs/.vitepress/dist 目录。
+**Git仓库与网站根目录的映射**
 
-Docker容器内外的用户权限（1000:1000准则）
+1Panel默认的网站根目录（如 /opt/1panel/apps/openresty/openresty/www/sites/你的域名/index）如果是空的，直接 git clone 会多出一层目录。
+
+正确的做法是：先手动克隆一次仓库，将克隆下来的文件夹内的所有文件（包括隐藏的 .git 文件夹），复制到1Panel的 index 文件夹内。这样后续才能直接在 index 文件夹内执行 `git pull` 实现增量更新。
+
+如果采用服务器端构建，你需要将1Panel网站的根目录软链接或直接指向你项目内的 `docs/.vitepress/dist` 目录。
+
+**Docker容器内外的用户权限**（1000:1000准则）
+
 1Panel基于Docker管理应用，其PHP/Nginx等容器默认以 1000:1000 的用户执行进程。如果你的项目需要写入文件（如日志、缓存），或者在容器内执行命令，建议在服务器上也创建一个 uid/gid 为 1000 的普通用户来操作Git，这样可以避免容器内外权限不一致导致的“权限拒绝”问题。虽然VitePress纯静态输出对写权限要求不高，但保持权限一致性是良好的运维习惯。
 
 ## 五、 其他自动化方案拓展（Webhook自建服务）
