@@ -100,6 +100,7 @@ export default withMermaid(
           text: ' AI提示词指南',
           collapsed: false,
           items: [
+            { text: '提示词说明', link: '/content_D/提示词说明' },
             { text: 'OpenAI GPT', link: '/content_D/openai-gpt-prompts' },
             { text: 'Anthropic Claude', link: '/content_D/anthropic-claude-prompts' },
             { text: 'Google Gemini', link: '/content_D/google-gemini-prompts' },
