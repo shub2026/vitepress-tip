@@ -95,6 +95,20 @@ export default withMermaid(
             { text: '模型对比', link: '/content_C/C1' },
             { text: '示例对比', link: '/content_C/C2' },
           ]
+        },
+        {
+          text: ' AI提示词指南',
+          collapsed: false,
+          items: [
+            { text: 'OpenAI GPT', link: '/content_D/openai-gpt-prompts' },
+            { text: 'Anthropic Claude', link: '/content_D/anthropic-claude-prompts' },
+            { text: 'Google Gemini', link: '/content_D/google-gemini-prompts' },
+            { text: 'Meta Llama', link: '/content_D/meta-llama-prompts' },
+            { text: 'Mistral AI', link: '/content_D/mistral-prompts' },
+            { text: 'DeepSeek', link: '/content_D/deepseek-prompts' },
+            { text: '千问(Qwen)', link: '/content_D/qwen-prompts' },
+            { text: '智谱AI GLM', link: '/content_D/glm-prompts' },
+          ]
         }
       ],
       socialLinks: [
