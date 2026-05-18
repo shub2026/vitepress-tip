@@ -728,7 +728,7 @@ Human:
 </task>
 
 <code>
-```python
+&#96;&#96;&#96;python
 import mysql.connector
 import hashlib
 
@@ -782,7 +782,7 @@ def login_user(username, password):
 if __name__ == "__main__":
     print(register_user("john", "pass123", "john@example.com"))
     print(login_user("john", "pass123"))
-```
+&#96;&#96;&#96;
 </code>
 
 <review_criteria>
