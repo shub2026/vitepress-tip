@@ -1,6 +1,9 @@
 ﻿import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
+// 根据部署目标动态设置 base 路径
+const base = process.env.DEPLOY_TARGET === 'github' ? '/Vitepress-tip/' : '/'
+
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
   defineConfig({
@@ -11,13 +14,13 @@ export default withMermaid(
     },
     lastUpdated: true, //首次配置不会立即生效，需git提交后爬取时间戳
     head: [
-      ['link', { rel: 'icon', href: '/Vitepress-tip/favicon.ico' }],
-      ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/Vitepress-tip/images/logo.png' }],
+      ['link', { rel: 'icon', href: `${base}favicon.ico` }],
+      ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: `${base}images/logo.png` }],
       ['meta', { name: 'keywords', content: 'VitePress,文档,知识分享,知行笔记,教程' }],
       ['meta', { property: 'og:title', content: '知行笔记' }],
       ['meta', { property: 'og:description', content: '基于 VitePress 的极简风格知识分享平台' }],
     ],
-    base: '/Vitepress-tip/',
+    base: base,
     title: "知行笔记",
     description: "基于 VitePress 的极简风格知识分享平台，知行合一，止于至善",
     lang: 'zh-CN',
@@ -28,7 +31,7 @@ export default withMermaid(
       theme: 'default'
     },
     themeConfig: {
-      logo: '/Vitepress-tip/images/logo.png',
+      logo: `${base}images/logo.png`,
       search: {
         provider: 'local',
         options: {

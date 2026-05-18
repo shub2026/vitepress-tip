@@ -37,7 +37,9 @@ jobs:
         run: npm ci
 
       - name: Build with VitePress
-        run: npm run docs:build
+        run: |
+          export DEPLOY_TARGET=github
+          npm run docs:build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
