@@ -90,13 +90,6 @@ export default withMermaid(
           ]
         },
         {
-          text: ' 其他示例',
-          items: [
-            { text: '模型对比', link: '/content_C/C1' },
-            { text: '示例对比', link: '/content_C/C2' },
-          ]
-        },
-        {
           text: ' AI提示词指南',
           collapsed: false,
           items: [
