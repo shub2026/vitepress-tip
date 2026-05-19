@@ -133,7 +133,7 @@ export default defineConfig({
 实际就是新建一个语言目录，再把根目录所有文档，翻译后再放进去
 :::
 
-```
+```md
 .
 ├─ docs
 │  ├─ en
@@ -721,7 +721,7 @@ export default defineConfig({
 
 多个侧边栏也是可以的，有其他目录可以参考官方的目录表样式
 
-```
+```md
 .
 ├─ guide/
 │  ├─ index.md
