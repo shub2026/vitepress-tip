@@ -99,13 +99,14 @@ export default withMermaid(
           ]
         },
         {
-          text: ' 收藏',
+          text: ' 其他',
+          collapsed: true,
           items: [
-            { text: '示例展示', link: '/content_B/list' },
-            { text: '页面样式', link: '/content_B/page' },
-            { text: '证件照尺寸', link: '/content_B/证件照常用尺寸' },
-            { text: '证件照美白', link: '/content_B/证件照美白教程' },
-            { text: '证件照灯光部署方案', link: '/content_B/证件照灯光部署方案' },
+            { text: '示例展示', link: '/other/eg/list' },
+            { text: '页面样式', link: '/other/eg/page' },
+            { text: '证件照尺寸', link: '/other/证件照常用尺寸' },
+            { text: '证件照美白', link: '/other/证件照美白教程' },
+            { text: '证件照灯光部署方案', link: '/other/证件照灯光部署方案' },
           ]
         },
       ],
