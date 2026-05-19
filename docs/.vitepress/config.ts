@@ -1,5 +1,6 @@
 ﻿import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
+import { devDependencies } from '../../package.json'
 
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
@@ -66,7 +67,9 @@ export default withMermaid(
         { text: '首页', link: '/' },
         { text: '构建指南', link: '/content_A/基本构建' },
         { text: 'AI提示词', link: '/AI_about/ai-about' },
-        { text: '书签', link: 'https://my.sntip.cn' }
+        { text: '书签', link: 'https://my.sntip.cn' },
+              // vitepress版本号
+        { text: `VitePress ${ devDependencies.vitepress.replace('^','') }`, link: 'https://vitepress.dev/zh/', noIcon: true },
       ],
       sidebar: [
         {

@@ -1,4 +1,4 @@
-# 页面
+# 页面样式设置
 
 ## 站点配置
 
@@ -610,14 +610,6 @@ export default defineConfig({
 
 })
 ```
-
-### Algolia
-
-请完成文档后，再来配置 DocSearch，步骤有些许繁琐
-
-## 首页
-
-我们使用 Frontmatter，在 `index.md` 中进行配置和修改
 
 ## 页脚
 
