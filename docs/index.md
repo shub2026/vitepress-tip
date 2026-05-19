@@ -14,11 +14,11 @@ hero:
       text: 📖 指南
       link: /content_A/基本构建
     - theme: alt
+      text: 📄 AI提示词
+      link: /AI_about/ai-about
+    - theme: alt
       text: 🔖 书签
       link: https://my.sntip.cn
-    - theme: alt
-      text: 🎨 美化
-      link: https://vitepress.yiov.top/
 
 features:
   - title: 📖 结构化笔记

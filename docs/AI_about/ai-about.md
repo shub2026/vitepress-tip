@@ -29,14 +29,14 @@
 
 | 模型系列 | 代表模型 | 文档链接 | 特色能力 |
 |---------|---------|---------|---------|
-| **OpenAI** | GPT-4o, GPT-4, GPT-3.5, DALL-E | [📄 查看指南](./openai-gpt-prompts.md) | 最强推理、图像生成、函数调用 |
-| **Anthropic Claude** | Claude 3.5 Sonnet, Opus, Haiku | [📄 查看指南](./anthropic-claude-prompts.md) | 长文本处理、安全对齐、角色扮演 |
-| **Google Gemini** | Gemini 1.5 Pro, Flash | [📄 查看指南](./google-gemini-prompts.md) | 多模态、超长上下文、研究摘要 |
-| **Meta Llama** | Llama 3, Llama 2 | [📄 查看指南](./meta-llama-prompts.md) | 开源免费、本地部署、可定制 |
-| **Mistral AI** | Mistral 7B, Mixtral 8x7B | [📄 查看指南](./mistral-prompts.md) | 代码生成、JSON输出、高效推理 |
-| **DeepSeek** | DeepSeek-V2, DeepSeek-R1 | [📄 查看指南](./deepseek-prompts.md) | 强大推理能力、代码生成、数学能力 |
-| **千问(Qwen)** | Qwen-Max, Qwen-Plus, Qwen-Turbo | [📄 查看指南](./qwen-prompts.md) | 中文能力强、长上下文、多模态 |
-| **智谱AI GLM** | GLM-4, ChatGLM | [📄 查看指南](./glm-prompts.md) | 中文优化、多模态支持、开源免费 |
+| **OpenAI** | GPT-4o, GPT-4, GPT-3.5, DALL-E | [查看指南](./openai-gpt-prompts.md) | 最强推理、图像生成、函数调用 |
+| **Anthropic Claude** | Claude 3.5 Sonnet, Opus, Haiku | [查看指南](./anthropic-claude-prompts.md) | 长文本处理、安全对齐、角色扮演 |
+| **Google Gemini** | Gemini 1.5 Pro, Flash | [查看指南](./google-gemini-prompts.md) | 多模态、超长上下文、研究摘要 |
+| **Meta Llama** | Llama 3, Llama 2 | [查看指南](./meta-llama-prompts.md) | 开源免费、本地部署、可定制 |
+| **Mistral AI** | Mistral 7B, Mixtral 8x7B | [查看指南](./mistral-prompts.md) | 代码生成、JSON输出、高效推理 |
+| **DeepSeek** | DeepSeek-V2, DeepSeek-R1 | [查看指南](./deepseek-prompts.md) | 强大推理能力、代码生成、数学能力 |
+| **千问(Qwen)** | Qwen-Max, Qwen-Plus, Qwen-Turbo | [查看指南](./qwen-prompts.md) | 中文能力强、长上下文、多模态 |
+| **智谱AI GLM** | GLM-4, ChatGLM | [查看指南](./glm-prompts.md) | 中文优化、多模态支持、开源免费 |
 
 ### 按使用场景查看
 

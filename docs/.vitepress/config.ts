@@ -64,9 +64,9 @@ export default withMermaid(
       },
       nav: [
         { text: '首页', link: '/' },
-        { text: '指南', link: '/content_A/基本构建' },
-        { text: '导航', link: 'https://my.sntip.cn' },
-        { text: '网盘', link: 'https://p.sntip.cn' }
+        { text: '构建指南', link: '/content_A/基本构建' },
+        { text: 'AI提示词', link: '/AI_about/ai-about' },
+        { text: '书签', link: 'https://my.sntip.cn' }
       ],
       sidebar: [
         {
@@ -81,6 +81,21 @@ export default withMermaid(
           ]
         },
         {
+          text: ' AI提示词指南',
+          collapsed: false,
+          items: [
+            { text: '提示词说明', link: '/AI_about/ai-about' },
+            { text: 'OpenAI GPT', link: '/AI_about/openai-gpt-prompts' },
+            { text: 'Anthropic Claude', link: '/AI_about/anthropic-claude-prompts' },
+            { text: 'Google Gemini', link: '/AI_about/google-gemini-prompts' },
+            { text: 'Meta Llama', link: '/AI_about/meta-llama-prompts' },
+            { text: 'Mistral AI', link: '/AI_about/mistral-prompts' },
+            { text: 'DeepSeek', link: '/AI_about/deepseek-prompts' },
+            { text: '千问(Qwen)', link: '/AI_about/qwen-prompts' },
+            { text: '智谱AI GLM', link: '/AI_about/glm-prompts' },
+          ]
+        },
+        {
           text: ' 收藏',
           items: [
             { text: '示例展示', link: '/content_B/示例展示' },
@@ -89,21 +104,6 @@ export default withMermaid(
             { text: '页面样式示例', link: '/content_B/page' },
           ]
         },
-        {
-          text: ' AI提示词指南',
-          collapsed: false,
-          items: [
-            { text: '提示词说明', link: '/content_D/提示词说明' },
-            { text: 'OpenAI GPT', link: '/content_D/openai-gpt-prompts' },
-            { text: 'Anthropic Claude', link: '/content_D/anthropic-claude-prompts' },
-            { text: 'Google Gemini', link: '/content_D/google-gemini-prompts' },
-            { text: 'Meta Llama', link: '/content_D/meta-llama-prompts' },
-            { text: 'Mistral AI', link: '/content_D/mistral-prompts' },
-            { text: 'DeepSeek', link: '/content_D/deepseek-prompts' },
-            { text: '千问(Qwen)', link: '/content_D/qwen-prompts' },
-            { text: '智谱AI GLM', link: '/content_D/glm-prompts' },
-          ]
-        }
       ],
       socialLinks: [
         { icon: 'github', link: 'https://gitee.com/shub77/vitepress-tip' }
