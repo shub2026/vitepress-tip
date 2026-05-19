@@ -59,7 +59,7 @@ export default withMermaid(
       },
     },
       outline: { 
-      level: [2,4], // 显示2-4级标题
+      level: [2,3], // 显示2-4级标题
       // level: 'deep', // 显示2-6级标题
       label: '当前页大纲' // 文字显示
       },
