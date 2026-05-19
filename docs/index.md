@@ -21,12 +21,16 @@ hero:
       link: https://my.sntip.cn
 
 features:
-  - title: 📖 结构化笔记
-    details: 按照认知逻辑分层，从零开始构建知识体系。Docs-as-Code, 轻松记录、分享、检索。
-  - title: 📊 费曼式学习
-    details: 将自己的思考和知识分享在开源社区，在输出中学习。
-  - title: 🧠 易于上手的模板
-    details: 节省掉设计前端的过程，根据提示替换自己的内容就可以拥有属于自己的知识库。
+  - title: 📖 网站构建笔记
+    details: 分享建站经历，从零开始构建VitePress知识体系。轻松记录、分享、检索
+    link: /content_A/基本构建
+  - title: 📊 AI提示词指南
+    details: 系统整理当前主流AI大模型的提示词（Prompt）最佳实践，帮助开发者和AI使用者快速掌握各模型的提示词技巧，提高AI交互效率和输出质量
+    link: /AI_about/ai-about
+  - title: 🧠 MD内容专注
+    details: 轻松掌握Markdown语法，专注创作，创建精美的文档网站
+    link: /content_A/Markdown语法
   - title: ⚡ 极速部署
-    details: 基于 VitePress 与 GitHub Actions，享受极致的加载速度与自动化发布体验。
+    details: 基于 VitePress 与 GitHub Actions，享受极致的加载速度与自动化发布体验，快速上手中文教程
+    link: https://vitepress.yiov.top/
 ---
