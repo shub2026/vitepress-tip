@@ -1,4 +1,4 @@
-# 1panel部署Github中的Vitepress项目
+# 1panel部署Github中的VitePress项目
 
 在已安装1Panel的服务器上部署GitHub中的VitePress项目，主要分为服务器环境准备、项目克隆与构建、1Panel站点配置三个阶段。以下是详细的步骤指南：
 
