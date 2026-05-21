@@ -31,5 +31,5 @@ features:
     details: 轻松掌握 Markdown 语法，专注创作，创建精美的文档网站
     link: /content_A/Markdown语法
   - title: ⚡ 极速部署
-    details: 基于 VitePress 构建，享受极致的加载速度与自动化发布体验，快速上手中文教程/webhook测试
+    details: 基于 VitePress 构建，享受极致的加载速度与自动化发布体验，快速上手中文教程/webhook第二次测试
 ---
