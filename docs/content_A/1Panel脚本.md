@@ -1,4 +1,4 @@
-# 1Panel执行脚本
+# 1Panel自动拉取执行脚本
 
 ## 配置计划任务步骤
 1. 在1Panel后台进入【计划任务】页面
@@ -17,7 +17,7 @@
 - 构建输出：确保网站根目录指向构建后的 `docs/.vitepress/dist` 目录
 :::
 
-## 脚本代码一
+## 脚本代码
 ```sh
 #!/bin/bash
 # VitePress站点自动更新脚本
@@ -69,7 +69,7 @@ echo "=== VitePress站点更新完成 ==="
 date                        
 ```
 
-## 脚本代码二
+## 脚本代码【优化】
 ```sh
 #!/bin/bash
 # VitePress站点自动更新脚本
@@ -89,47 +89,47 @@ cd /opt/1panel/www/sites/sntip-cn/index/Vitepress-tip || {
     # 拉取最新代码
     echo "正在拉取最新代码..."
     git pull origin main
-    if [ $? -ne 0 ]; then
+      if [ $? -ne 0 ]; then
       echo "错误：git pull 失败"
         exit 1
         fi
 
-        # 拉取后，检查是否有新提交
-        NEW_COMMIT=$(git rev-parse HEAD)
-        if [ "$OLD_COMMIT" = "$NEW_COMMIT" ]; then
-          echo "已是最新，无更新，退出。"
-            exit 0
-            fi
+    # 拉取后，检查是否有新提交
+    NEW_COMMIT=$(git rev-parse HEAD)
+      if [ "$OLD_COMMIT" = "$NEW_COMMIT" ]; then
+      echo "已是最新，无更新，退出。"
+        exit 0
+      fi
 
-            echo "检测到新更新，开始构建..."
+      echo "检测到新更新，开始构建..."
 
-        # 加载 nvm 环境变量
-        export NVM_DIR="/root/.nvm"
+    # 加载 nvm 环境变量
+      export NVM_DIR="/root/.nvm"
         if [ ! -s "$NVM_DIR/nvm.sh" ]; then
-          echo "错误：nvm.sh 不存在"
+        echo "错误：nvm.sh 不存在"
+          exit 1
+        fi
+        \. "$NVM_DIR/nvm.sh"
+
+    # 检查 node 和 npm 是否可用
+      if ! command -v node &> /dev/null; then
+        echo "错误：node 命令不可用"
+          exit 1
+        fi
+      if ! command -v npm &> /dev/null; then
+        echo "错误：npm 命令不可用"
+          exit 1
+        fi
+
+     # 构建站点
+        echo "正在构建VitePress站点..."
+            npm run docs:build
+        if [ $? -ne 0 ]; then
+          echo "错误：构建失败"
             exit 1
-            fi
-            \. "$NVM_DIR/nvm.sh"
+        fi
 
-            # 检查 node 和 npm 是否可用
-            if ! command -v node &> /dev/null; then
-              echo "错误：node 命令不可用"
-                exit 1
-                fi
-                if ! command -v npm &> /dev/null; then
-                  echo "错误：npm 命令不可用"
-                    exit 1
-                    fi
-
-                    # 构建站点
-                    echo "正在构建VitePress站点..."
-                    npm run docs:build
-                    if [ $? -ne 0 ]; then
-                      echo "错误：构建失败"
-                        exit 1
-                        fi
-
-                        echo "=== VitePress站点更新完成 ==="
-                        date
+        echo "=== VitePress站点更新完成 ==="
+date
                         
 ```
