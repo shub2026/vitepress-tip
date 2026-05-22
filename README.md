@@ -1,21 +1,27 @@
 # 知行笔记
 
-基于 VitePress 的极简风格知识分享平台，知行合一，止于至善。 
+基于 VitePress 的极简风格知识分享平台，知行合一，止于至善。
+
+> 线上地址：[https://sntip.cn](https://sntip.cn)
+
+## 特性
+
+- 📝 完全基于 Markdown，专注内容创作
+- ⚡ 极速开发与构建（VitePress 1.6+）
+- 🎨 极简风格设计，支持深色模式
+- 📱 响应式布局，兼容移动端
+- 🔍 内置本地全文搜索
+- 🗺️ Mermaid 流程图支持
+- 🕐 文章最后更新时间显示
+- 🗂️ 自动生成 Sitemap
 
 ## 快速开始
 
-### 环境要求
-
-- Node.js >= 18
-- npm / pnpm / yarn
-
-### 安装步骤
+**环境要求：** Node.js >= 18
 
 ```sh
 # 克隆项目
 git clone https://gitee.com/shub77/vitepress-tip.git
-
-# 进入项目目录
 cd vitepress-tip
 
 # 安装依赖
@@ -25,81 +31,54 @@ npm install
 npm run docs:dev
 ```
 
-### 常用命令
+## 常用命令
 
 | 命令 | 说明 |
-|------|------|
+|---|---|
 | `npm run docs:dev` | 启动开发服务器 |
 | `npm run docs:build` | 构建生产版本 |
-| `npm run docs:preview` | 预览生产版本 |
-| `npm run format` | 格式化代码 |
+| `npm run docs:preview` | 本地预览构建产物 |
+| `npm run format` | Prettier 格式化文档 |
 
 ## 项目结构
 
 ```
 vitepress-tip/
-├── docs/                      # 文档目录
+├── docs/
 │   ├── .vitepress/
-│   │   ├── config.ts          # VitePress 配置
+│   │   ├── config.ts          # 站点配置（导航、侧边栏等）
 │   │   └── theme/             # 自定义主题
-│   │       ├── index.ts       # 主题入口
-│   │       └── style/         # 样式文件
-│   │           ├── index.css
-│   │           ├── var.css
-│   │           ├── blockquote.css
-│   │           ├── custom-block.css
-│   │           └── hero.css
-│   ├── content_A/              # 指南文章
-│   ├── content_B/              # 收藏文章
-│   ├── content_C/              # 其他示例
-│   ├── public/                 # 静态资源
-│   └── index.md                # 首页
-├── .editorconfig              # 编辑器配置
-├── .prettierrc                # Prettier 配置
-├── .prettierignore            # Prettier 忽略文件
+│   │       ├── index.ts
+│   │       └── style/         # CSS 变量与自定义样式
+│   ├── vite/                  # 构建指南文章
+│   ├── AI_about/              # AI 提示词指南
+│   ├── other/                 # 其他文章
+│   ├── public/                # 静态资源（图片、图标）
+│   └── index.md               # 首页
+├── .editorconfig
+├── .prettierrc
 └── package.json
 ```
 
+## 添加内容
+
+在对应目录下新建 `.md` 文件，再到 `docs/.vitepress/config.ts` 的 `sidebar` 中添加对应条目即可。
+
+| 目录 | 用途 |
+|---|---|
+| `docs/vite/` | 构建指南 |
+| `docs/AI_about/` | AI 提示词 |
+| `docs/other/` | 其他内容 |
+
 ## 部署
 
-本项目可部署到任意静态托管服务：
-
-- Vercel
-- Netlify
-- GitHub Pages
-- Gitee Pages
-- 1Panel
-
-构建命令：
+构建后将 `docs/.vitepress/dist` 目录部署到任意静态托管服务：
 
 ```sh
 npm run docs:build
 ```
 
-构建产物在 `docs/.vitepress/dist` 目录。
-
-## 关键特性
-
-- 📝 完全基于 Markdown，自动生成网站
-- ⚡ 超快的开发和构建速度
-- 🎨 干净美观的风格设计
-- 🔄 实时预览，改完立即看到效果
-- 📱 自适应手机和电脑屏幕
-- 🌙 支持深色模式
-
-## 自定义
-
-### 修改主题色
-
-编辑 `.vitepress/theme/style/var.css` 文件中的 CSS 变量。
-
-### 添加文章
-
-在 `docs/content_A/`、`docs/content_B/` 或 `docs/content_C/` 目录下创建 `.md` 文件。
-
-### 修改侧边栏
-
-编辑 `.vitepress/config.ts` 中的 `sidebar` 配置。
+支持 Vercel、Netlify、GitHub Pages、Gitee Pages、1Panel 等平台。
 
 ## License
 
