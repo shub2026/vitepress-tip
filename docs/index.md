@@ -22,7 +22,7 @@ hero:
 
 features:
   - title: 📖 网站构建笔记
-    details: 分享建站经历，从零开始构建VitePress知识体系。轻松记录、分享、检索
+    details: 分享建站经历，从零开始构建 VitePress 知识体系。轻松记录、分享、检索
     link: /vite/basic-setup
   - title: 📄 AI提示词指南
     details: 系统整理当前主流AI大模型的提示词（Prompt）最佳实践，帮助开发者和AI使用者快速掌握各模型的提示词技巧，提高AI交互效率和输出质量
