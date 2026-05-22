@@ -65,7 +65,7 @@ export default withMermaid(
       },
       nav: [
         { text: '首页', link: '/' },
-        { text: '构建指南', link: '/content_A/基本构建' },
+        { text: '构建指南', link: '/vite/basic-setup' },
         { text: 'AI提示词', link: '/AI_about/ai-about' },
         { text: '书签', link: 'https://my.sntip.cn' },
               // vitepress版本号
@@ -75,12 +75,12 @@ export default withMermaid(
         {
           text: ' 构建指南',
           items: [
-            { text: '基本构建', link: '/content_A/基本构建' },
-            { text: '远程关联', link: '/content_A/远程关联' },
-            { text: 'Git常用命令', link: '/content_A/Git常用命令' },
-            { text: '1Panel部署', link: '/content_A/1Panel部署' },
-            { text: '1Panel脚本', link: '/content_A/1Panel脚本' },
-            { text: 'Markdown语法', link: '/content_A/Markdown语法' },
+            { text: '基本构建', link: '/vite/basic-setup' },
+            { text: '远程关联', link: '/vite/remote-connect' },
+            { text: 'Git常用命令', link: '/vite/git-commands' },
+            { text: '1Panel部署', link: '/vite/1panel-deploy' },
+            { text: '1Panel脚本', link: '/vite/1panel-script' },
+            { text: 'Markdown语法', link: '/vite/markdown-syntax' },
           ]
         },
         {
@@ -104,9 +104,9 @@ export default withMermaid(
           items: [
             { text: '示例展示', link: '/other/eg/list' },
             { text: '页面样式', link: '/other/eg/page' },
-            { text: '证件照尺寸', link: '/other/证件照常用尺寸' },
-            { text: '证件照美白', link: '/other/证件照美白教程' },
-            { text: '证件照灯光部署方案', link: '/other/证件照灯光部署方案' },
+            { text: '证件照尺寸', link: '/other/id-photo-sizes' },
+            { text: '证件照美白', link: '/other/id-photo-whitening' },
+            { text: '证件照灯光部署方案', link: '/other/id-photo-lighting' },
           ]
         },
       ],
