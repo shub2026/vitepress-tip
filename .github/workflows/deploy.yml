@@ -54,7 +54,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: https://na77.xyz
+      url: https://doc.sntip.cn
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
