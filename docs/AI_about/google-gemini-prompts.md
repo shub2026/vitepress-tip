@@ -6,16 +6,17 @@
 ![Status](https://img.shields.io/badge/状态-已完成-green)
 
 ---
+
 ## 1. 模型概述
 
 ### 1.1 模型版本与特点
 
-| 模型 | 发布时间 | 上下文窗口 | 核心能力 | 适用场景 |
-|------|---------|-----------|---------|---------|
-| **Gemini 1.5 Pro** | 2024年5月 | 1M tokens (100万) | 超长上下文、多模态推理 | 长文档分析、视频理解、研究 |
-| **Gemini 1.5 Flash** | 2024年5月 | 1M tokens | 高速度、低成本 | 实时对话、大规模应用、快速推理 |
-| **Gemini 1.0 Pro** | 2023年12月 | 32K tokens | 平衡性能和成本 | 通用任务、代码生成 |
-| **Gemini 1.0 Ultra** | 2023年12月 | 32K tokens | 最强推理能力 | 复杂推理、学术研究 |
+| 模型                 | 发布时间   | 上下文窗口        | 核心能力               | 适用场景                       |
+| -------------------- | ---------- | ----------------- | ---------------------- | ------------------------------ |
+| **Gemini 1.5 Pro**   | 2024年5月  | 1M tokens (100万) | 超长上下文、多模态推理 | 长文档分析、视频理解、研究     |
+| **Gemini 1.5 Flash** | 2024年5月  | 1M tokens         | 高速度、低成本         | 实时对话、大规模应用、快速推理 |
+| **Gemini 1.0 Pro**   | 2023年12月 | 32K tokens        | 平衡性能和成本         | 通用任务、代码生成             |
+| **Gemini 1.0 Ultra** | 2023年12月 | 32K tokens        | 最强推理能力           | 复杂推理、学术研究             |
 
 ### 1.2 核心优势
 
@@ -256,6 +257,7 @@ response = model.generate_content(prompt)
 任务：请写一篇关于「使用Docker容器化部署Python应用」的技术教程。
 
 要求：
+
 1. 目标读者：中级开发者（有Python基础，了解基本Linux命令）
 2. 字数：2000-2500字
 3. 包含以下部分：
@@ -368,6 +370,7 @@ response = model.generate_content(prompt)
 ```
 
 **预期输出**：
+
 - 一篇结构完整、深度充足的技术文章
 - 包含代码示例和对比表格
 - 适合发布在技术博客或技术杂志
@@ -566,25 +569,27 @@ prompt = """
 
 代码组织：
 ```
+
 app/
-├── main.py              # FastAPI应用入口
-├── config.py           # 配置管理
-├── models.py           # SQLAlchemy模型
-├── schemas.py          # Pydantic schemas
-├── database.py         # 数据库连接
+├── main.py # FastAPI应用入口
+├── config.py # 配置管理
+├── models.py # SQLAlchemy模型
+├── schemas.py # Pydantic schemas
+├── database.py # 数据库连接
 ├── auth/
-│   ├── __init__.py
-│   ├── routes.py       # 认证路由
-│   ├── jwt_handler.py  # JWT处理
-│   └── auth_utils.py   # 认证工具函数
+│ ├── **init**.py
+│ ├── routes.py # 认证路由
+│ ├── jwt_handler.py # JWT处理
+│ └── auth_utils.py # 认证工具函数
 ├── users/
-│   ├── __init__.py
-│   ├── routes.py       # 用户路由
-│   └── services.py     # 用户服务层
+│ ├── **init**.py
+│ ├── routes.py # 用户路由
+│ └── services.py # 用户服务层
 └── tests/
-    ├── __init__.py
-    ├── test_auth.py
-    └── test_users.py
+├── **init**.py
+├── test_auth.py
+└── test_users.py
+
 ```
 
 输出要求：
@@ -609,6 +614,7 @@ response = model.generate_content(prompt)
 
 **预期输出**：
 完整的项目代码，包含：
+
 - `main.py`：FastAPI应用入口
 - `models.py`：User、Role等SQLAlchemy模型
 - `schemas.py`：Pydantic schemas（UserCreate、UserResponse等）
@@ -643,11 +649,13 @@ prompt = """
 
 示例数据：
 ```
+
 order_id,user_id,order_date,product_id,product_name,category,price,quantity,payment_method,status
 1001,501,2024-04-01,P001,Wireless Earbuds,Electronics,899,1,Credit Card,completed
 1002,502,2024-04-01,P002,Running Shoes,Sports,599,2,PayPal,completed
 1003,503,2024-04-02,P003,Coffee Maker,Home,399,1,Debit Card,refunded
 ...
+
 ```
 
 处理需求：
@@ -692,23 +700,25 @@ order_id,user_id,order_date,product_id,product_name,category,price,quantity,paym
 
 文件结构：
 ```
-order_analysis/
-├── main.py              # 主程序入口
-├── config.yaml          # 配置文件
+
+order*analysis/
+├── main.py # 主程序入口
+├── config.yaml # 配置文件
 ├── src/
-│   ├── __init__.py
-│   ├── data_loader.py   # 数据加载模块
-│   ├── data_cleaner.py  # 数据清洗模块
-│   ├── feature_engine.py # 特征工程模块
-│   ├── analyzer.py      # 分析模块
-│   └── visualizer.py    # 可视化模块
+│ ├── **init**.py
+│ ├── data_loader.py # 数据加载模块
+│ ├── data_cleaner.py # 数据清洗模块
+│ ├── feature_engine.py # 特征工程模块
+│ ├── analyzer.py # 分析模块
+│ └── visualizer.py # 可视化模块
 ├── tests/
-│   └── test_*.py        # 单元测试
+│ └── test*\*.py # 单元测试
 ├── data/
-│   ├── raw/             # 原始数据
-│   └── processed/       # 处理后数据
-├── reports/             # 分析报告
+│ ├── raw/ # 原始数据
+│ └── processed/ # 处理后数据
+├── reports/ # 分析报告
 └── requirements.txt
+
 ```
 
 补充要求：
@@ -727,7 +737,7 @@ response = model.generate_content(prompt)
 
 **提示词**：
 
-```python
+````python
 code_to_review = """
 import mysql.connector
 import hashlib
@@ -741,18 +751,18 @@ def register_user(username, password, email):
         database="user_db"
     )
     cursor = conn.cursor()
-    
+
     # Hash the password
     hashed_pwd = hashlib.md5(password.encode()).hexdigest()
-    
+
     # Insert user into database
     sql = "INSERT INTO users (username, password, email) VALUES ('" + username + "', '" + hashed_pwd + "', '" + email + "')"
     cursor.execute(sql)
     conn.commit()
-    
+
     cursor.close()
     conn.close()
-    
+
     return "User registered successfully"
 
 def login_user(username, password):
@@ -763,16 +773,16 @@ def login_user(username, password):
         database="user_db"
     )
     cursor = conn.cursor()
-    
+
     hashed_pwd = hashlib.md5(password.encode()).hexdigest()
-    
+
     sql = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + hashed_pwd + "'"
     cursor.execute(sql)
     result = cursor.fetchone()
-    
+
     cursor.close()
     conn.close()
-    
+
     if result:
         return "Login successful"
     else:
@@ -792,7 +802,7 @@ prompt = f"""
 代码：
 ```python
 {code_to_review}
-```
+````
 
 审查维度：
 请从以下维度审查代码：
@@ -833,14 +843,16 @@ prompt = f"""
 5. **改进说明**（列出主要改进点）
 
 要求：
+
 - 审查报告应该详细但不冗长
 - 每个问题都应该有具体的代码片段作为证据
 - 改进建议应该可操作、有优先级
 - 重构后的代码应该完整、可运行
-"""
+  """
 
 response = model.generate_content(prompt)
-```
+
+````
 
 ---
 
@@ -894,7 +906,7 @@ prompt = """
 """
 
 response = model.generate_content(prompt)
-```
+````
 
 **预期输出**：
 
@@ -1017,7 +1029,9 @@ prompt = f"""
 
 数据（CSV格式）：
 ```
+
 {data}
+
 ```
 
 分析要求：
@@ -1215,15 +1229,15 @@ prompt = """
 # 模拟ReAct循环
 def react_loop(task, max_iterations=5):
     conversation = f"任务：{task}\n\n"
-    
+
     for i in range(max_iterations):
         # 让Gemini生成下一步的Thought和Action
         prompt = conversation + "\n请决定下一步的Thought和Action。"
         response = model.generate_content(prompt)
         thought_action = response.text
-        
+
         conversation += thought_action + "\n\n"
-        
+
         # 解析Action（这里需要解析模型输出的文本，提取工具调用）
         # 注意：这是简化版本，实际需要更复杂的解析逻辑
         if "search[" in thought_action:
@@ -1233,7 +1247,7 @@ def react_loop(task, max_iterations=5):
             conversation += f"观察：{search_result}\n\n"
         elif "Final Answer:" in thought_action:
             break
-    
+
     return conversation
 
 result = react_loop("分析2024年AI行业的发展趋势")
@@ -1248,12 +1262,12 @@ print(result)
 
 控制生成文本的随机性。
 
-| 任务类型 | 推荐Temperature | 说明 |
-|---------|----------------|------|
-| 事实性任务（翻译、摘要、问答） | 0.1 - 0.3 | 低温度使输出更确定、一致 |
-| 平衡任务（通用对话、解释） | 0.3 - 0.7 | 适度随机性，保持连贯 |
-| 创意任务（写作、头脑风暴） | 0.7 - 1.0 | 高温度增加多样性和创意 |
-| 代码生成 | 0.2 - 0.5 | 较低温度确保语法正确和逻辑一致 |
+| 任务类型                       | 推荐Temperature | 说明                           |
+| ------------------------------ | --------------- | ------------------------------ |
+| 事实性任务（翻译、摘要、问答） | 0.1 - 0.3       | 低温度使输出更确定、一致       |
+| 平衡任务（通用对话、解释）     | 0.3 - 0.7       | 适度随机性，保持连贯           |
+| 创意任务（写作、头脑风暴）     | 0.7 - 1.0       | 高温度增加多样性和创意         |
+| 代码生成                       | 0.2 - 0.5       | 较低温度确保语法正确和逻辑一致 |
 
 **示例**：
 
@@ -1284,6 +1298,7 @@ response = model.generate_content("写一个关于太空探险的短篇故事")
 控制生成时考虑的token范围。
 
 **建议**：
+
 - 一般任务：top_p=0.9（默认）
 - 需要高质量输出：top_p=0.95
 - 需要更多样性：top_p=0.99
@@ -1305,6 +1320,7 @@ response = model.generate_content("生成10个创意产品名称")
 控制生成时考虑的前K个token。
 
 **建议**：
+
 - 一般任务：top_k=40（默认）
 - 需要更多多样性：top_k=50
 - 需要更确定性输出：top_k=20
@@ -1325,6 +1341,7 @@ model = genai.GenerativeModel(
 控制模型生成的最大token数。
 
 **建议**：
+
 - 简单任务：100-300 tokens
 - 中等任务（摘要、解释）：300-1000 tokens
 - 复杂任务（文章、代码）：1000-4000 tokens
@@ -1676,6 +1693,7 @@ response = model.generate_content([prompt, image1, image2])
 ## 🤝 贡献与反馈
 
 如果你发现任何错误或有改进建议，欢迎：
+
 - 提交Issue进行讨论
 - 提交Pull Request贡献内容
 - 分享你的提示词使用技巧

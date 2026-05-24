@@ -65,6 +65,7 @@ git push                             # 上传到 GitHub
 
 > [!NOTE] 网站更新
 > 进入项目文件夹，`CMD`顺序操作
+
 ```sh
 # 1.拉取最新代码
 git pull origin main

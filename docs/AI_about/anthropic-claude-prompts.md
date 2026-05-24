@@ -6,16 +6,17 @@
 ![Status](https://img.shields.io/badge/状态-已完成-green)
 
 ---
+
 ## 1. 模型概述
 
 ### 1.1 模型版本与特点
 
-| 模型 | 发布时间 | 上下文窗口 | 核心能力 | 适用场景 |
-|------|---------|-----------|---------|---------|
+| 模型                  | 发布时间  | 上下文窗口  | 核心能力               | 适用场景                       |
+| --------------------- | --------- | ----------- | ---------------------- | ------------------------------ |
 | **Claude 3.5 Sonnet** | 2024年6月 | 200K tokens | 最强综合能力、性价比高 | 通用任务、长文档分析、代码开发 |
-| **Claude 3 Opus** | 2024年3月 | 200K tokens | 最强推理能力 | 复杂推理、学术研究、法律分析 |
-| **Claude 3 Sonnet** | 2024年3月 | 200K tokens | 平衡性能和成本 | 中等复杂度任务、客户服务 |
-| **Claude 3 Haiku** | 2024年3月 | 200K tokens | 最快速度、低成本 | 简单任务、实时对话、大规模应用 |
+| **Claude 3 Opus**     | 2024年3月 | 200K tokens | 最强推理能力           | 复杂推理、学术研究、法律分析   |
+| **Claude 3 Sonnet**   | 2024年3月 | 200K tokens | 平衡性能和成本         | 中等复杂度任务、客户服务       |
+| **Claude 3 Haiku**    | 2024年3月 | 200K tokens | 最快速度、低成本       | 简单任务、实时对话、大规模应用 |
 
 ### 1.2 核心优势
 
@@ -52,7 +53,7 @@ Assistant: [Claude的回答]
 #### 使用XML标签结构化（推荐）
 
 ```markdown
-Human: 
+Human:
 <instructions>
 你是一个资深的数据科学家。请分析以下数据集，提取关键洞察。
 </instructions>
@@ -83,18 +84,23 @@ Assistant:
 
 ```markdown
 Human:
+
 # 任务
+
 请撰写一篇产品评测文章。
 
 # 产品信息
+
 - 名称：MacBook Pro 16寸
 - 价格：¥18,999起
 - 核心特性：[列出3-5个特性]
 
 # 目标读者
+
 科技爱好者、专业创作者
 
 # 文章结构
+
 1. 引言
 2. 设计与做工
 3. 性能测试
@@ -103,6 +109,7 @@ Human:
 6. 购买建议
 
 # 要求
+
 - 字数：2000-2500字
 - 风格：专业、客观、详细
 - 包含实际测试数据
@@ -143,6 +150,7 @@ Human:
 问题：所有的猫都是动物。有些动物会游泳。问：是否所有的猫都会游泳？
 
 请按以下步骤思考：
+
 1. 列出已知前提
 2. 分析逻辑关系
 3. 检查是否存在反例
@@ -194,14 +202,14 @@ Human:
 
 输出格式：
 {
-  "sentiment": "[Positive/Neutral/Negative]",
-  "confidence": [0-1之间的数值],
-  "reasoning": "[简要说明]"
+"sentiment": "[Positive/Neutral/Negative]",
+"confidence": [0-1之间的数值],
+"reasoning": "[简要说明]"
 }
 
 Assistant:
 {
-  "sentiment": "Positive",
+"sentiment": "Positive",
 ```
 
 **说明**：通过在`Assistant:`后预填`{ "sentiment": "Positive",`，Claude会继续完成JSON的输出。
@@ -216,6 +224,7 @@ Assistant:
 
 ✅ 好的提示词：
 "请审查以下Python代码，重点关注：
+
 1. 代码质量（可读性、命名规范）
 2. 性能优化空间
 3. 潜在bug
@@ -258,7 +267,9 @@ Human:
 我们将分步完成一篇市场分析报告。
 
 ## 步骤1：数据理解
+
 首先，请观察以下数据，并告诉我：
+
 1. 数据包含哪些字段？
 2. 数据的时间范围是什么？
 3. 有哪些明显的趋势或异常？
@@ -296,6 +307,7 @@ Human:
 
 <key_points>
 文章应涵盖以下要点：
+
 1. 分布式事务的挑战（CAP定理、网络分区等）
 2. 常见解决方案：
    - 两阶段提交（2PC）
@@ -305,7 +317,7 @@ Human:
 3. 各方案的优缺点对比
 4. 实际案例分析（可以虚构一个电商场景）
 5. 方案选择建议
-</key_points>
+   </key_points>
 
 <structure>
 文章结构：
@@ -330,6 +342,7 @@ Assistant:
 ```
 
 **预期输出**：
+
 - 一篇结构完整、深度充足的技术文章
 - 包含代码示例和对比表格
 - 适合发布在技术博客或技术杂志
@@ -360,6 +373,7 @@ Human:
 
 <report_structure>
 报告应包含以下部分：
+
 1. 执行摘要（200字）
 2. 整体业绩回顾（400字）
 3. 关键指标分析（800字）
@@ -370,7 +384,7 @@ Human:
 4. 品类表现分析（500字）
 5. 问题诊断与建议（600字）
 6. 下季度展望（300字）
-</report_structure>
+   </report_structure>
 
 <requirements>
 - 总字数：2500-3000字
@@ -403,12 +417,13 @@ Human:
 
 <story_elements>
 故事应包含以下元素：
+
 - 背景：2150年，记忆已经成为可以交易的商品
 - 主角：一个记忆交易商，名叫林远
 - 冲突：一个神秘的客人委托他购买一段危险的记忆
 - 转折：这段记忆可能涉及一个惊天的秘密
 - 主题：探讨记忆、身份、隐私的伦理问题
-</story_elements>
+  </story_elements>
 
 <requirements>
 - 字数：2000-2500字
@@ -485,6 +500,7 @@ Assistant:
 **预期输出**：
 
 润色后的文本：
+
 ```
 机器学习已在诸多领域展现出广泛的应用价值。在计算机视觉领域，深度学习方法在图像分类、目标检测等任务上取得了突破性进展。在自然语言处理领域，大语言模型（LLM）展现出理解和生成人类语言的强大能力。这些技术进展为各行各业带来了实质性的改进。
 
@@ -492,6 +508,7 @@ Assistant:
 ```
 
 润色说明：
+
 1. 将口语化表达改为学术化表达（如"有应用"→"展现出广泛的应用价值"）
 2. 添加具体技术名词（深度学习方法、大语言模型、LLM）
 3. 改善句子结构，增加复杂句和复合句
@@ -529,6 +546,7 @@ Human:
 6. 基于角色的访问控制（RBAC）
 
 ## 技术要求
+
 - Python 3.9+
 - FastAPI框架
 - SQLAlchemy ORM（SQLite数据库，可配置为其他数据库）
@@ -539,25 +557,27 @@ Human:
 
 ## 代码组织
 ```
+
 app/
-├── main.py              # FastAPI应用入口
-├── config.py           # 配置管理
-├── models.py           # SQLAlchemy模型
-├── schemas.py          # Pydantic schemas
-├── database.py         # 数据库连接
+├── main.py # FastAPI应用入口
+├── config.py # 配置管理
+├── models.py # SQLAlchemy模型
+├── schemas.py # Pydantic schemas
+├── database.py # 数据库连接
 ├── auth/
-│   ├── __init__.py
-│   ├── routes.py       # 认证路由
-│   ├── jwt_handler.py  # JWT处理
-│   └── auth_utils.py   # 认证工具函数
+│ ├── **init**.py
+│ ├── routes.py # 认证路由
+│ ├── jwt_handler.py # JWT处理
+│ └── auth_utils.py # 认证工具函数
 ├── users/
-│   ├── __init__.py
-│   ├── routes.py       # 用户路由
-│   └── services.py     # 用户服务层
+│ ├── **init**.py
+│ ├── routes.py # 用户路由
+│ └── services.py # 用户服务层
 └── tests/
-    ├── __init__.py
-    ├── test_auth.py
-    └── test_users.py
+├── **init**.py
+├── test_auth.py
+└── test_users.py
+
 ```
 
 ## 输出要求
@@ -583,6 +603,7 @@ Assistant:
 
 **预期输出**：
 完整的项目代码，包含：
+
 - `main.py`：FastAPI应用入口
 - `models.py`：User、Role等SQLAlchemy模型
 - `schemas.py`：Pydantic schemas（UserCreate、UserResponse等）
@@ -608,6 +629,7 @@ Human:
 
 <data_description>
 输入数据（CSV格式）：
+
 - order_id: 订单ID
 - user_id: 用户ID
 - order_date: 订单日期（YYYY-MM-DD格式）
@@ -621,11 +643,13 @@ Human:
 
 示例数据：
 ```
+
 order_id,user_id,order_date,product_id,product_name,category,price,quantity,payment_method,status
 1001,501,2024-04-01,P001,Wireless Earbuds,Electronics,899,1,Credit Card,completed
 1002,502,2024-04-01,P002,Running Shoes,Sports,599,2,PayPal,completed
 1003,503,2024-04-02,P003,Coffee Maker,Home,399,1,Debit Card,refunded
 ...
+
 ```
 </data_description>
 
@@ -671,23 +695,25 @@ order_id,user_id,order_date,product_id,product_name,category,price,quantity,paym
 
 ## 文件结构
 ```
-order_analysis/
-├── main.py              # 主程序入口
-├── config.yaml          # 配置文件
+
+order*analysis/
+├── main.py # 主程序入口
+├── config.yaml # 配置文件
 ├── src/
-│   ├── __init__.py
-│   ├── data_loader.py   # 数据加载模块
-│   ├── data_cleaner.py  # 数据清洗模块
-│   ├── feature_engine.py # 特征工程模块
-│   ├── analyzer.py      # 分析模块
-│   └── visualizer.py    # 可视化模块
+│ ├── **init**.py
+│ ├── data_loader.py # 数据加载模块
+│ ├── data_cleaner.py # 数据清洗模块
+│ ├── feature_engine.py # 特征工程模块
+│ ├── analyzer.py # 分析模块
+│ └── visualizer.py # 可视化模块
 ├── tests/
-│   └── test_*.py        # 单元测试
+│ └── test*\*.py # 单元测试
 ├── data/
-│   ├── raw/             # 原始数据
-│   └── processed/       # 处理后数据
-├── reports/             # 分析报告
+│ ├── raw/ # 原始数据
+│ └── processed/ # 处理后数据
+├── reports/ # 分析报告
 └── requirements.txt
+
 ```
 
 Assistant:
@@ -715,56 +741,56 @@ Human:
 import mysql.connector
 import hashlib
 
-def register_user(username, pasword, email):
-    # Connect to database
-    conn = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="password123",
-        database="user_db"
-    )
-    cursor = conn.cursor()
-    
+def register_user(username, pasword, email): # Connect to database
+conn = mysql.connector.connect(
+host="localhost",
+user="root",
+password="password123",
+database="user_db"
+)
+cursor = conn.cursor()
+
     # Hash the password
     hashed_pwd = hashlib.md5(password.encode()).hexdigest()
-    
+
     # Insert user into database
     sql = "INSERT INTO users (username, password, email) VALUES ('" + username + "', '" + hashed_pwd + "', '" + email + "')"
     cursor.execute(sql)
     conn.commit()
-    
+
     cursor.close()
     conn.close()
-    
+
     return "User registered successfully"
 
 def login_user(username, password):
-    conn = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="password123",
-        database="user_db"
-    )
-    cursor = conn.cursor()
-    
+conn = mysql.connector.connect(
+host="localhost",
+user="root",
+password="password123",
+database="user_db"
+)
+cursor = conn.cursor()
+
     hashed_pwd = hashlib.md5(password.encode()).hexdigest()
-    
+
     sql = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + hashed_pwd + "'"
     cursor.execute(sql)
     result = cursor.fetchone()
-    
+
     cursor.close()
     conn.close()
-    
+
     if result:
         return "Login successful"
     else:
         return "Login failed"
 
 # Main program
-if __name__ == "__main__":
-    print(register_user("john", "pass123", "john@example.com"))
-    print(login_user("john", "pass123"))
+
+if **name** == "**main**":
+print(register_user("john", "pass123", "john@example.com"))
+print(login_user("john", "pass123"))
 &#96;&#96;&#96;
 </code>
 
@@ -798,20 +824,22 @@ if __name__ == "__main__":
    - 密码存储最佳实践
 
 ## 输出格式
+
 请提供以下内容的审查报告：
+
 1. 执行摘要（总体评价）
 2. 详细问题列表（按严重程度排序）
 3. 改进建议（针对每个问题）
 4. 重构后的完整代码
 5. 改进说明
-</review_criteria>
+   </review_criteria>
 
 Assistant:
 ```
 
 **预期输出**：
 
-```markdown
+````markdown
 # 代码审查报告
 
 ## 1. 执行摘要
@@ -819,6 +847,7 @@ Assistant:
 ❌ **总体评价**：代码存在严重的安全和设计问题，不建议在生产环境使用。
 
 **主要问题**：
+
 - 🔴 严重的SQL注入漏洞
 - 🔴 不安全的密码哈希方法（MD5）
 - 🔴 敏感信息硬编码
@@ -831,24 +860,29 @@ Assistant:
 ### 🔴 严重问题
 
 #### 问题1：SQL注入漏洞
+
 **位置**：`register_user()`和`login_user()`中的SQL语句拼接
 
 **问题描述**：
+
 ```python
 # 不安全的代码
 sql = "INSERT INTO users (username, password, email) VALUES ('" + username + "', '" + hashed_pwd + "', '" + email + "')"
 ```
+````
 
 如果攻击者输入 `username = "admin'; DROP TABLE users; --"`，将执行恶意SQL。
 
 **修复建议**：使用参数化查询（prepared statements）
 
 #### 问题2：不安全的密码哈希（MD5）
+
 **问题描述**：MD5已被证明不安全，容易被彩虹表攻击破解。
 
 **修复建议**：使用bcrypt、argon2或至少SHA-256。
 
 #### 问题3：敏感信息硬编码
+
 **问题描述**：数据库密码`password123`直接写在代码中。
 
 **修复建议**：使用环境变量或配置文件。
@@ -856,11 +890,13 @@ sql = "INSERT INTO users (username, password, email) VALUES ('" + username + "',
 ### 🟡 中等问题
 
 #### 问题4：缺乏异常处理
+
 **问题描述**：数据库操作、文件IO等可能抛出异常，但代码中没有`try-except`块。
 
 **修复建议**：添加异常处理，优雅地捕获和处理异常。
 
 #### 问题5：数据库连接未使用上下文管理器
+
 **问题描述**：如果`cursor.execute()`抛出异常，`conn.close()`可能不会执行，导致连接泄露。
 
 **修复建议**：使用`with`语句（上下文管理器）自动管理资源。
@@ -868,6 +904,7 @@ sql = "INSERT INTO users (username, password, email) VALUES ('" + username + "',
 ### 🟢 轻微问题
 
 #### 问题6：函数命名不规范
+
 **问题描述**：`register_user`和`login_user`应该使用下划线命名（snake_case），这个做得对，但`pasword`参数名拼写错误。
 
 **修复建议**：修正拼写错误为`password`。
@@ -875,6 +912,7 @@ sql = "INSERT INTO users (username, password, email) VALUES ('" + username + "',
 ## 3. 改进建议
 
 ### 建议1：使用参数化查询防止SQL注入
+
 ```python
 # 不安全
 sql = "SELECT * FROM users WHERE username = '" + username + "'"
@@ -885,6 +923,7 @@ cursor.execute(sql, (username,))
 ```
 
 ### 建议2：使用bcrypt哈希密码
+
 ```python
 import bcrypt
 
@@ -896,6 +935,7 @@ bcrypt.checkpw(password.encode(), hashed)
 ```
 
 ### 建议3：使用环境变量管理敏感信息
+
 ```python
 import os
 from dotenv import load_dotenv
@@ -945,28 +985,28 @@ def get_db_connection():
 def register_user(username: str, password: str, email: str) -> str:
     """
     注册新用户。
-    
+
     Args:
         username: 用户名
         password: 密码（明文）
         email: 邮箱
-    
+
     Returns:
         成功或错误消息
     """
     try:
         # 哈希密码（使用bcrypt）
         hashed_pwd = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-        
+
         with get_db_connection() as conn:
             with conn.cursor() as cursor:
                 # 使用参数化查询防止SQL注入
                 sql = "INSERT INTO users (username, password, email) VALUES (%s, %s, %s)"
                 cursor.execute(sql, (username, hashed_pwd, email))
                 conn.commit()
-        
+
         return "User registered successfully"
-    
+
     except mysql.connector.IntegrityError:
         return "Error: Username or email already exists"
     except Exception as e:
@@ -975,11 +1015,11 @@ def register_user(username: str, password: str, email: str) -> str:
 def login_user(username: str, pasword: str) -> str:
     """
     用户登录。
-    
+
     Args:
         username: 用户名
         password: 密码（明文）
-    
+
     Returns:
         成功或错误消息
     """
@@ -990,7 +1030,7 @@ def login_user(username: str, pasword: str) -> str:
                 sql = "SELECT password FROM users WHERE username = %s"
                 cursor.execute(sql, (username,))
                 result = cursor.fetchone()
-                
+
                 if result:
                     # 验证密码
                     hashed_pwd = result[0]
@@ -1000,7 +1040,7 @@ def login_user(username: str, pasword: str) -> str:
                         return "Login failed: Incorrect password"
                 else:
                     return "Login failed: User not found"
-    
+
     except Exception as e:
         return f"Login error: {str(e)}"
 
@@ -1013,12 +1053,14 @@ if __name__ == "__main__":
 ## 5. 改进说明
 
 ### 安全性改进
+
 1. ✅ 使用参数化查询，防止SQL注入
 2. ✅ 使用bcrypt哈希密码，提升安全性
 3. ✅ 使用环境变量管理敏感信息
 4. ✅ 添加异常处理，避免信息泄露
 
 ### 代码质量改进
+
 1. ✅ 使用数据库连接池，提升性能
 2. ✅ 使用上下文管理器，自动管理资源
 3. ✅ 添加函数文档字符串（docstring）
@@ -1026,6 +1068,7 @@ if __name__ == "__main__":
 5. ✅ 修正拼写错误（`pasword` → `password`）
 
 ### 可维护性改进
+
 1. ✅ 分离配置和代码
 2. ✅ 使用连接池，便于扩展
 3. ✅ 更清晰的错误处理和消息
@@ -1033,7 +1076,8 @@ if __name__ == "__main__":
 ---
 
 **结论**：原代码存在严重安全漏洞，绝对不能用于生产环境。重构后的代码解决了主要问题，符合安全最佳实践。
-```
+
+````
 
 ---
 
@@ -1115,7 +1159,7 @@ Human:
 - 结论和建议
 
 Assistant:
-```
+````
 
 **预期输出**：
 
@@ -1130,14 +1174,14 @@ Assistant:
 
 ### 核心指标变化趋势
 
-| 指标 | 期初值（4月1日） | 期末值（6月24日） | 增长率 |
-|------|-----------------|-----------------|--------|
-| 销售额 | 150,000元 | 235,000元 | +56.7% |
-| 订单数 | 500单 | 800单 | +60.0% |
-| 客单价 | 300元 | 294元 | -2.0% |
-| 活跃用户数 | 1,200人 | 1,620人 | +35.0% |
-| 退货率 | 5.2% | 6.8% | +1.6pp |
-| 广告支出 | 15,000元 | 42,000元 | +180.0% |
+| 指标       | 期初值（4月1日） | 期末值（6月24日） | 增长率  |
+| ---------- | ---------------- | ----------------- | ------- |
+| 销售额     | 150,000元        | 235,000元         | +56.7%  |
+| 订单数     | 500单            | 800单             | +60.0%  |
+| 客单价     | 300元            | 294元             | -2.0%   |
+| 活跃用户数 | 1,200人          | 1,620人           | +35.0%  |
+| 退货率     | 5.2%             | 6.8%              | +1.6pp  |
+| 广告支出   | 15,000元         | 42,000元          | +180.0% |
 
 **初步观察**：销售额和订单数均显著增长，但客单价略有下降，退货率上升，广告支出增长过快。
 
@@ -1148,6 +1192,7 @@ Assistant:
 ### 2.1 销售额增长率
 
 **周环比增长率**：
+
 - 4月：平均周增长率 +6.7%
 - 5月：平均周增长率 +4.8%
 - 6月：平均周增长率 +2.3%
@@ -1156,11 +1201,11 @@ Assistant:
 
 ### 2.2 订单数 vs 销售额增长
 
-| 月份 | 订单数增长率 | 销售额增长率 | 分析 |
-|------|-------------|-------------|------|
-| 4月 | +30.0% | +40.0% | 订单和销售额同步增长 |
-| 5月 | +15.4% | +15.8% | 订单和销售额同步增长 |
-| 6月 | +6.7% | +6.8% | 订单和销售额同步增长 |
+| 月份 | 订单数增长率 | 销售额增长率 | 分析                 |
+| ---- | ------------ | ------------ | -------------------- |
+| 4月  | +30.0%       | +40.0%       | 订单和销售额同步增长 |
+| 5月  | +15.4%       | +15.8%       | 订单和销售额同步增长 |
+| 6月  | +6.7%        | +6.8%        | 订单和销售额同步增长 |
 
 **洞察**：订单数增长与销售额增长高度相关（斜率≈1），说明增长主要来自订单量增加，而非客单价提升。
 
@@ -1168,14 +1213,16 @@ Assistant:
 
 **趋势图描述**：
 ```
+
 客单价（元）
 310 ┤
 300 ┤ ══════════════════╗
-290 ┤                 ║
-280 ┤                 ╚════════════════════════
+290 ┤ ║
+280 ┤ ╚════════════════════════
 270 ┤
-    └─────────────────────────────────────────
-     4月1日  4月15日  5月1日  5月15日  6月1日  6月24日
+└─────────────────────────────────────────
+4月1日 4月15日 5月1日 5月15日 6月1日 6月24日
+
 ```
 
 **分析**：
@@ -1216,7 +1263,9 @@ Assistant:
 
 **回归分析**：
 ```
+
 销售额 = 106,52 + 3.01 × 广告支出
+
 ```
 
 **解释**：每增加1元广告支出，销售额增加约3.01元。但近期边际效益递减。
@@ -1398,14 +1447,15 @@ Human:
 5. **检查有效性**：验证推理过程是否符合逻辑规则。
 6. **得出结论**：给出明确的最终答案。
 7. **反思**：思考是否存在反例或边界情况。
-</reasoning_steps>
+   </reasoning_steps>
 
 <output_format>
 请以清晰的Markdown格式输出推理过程，包含：
+
 - 标题和分节
 - 逻辑符号（如⊆表示包含于）
 - 示范性解释
-</output_format>
+  </output_format>
 
 Assistant:
 ```
@@ -1442,31 +1492,32 @@ Assistant:
 ## 3. 分析逻辑关系
 
 ### 关系图
-
 ```
+
 Cat (猫)
-  │
-  │ ⊆ (包含于)
-  ▼
+│
+│ ⊆ (包含于)
+▼
 Mammal (哺乳动物)
-  │
-  │ ⊆ (包含于)
-  ▼
+│
+│ ⊆ (包含于)
+▼
 Vertebrate (脊椎动物)
+
 ```
 
 ### 逻辑链
 
-前提2建立了"猫"和"哺乳动物"的包含关系：  
+前提2建立了"猫"和"哺乳动物"的包含关系：
 Cat ⊆ Mammal
 
-前提1建立了"哺乳动物"和"脊椎动物"的包含关系：  
+前提1建立了"哺乳动物"和"脊椎动物"的包含关系：
 Mammal ⊆ Vertebrate
 
-根据包含关系的传递性（Transitivity）：  
+根据包含关系的传递性（Transitivity）：
 如果 A ⊆ B 且 B ⊆ C，则 A ⊆ C
 
-因此：  
+因此：
 Cat ⊆ Vertebrate
 
 ---
@@ -1540,15 +1591,15 @@ Cat ⊆ Vertebrate
 
 ### 可能的误区
 
-❌ **误区1**：混淆"所有A是B"与"所有B是A"  
-- "所有的猫都是哺乳动物" ≠ "所有的哺乳动物都是猫"  
+❌ **误区1**：混淆"所有A是B"与"所有B是A"
+- "所有的猫都是哺乳动物" ≠ "所有的哺乳动物都是猫"
 - 包含关系是单向的，不是双向的
 
 ✅ **正确理解**：猫是哺乳动物的子集，哺乳动物是脊椎动物的子集。
 
 ### 边界情况
 
-❓ **问题**：如果存在一个"非典型猫"（如基因突变），结论是仍然成立？  
+❓ **问题**：如果存在一个"非典型猫"（如基因突变），结论是仍然成立？
 ✅ **答案**：是的。前提中"所有的猫"指的是猫这个物种的定义，而不是个体差异。如果一个动物不满足"哺乳动物"的定义，它就不会被分类为"猫"。
 
 ### 逻辑规则总结
@@ -1629,6 +1680,7 @@ Assistant:
 **问题重述**：一个农场里共有35只动物，这些动物要么是鸡，要么是兔子。已知这些动物总共有94只脚。问：鸡有多少只？兔子有多少只？
 
 **关键信息**：
+
 - 总动物数：35只
 - 总脚数：94只
 - 鸡的脚数：2只/只
@@ -1639,12 +1691,14 @@ Assistant:
 ## 2. 识别已知和未知
 
 **已知条件**：
+
 - 鸡的数量 + 兔子的数量 = 35
 - 鸡的脚数 + 兔子的脚数 = 94
 - 每只鸡有2只脚
 - 每只兔子有4只脚
 
 **未知量**：
+
 - 鸡的数量（设为 x）
 - 兔子的数量（设为 y）
 
@@ -1655,6 +1709,7 @@ Assistant:
 **方法选择**：建立二元一次方程组
 
 **理由**：
+
 - 有两个未知量（鸡的数量、兔子的数量）
 - 有两个等量关系（总数量、总脚数）
 - 可以使用代入法或消元法求解
@@ -1675,6 +1730,7 @@ x + y = 35 & \text{(1) 总数量方程} \\
 \]
 
 其中：
+
 - \(x\) = 鸡的数量
 - \(y\) = 兔子的数量
 
@@ -1765,6 +1821,7 @@ x + y = 23 + 12 = 35 \quad ✓
 **最终答案**：农场有**23只鸡**和**12只兔子**。
 
 **解题关键**：
+
 - 将实际问题转化为数学模型（方程组）
 - 使用消元法求解方程组
 - 验证答案的合理性
@@ -1778,6 +1835,7 @@ x + y = 23 + 12 = 35 \quad ✓
 **思路**：假设所有动物都是鸡，然后计算差值。
 
 **步骤**：
+
 1. 假设35只都是鸡，总脚数 = \(35 \times 2 = 70\)
 2. 实际总脚数 = 94
 3. 差值 = \(94 - 70 = 24\)
@@ -1814,6 +1872,7 @@ Human:
 
 <company_info>
 创业公司信息：
+
 - 业务：开发企业级AI客服平台
 - 阶段：种子轮，寻求500万美元投资
 - 团队：3位创始人（2位技术，1位销售），均无创业经验
@@ -1821,7 +1880,7 @@ Human:
 - 市场：企业AI客服市场预计2027年达到300亿美元
 - 竞争：已有数家成熟竞争对手（如Intercom、Zendesk AI）
 - 估值：2000万美元（Pre-money）
-</company_info>
+  </company_info>
 
 <requirements>
 请完成以下分析：
@@ -1851,11 +1910,12 @@ Human:
 
 <output_format>
 请以Markdown格式输出，包含：
+
 - 每个策略的详细描述
 - 评估表格
 - 决策树图（用ASCII艺术或文字描述）
 - 最终建议和理由
-</output_format>
+  </output_format>
 
 Assistant:
 ```
@@ -1878,7 +1938,7 @@ Human:
 3. 识别报告中的数据和证据
 4. 评估论证的逻辑性和完整性
 5. 提供关键引用（如果有的话）
-</task>
+   </task>
 
 <document>
 [在此粘贴长篇文档，可能包含数万字]
@@ -1928,13 +1988,13 @@ Claude的`max_tokens`参数控制模型生成的最大token数。
 
 **建议设置**：
 
-| 任务类型 | 推荐Max Tokens | 说明 |
-|---------|----------------|------|
-| 简单问答 | 500 - 1,000 | 足够输出简洁答案 |
-| 文章写作 | 2,000 - 4,000 | 约1500-3000字 |
-| 长文档分析 | 4,096 - 8,192 | 处理长文档摘要 |
-| 代码生成 | 2,000 - 4,000 | 完整代码文件 |
-| 数据分析报告 | 3,000 - 5,000 | 详细分析报告 |
+| 任务类型     | 推荐Max Tokens | 说明             |
+| ------------ | -------------- | ---------------- |
+| 简单问答     | 500 - 1,000    | 足够输出简洁答案 |
+| 文章写作     | 2,000 - 4,000  | 约1500-3000字    |
+| 长文档分析   | 4,096 - 8,192  | 处理长文档摘要   |
+| 代码生成     | 2,000 - 4,000  | 完整代码文件     |
+| 数据分析报告 | 3,000 - 5,000  | 详细分析报告     |
 
 **注意**：Claude 3.5 Sonnet支持最多8192 tokens的输出。
 
@@ -1960,12 +2020,12 @@ Claude的`temperature`参数控制生成文本的随机性。
 
 **建议设置**：
 
-| 任务类型 | 推荐Temperature | 说明 |
-|---------|----------------|------|
-| 事实性任务（摘要、翻译、问答） | 0.0 - 0.3 | 低温度使输出更确定、一致 |
-| 通用对话和解释 | 0.3 - 0.7 | 平衡创造性和连贯性 |
-| 创意写作（故事、诗歌） | 0.7 - 1.0 | 高温度增加多样性和创意 |
-| 代码生成 | 0.2 - 0.5 | 较低温度确保语法正确 |
+| 任务类型                       | 推荐Temperature | 说明                     |
+| ------------------------------ | --------------- | ------------------------ |
+| 事实性任务（摘要、翻译、问答） | 0.0 - 0.3       | 低温度使输出更确定、一致 |
+| 通用对话和解释                 | 0.3 - 0.7       | 平衡创造性和连贯性       |
+| 创意写作（故事、诗歌）         | 0.7 - 1.0       | 高温度增加多样性和创意   |
+| 代码生成                       | 0.2 - 0.5       | 较低温度确保语法正确     |
 
 **示例**：
 
@@ -1986,11 +2046,11 @@ Claude也支持`top_p`参数，控制生成时考虑的token范围。
 
 **建议设置**：
 
-| 场景 | 推荐Top P | 说明 |
-|------|-----------|------|
-| 高质量输出 | 0.9 | 默认设置，平衡质量和多样性 |
-| 需要更多创造性 | 0.95 - 0.99 | 从高概率token中采样 |
-| 需要更确定性输出 | 0.8 - 0.9 | 缩小采样范围 |
+| 场景             | 推荐Top P   | 说明                       |
+| ---------------- | ----------- | -------------------------- |
+| 高质量输出       | 0.9         | 默认设置，平衡质量和多样性 |
+| 需要更多创造性   | 0.95 - 0.99 | 从高概率token中采样        |
+| 需要更确定性输出 | 0.8 - 0.9   | 缩小采样范围               |
 
 **注意**：通常只需要调整`temperature`或`top_p`中的一个，不要同时调整两个。
 
@@ -2002,7 +2062,7 @@ Claude也支持`top_p`参数，控制生成时考虑的token范围。
 
 1. **强制JSON输出**
 
-```python
+````python
 message = client.messages.create(
     model="claude-3-5-sonnet-20240620",
     max_tokens=1000,
@@ -2011,7 +2071,7 @@ message = client.messages.create(
         {"role": "user", "content": "请以JSON格式输出结果：\n\n```json\n"}
     ]
 )
-```
+````
 
 2. **控制输出长度**
 
@@ -2053,7 +2113,7 @@ message = client.messages.create(
 
 #### 配置3：代码生成
 
-```python
+````python
 {
     "model": "claude-3-5-sonnet-20240620",
     "max_tokens": 3000,
@@ -2061,7 +2121,7 @@ message = client.messages.create(
     "top_p": 0.9,
     "stop_sequences": ["\n\n```\n"]  # 代码块结束后停止
 }
-```
+````
 
 #### 配置4：长文档分析
 
@@ -2091,6 +2151,7 @@ Human:
 请撰写一篇产品评测文章。
 
 要求：
+
 - **字数：1500-1800字**（严格遵守）
 - 结构：[列出结构]
 - 风格：[描述风格]
@@ -2114,11 +2175,12 @@ message = client.messages.create(
 Human:
 <instructions>
 你是一位简洁高效的助手。回答问题时：
+
 1. 直击要点，避免冗长的铺垫
 2. 删除不必要的重复
 3. 使用简洁的语言表达复杂的概念
 4. 如果可以用一句话说清楚，不要用一段话
-</instructions>
+   </instructions>
 
 <task>
 请解释什么是区块链。
@@ -2138,6 +2200,7 @@ Human:
 <role>
 你是一位拥有20年经验的心理咨询师，专注于认知行为疗法（CBT）。
 你的咨询风格：
+
 - 同理心强，善于倾听
 - 引导式提问，而非直接给出建议
 - 使用开放式问题鼓励客户自我探索
@@ -2145,11 +2208,12 @@ Human:
 - 语言温和、 supportive，但不过度亲密
 
 在咨询中，你会：
+
 - 反射客户的情感（"我听到你感到..."）
 - 正常化客户的体验（"很多人面对类似情况时会有相同感受..."）
 - 布置小而可行的行动作业
 - 避免评判或指责
-</role>
+  </role>
 
 <scenario>
 客户是一位28岁的年轻专业人士，因为工作压力感到焦虑，前来咨询。
@@ -2196,14 +2260,14 @@ Human:
 
 输出格式：
 {
-  "sentiment": "[Positive/Neutral/Negative]",
-  "confidence": [0-1],
-  "reasoning": "[解释]"
+"sentiment": "[Positive/Neutral/Negative]",
+"confidence": [0-1],
+"reasoning": "[解释]"
 }
 
 Assistant:
 {
-  "sentiment": "Positive",
+"sentiment": "Positive",
 ```
 
 （Claude会继续完成JSON）
@@ -2244,26 +2308,27 @@ Human:
 输出必须严格符合以下JSON Schema：
 
 {
-  "type": "object",
-  "properties": {
-    "summary": {"type": "string"},
-    "key_points": {
-      "type": "array",
-      "items": {"type": "string"}
-    },
-    "sentiment": {
-      "type": "string",
-      "enum": ["positive", "neutral", "negative"]
-    }
-  },
-  "required": ["summary", "key_points", "sentiment"]
+"type": "object",
+"properties": {
+"summary": {"type": "string"},
+"key_points": {
+"type": "array",
+"items": {"type": "string"}
+},
+"sentiment": {
+"type": "string",
+"enum": ["positive", "neutral", "negative"]
+}
+},
+"required": ["summary", "key_points", "sentiment"]
 }
 
 非常重要：
+
 1. 输出必须是合法的JSON
 2. 不要添加任何JSON以外的内容
 3. 使用双引号，不要使用单引号
-</output_format>
+   </output_format>
 ```
 
 ### 9.4 推理错误或不完整
@@ -2385,7 +2450,7 @@ Human:
 - 性格：[描述性格特点，如：耐心、严格、幽默等]
 - 沟通风格：[描述沟通风格，如：温和但坚定/直接且不客气/鼓励式]
 - 专业领域：[列出专业领域]
-</role>
+  </role>
 
 <scenario>
 [描述具体场景，如：客户前来咨询职业转型/学生请教编程学习路径]
@@ -2424,11 +2489,12 @@ Human:
 
 <data_description>
 数据描述：
+
 - 数据来源：[描述数据来源]
 - 数据规模：[行数、列数]
 - 字段列表：[列出字段名和含义]
 - 示例数据：[提供几行示例数据]
-</data_description>
+  </data_description>
 
 <analysis_requirements>
 请完成以下任务：
@@ -2457,11 +2523,12 @@ Human:
 
 <output_format>
 请以Markdown格式输出，包含：
+
 - 标题和分节
 - 表格（用于对比不同图表类型）
 - 图表描述（用文字描述预期的图表效果）
 - 代码示例（如果使用Python/R，提供代码框架）
-</output_format>
+  </output_format>
 
 Assistant:
 ```
@@ -2545,15 +2612,17 @@ Human:
 [描述你面临的决策，如：选择哪个工作offer/是否投资某个项目/选择哪种技术方案]
 
 可选方案：
+
 - 方案A：[描述]
 - 方案B：[描述]
 - 方案C：[描述]（如果有）
 
 决策约束：
+
 - 时间约束：[如有]
 - 预算约束：[如有]
 - 其他限制：[如有]
-</decision_context>
+  </decision_context>
 
 <analysis_framework>
 请使用以下框架进行分析：
@@ -2569,7 +2638,7 @@ Human:
    - 直接成本
    - 间接成本
    - 预期收益
-   -  intangible收益（如品牌、声誉等）
+   - intangible收益（如品牌、声誉等）
 
 3. **风险评估**
    对每个方案，识别：
@@ -2591,6 +2660,7 @@ Human:
 
 <output_format>
 请以Markdown格式输出分析报告，包含：
+
 - SWOT表格
 - 成本效益对比表
 - 风险矩阵
@@ -2675,6 +2745,7 @@ Assistant:
 ## 🤝 贡献与反馈
 
 如果你发现任何错误或有改进建议，欢迎：
+
 - 提交Issue进行讨论
 - 提交Pull Request贡献内容
 - 分享你的提示词使用技巧

@@ -6,17 +6,18 @@
 ![Status](https://img.shields.io/badge/状态-已完成-green)
 
 ---
+
 ## 1. 模型概述
 
 ### 1.1 模型版本与特点
 
-| 模型 | 发布时间 | 上下文窗口 | 核心能力 | 适用场景 |
-|------|---------|-----------|---------|---------|
-| **GPT-4o** | 2024年5月 | 128K tokens | 多模态（文本+图像+音频）、最快速度 | 实时对话、图像分析、语音交互 |
-| **GPT-4 Turbo** | 2023年11月 | 128K tokens | 最强推理、知识截止2024年4月 | 复杂推理、专业写作、代码开发 |
-| **GPT-4** | 2023年3月 | 8K/32K tokens | 强推理、高准确性 | 学术研究、法律分析、医疗咨询 |
-| **GPT-3.5 Turbo** | 2023年3月 | 16K tokens | 性价比高、速度快 | 简单任务、大规模应用、原型开发 |
-| **DALL-E 3** | 2023年9月 | N/A | 高质量图像生成 | 创意设计、视觉内容创作 |
+| 模型              | 发布时间   | 上下文窗口    | 核心能力                           | 适用场景                       |
+| ----------------- | ---------- | ------------- | ---------------------------------- | ------------------------------ |
+| **GPT-4o**        | 2024年5月  | 128K tokens   | 多模态（文本+图像+音频）、最快速度 | 实时对话、图像分析、语音交互   |
+| **GPT-4 Turbo**   | 2023年11月 | 128K tokens   | 最强推理、知识截止2024年4月        | 复杂推理、专业写作、代码开发   |
+| **GPT-4**         | 2023年3月  | 8K/32K tokens | 强推理、高准确性                   | 学术研究、法律分析、医疗咨询   |
+| **GPT-3.5 Turbo** | 2023年3月  | 16K tokens    | 性价比高、速度快                   | 简单任务、大规模应用、原型开发 |
+| **DALL-E 3**      | 2023年9月  | N/A           | 高质量图像生成                     | 创意设计、视觉内容创作         |
 
 ### 1.2 核心优势
 
@@ -44,9 +45,9 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 
 ```markdown
 [
-  {"role": "system", "content": "系统消息：设定AI的行为规范"},
-  {"role": "user", "content": "用户消息：提出具体问题或任务"},
-  {"role": "assistant", "content": "助手回复：AI的回答（可选，用于少样本示例）"}
+{"role": "system", "content": "系统消息：设定AI的行为规范"},
+{"role": "user", "content": "用户消息：提出具体问题或任务"},
+{"role": "assistant", "content": "助手回复：AI的回答（可选，用于少样本示例）"}
 ]
 ```
 
@@ -88,6 +89,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 ✅ 好的提示词：
 "你是一个Python开发工程师。请编写一个函数，实现快速排序算法。
 要求：
+
 1. 使用Python 3.9+语法
 2. 支持自定义比较函数
 3. 添加详细注释
@@ -102,6 +104,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 "我正在开发一个电商网站，使用Django框架。需要实现购物车功能。
 
 具体需求：
+
 - 用户可以添加/删除商品
 - 商品数量可以调整
 - 实时计算总价
@@ -118,10 +121,11 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 "请总结以下文章的核心观点：
 
 ---
-[文章内容]
----
+
+## [文章内容]
 
 要求：
+
 1. 提取3-5个关键要点
 2. 每个要点用一句话概括
 3. 输出格式为JSON"
@@ -136,6 +140,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 问题：一个水池有两根水管，一根单独注满需要6小时，另一根单独注满需要4小时。如果两根水管同时打开，需要多少小时注满水池？
 
 要求：
+
 1. 先列出已知条件
 2. 建立数学模型
 3. 逐步计算
@@ -159,6 +164,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 {"role": "user", "content": "请写一篇关于「使用Docker容器化部署Python应用」的技术博客文章。
 
 要求：
+
 1. 面向中级开发者
 2. 字数约2000字
 3. 包含以下部分：
@@ -175,6 +181,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 7. 语调专业但不失亲和力"}
 
 **预期输出**：
+
 - 一篇结构完整、代码丰富的技术教程
 - 代码示例可直接复制使用
 - 包含实战案例和最佳实践
@@ -190,12 +197,14 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 {"role": "user", "content": "请帮我撰写一篇关于「大语言模型在代码生成中的应用」的学术论文摘要和引言部分。
 
 已知信息：
+
 - 研究方向：大语言模型（LLM）在软件开发中的应用
 - 主要发现：GPT-4在代码生成任务上达到了人类中级开发者的水平
 - 研究方法：对比实验（GPT-4 vs 人类开发者）
 - 数据集：HumanEval, MBPP
 
 要求：
+
 1. 摘要（Abstract）：200-250字，包含研究背景、方法、主要发现和意义
 2. 引言（Introduction）：800-1000字，包含：
    - 研究背景和意义
@@ -207,6 +216,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 5. 使用专业术语，定义首次出现的缩写"}
 
 **预期输出**：
+
 - 符合学术规范的摘要和引言
 - 包含文献引用
 - 结构清晰，逻辑严密
@@ -222,6 +232,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 {"role": "user", "content": "请为一款新的AI写作工具撰写营销落地页文案。
 
 产品信息：
+
 - 名称：WriteBot AI
 - 核心功能：AI辅助写作、多语言支持、SEO优化、 plagiarism检测
 - 目标用户：内容创作者、营销人员、学生
@@ -229,6 +240,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 - 独特卖点：比竞品速度快3倍，支持50+语言
 
 文案要求：
+
 1. 吸引人的标题（H1）
 2. 副标题（H2）- 强调价值主张
 3. 痛点描述（3-5个用户痛点）
@@ -242,6 +254,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 11. 风格：现代、专业、有说服力"}
 
 **预期输出**：
+
 - 完整的落地页文案
 - 包含HTML标签建议
 - 强调转化优化
@@ -260,6 +273,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 {"role": "user", "content": "请创作一个科幻短篇故事，主题是关于「时间旅行者的道德困境」。
 
 要求：
+
 1. 字数：1500-2000字
 2. 视角：第一人称
 3. 时间设定：2150年
@@ -274,6 +288,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 8. 结尾留有余味"}
 
 **预期输出**：
+
 - 完整的短篇故事
 - 情节引人入胜
 - 角色立体
@@ -290,6 +305,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 {"role": "user", "content": "请创作一首关于「秋天」的现代诗。
 
 要求：
+
 1. 自由诗体，不严格押韵
 2. 长度：20-30行
 3. 意象：落叶、归雁、凉风、收获
@@ -298,6 +314,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 6. 避免陈词滥调"}
 
 **预期输出**：
+
 - 一首原创现代诗
 - 意象优美
 - 情感真挚
@@ -315,10 +332,11 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 {"role": "user", "content": "请润色以下文字，使其更加专业和流畅：
 
 ---
-我们公司做AI产品已经3年了，遇到很多问题，比如数据不够、模型不准、用户不喜欢。现在我们想改进产品，需要你的建议。
----
+
+## 我们公司做AI产品已经3年了，遇到很多问题，比如数据不够、模型不准、用户不喜欢。现在我们想改进产品，需要你的建议。
 
 要求：
+
 1. 保持原意
 2. 使用商务专业语言
 3. 结构更清晰
@@ -326,6 +344,7 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 5. 输出改写后的版本和改写说明"}
 
 **预期输出**：
+
 - 润色后的专业文本
 - 改写说明（列出主要改进点）
 ```
@@ -340,28 +359,34 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 {"role": "user", "content": "请将以下Python技术文档翻译成英文：
 
 ---
+
 ## 快速排序算法实现
 
 快速排序是一种高效的排序算法，采用分治法策略。
 
 ### 算法步骤
+
 1. 从数列中挑出一个元素，称为「基准」（pivot）
 2. 重新排序数列，所有比基准值小的元素摆放在基准前面，所有比基准值大的元素摆在基准后面
 3. 递归地对齐两个子序列进行排序
 
 ### 时间复杂度
+
 - 最优情况：O(n log n)
 - 平均情况：O(n log n)
 - 最坏情况：O(n²)
+
 ---
 
 要求：
+
 1. 保留Markdown格式
 2. 技术术语翻译准确
 3. 语言自然流畅
 4. 代码示例保持不变"}
 
 **预期输出**：
+
 - 高质量的英文翻译
 - 保留原文结构
 - 术语准确
@@ -377,12 +402,13 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 
 **提示词**：
 
-```markdown
+````markdown
 {"role": "system", "content": "你是一个Python专家，擅长编写高质量、可维护的代码。你的代码遵循PEP 8规范，包含详细注释和文档字符串。"}
 
 {"role": "user", "content": "请编写一个Python函数，实现LRU（Least Recently Used）缓存机制。
 
 要求：
+
 1. 使用Python 3.9+语法
 2. 实现以下方法：
    - `__init__(self, capacity: int)`: 初始化缓存
@@ -396,22 +422,23 @@ OpenAI模型（特别是GPT-4和GPT-3.5）通常使用以下消息结构：
 8. 分析时间和空间复杂度"}
 
 **预期输出**：
+
 ```python
 from collections import OrderedDict
 
 class LRUCache:
     """
     LRU (Least Recently Used) Cache implementation.
-    
+
     This cache evicts the least recently used item when capacity is exceeded.
     Both get and put operations run in O(1) time complexity.
     """
-    
+
     def __init__(self, capacity: int):
         """Initialize the LRU cache with given capacity."""
         self.capacity = capacity
         self.cache = OrderedDict()
-    
+
     def get(self, key: int) -> int:
         """Get value by key. Returns -1 if key doesn't exist."""
         if key not in self.cache:
@@ -419,7 +446,7 @@ class LRUCache:
         # Move to end to mark as recently used
         self.cache.move_to_end(key)
         return self.cache[key]
-    
+
     def put(self, key: int, value: int) -> None:
         """Insert or update a key-value pair."""
         if key in self.cache:
@@ -439,11 +466,14 @@ if __name__ == "__main__":
     cache.put(3, 3)      # Evicts key 2
     print(cache.get(2))  # Returns -1 (not found)
 ```
+````
 
 复杂度分析：
+
 - 时间复杂度：get O(1), put O(1)
 - 空间复杂度：O(capacity)
-```
+
+````
 
 #### 示例2：完整程序开发
 
@@ -471,7 +501,8 @@ if __name__ == "__main__":
 7. 错误处理完善
 
 文件结构：
-```
+````
+
 shortlink-service/
 ├── main.py
 ├── models.py
@@ -479,8 +510,9 @@ shortlink-service/
 ├── database.py
 ├── utils.py
 ├── tests/
-│   └── test_main.py
+│ └── test_main.py
 └── requirements.txt
+
 ```
 
 请提供完整的代码实现。"}
@@ -499,7 +531,7 @@ shortlink-service/
 
 **提示词**：
 
-```markdown
+````markdown
 {"role": "system", "content": "你是一个资深代码审查专家，擅长发现代码中的问题并提供建设性的改进建议。你的审查涵盖：代码质量、性能、安全性、可维护性、最佳实践。"}
 
 {"role": "user", "content": "请审查以下Python代码，指出问题并提供改进建议：
@@ -526,8 +558,10 @@ processed = process_data(data)
 avg = calculate_average(processed)
 print('Average:', avg)
 ```
+````
 
 审查维度：
+
 1. 代码质量和可读性
 2. 性能优化
 3. Python最佳实践
@@ -537,11 +571,13 @@ print('Average:', avg)
 7. 测试覆盖"}
 
 **预期输出**：
+
 - 详细的问题列表（按严重程度排序）
 - 每个问题的解释和改进建议
 - 重构后的完整代码
 - 单元测试建议
-```
+
+````
 
 #### 示例2：Bug修复
 
@@ -565,9 +601,10 @@ def divide_numbers(a, b):
 print(divide_numbers(10, 2))
 print(divide_numbers(10, 0))
 print(divide_numbers(10, '2'))
-```
+````
 
 错误信息：
+
 ```
 Traceback (most recent call last):
   File 'test.py', line 12, in <module>
@@ -578,6 +615,7 @@ TypeError: unsupported operand type(s) for /: 'int' and 'str'
 ```
 
 要求：
+
 1. 分析错误原因
 2. 提供修复后的完整代码
 3. 改进异常处理
@@ -585,11 +623,13 @@ TypeError: unsupported operand type(s) for /: 'int' and 'str'
 5. 提供测试用例验证修复"}
 
 **预期输出**：
+
 - 错误原因分析
 - 修复后的完整代码
 - 改进说明
 - 测试用例
-```
+
+````
 
 ### 4.3 代码转换
 
@@ -628,9 +668,10 @@ async def main():
 
 if __name__ == '__main__':
     asyncio.run(main())
-```
+````
 
 转换要求：
+
 1. 使用JavaScript的async/await
 2. 使用现代JS语法（箭头函数、模板字符串、const/let）
 3. 添加JSDoc类型注释
@@ -639,11 +680,13 @@ if __name__ == '__main__':
 6. 说明Python和JS的异步编程差异"}
 
 **预期输出**：
+
 - 完整的JavaScript代码
 - JSDoc注释
 - 运行说明
 - Python vs JavaScript异步编程对比
-```
+
+````
 
 ---
 
@@ -659,9 +702,9 @@ if __name__ == '__main__':
 请使用DALL-E 3生成一张写实风格的图像：
 
 提示词（Prompt）：
-"A modern tech office workspace with large windows, natural lighting, 
-multiple monitors displaying code on desks, a whiteboard with diagrams 
-on the wall, plants in the corners, ergonomic chairs, coffee mugs, 
+"A modern tech office workspace with large windows, natural lighting,
+multiple monitors displaying code on desks, a whiteboard with diagrams
+on the wall, plants in the corners, ergonomic chairs, coffee mugs,
 photorealistic, 8K resolution, cinematic lighting"
 
 要求：
@@ -669,9 +712,10 @@ photorealistic, 8K resolution, cinematic lighting"
 2. 分辨率：1792x1024（DALL-E 3支持）
 3. 质量：hd（高清晰度）
 4. 数量：1张
-```
+````
 
 **提示词技巧**：
+
 - ✅ 详细描述场景元素
 - ✅ 指定光照条件
 - ✅ 明确风格（photorealistic, cinematic lighting）
@@ -686,12 +730,13 @@ photorealistic, 8K resolution, cinematic lighting"
 请使用DALL-E 3生成一张艺术插画：
 
 提示词（Prompt）：
-"An enchanting forest with glowing mushrooms, fairy lights floating in 
-the air, a mystical river reflecting the moonlight, digital art, 
-Studio Ghibli style, vibrant colors, whimsical atmosphere, 
+"An enchanting forest with glowing mushrooms, fairy lights floating in
+the air, a mystical river reflecting the moonlight, digital art,
+Studio Ghibli style, vibrant colors, whimsical atmosphere,
 intricate details, matte painting"
 
 风格设置：
+
 - 艺术风格：数字艺术、吉卜力风格
 - 色彩：鲜艳、梦幻
 - 氛围：神秘、宁静
@@ -707,13 +752,14 @@ intricate details, matte painting"
 请生成一张产品展示图，严格控制构图：
 
 提示词：
-"Product photography of a smartwatch on a minimalist white background, 
-centered composition, front view, soft studio lighting, 
+"Product photography of a smartwatch on a minimalist white background,
+centered composition, front view, soft studio lighting,
 shallow depth of field, 4K, commercial photography style
 
 Camera settings: 85mm lens, f/2.8, ISO 100"
 
 构图要点：
+
 - 中心构图：产品位于画面正中
 - 简约背景：白色，突出产品
 - 浅景深：f/2.8，背景虚化
@@ -728,13 +774,14 @@ Camera settings: 85mm lens, f/2.8, ISO 100"
 请生成一张融合多种艺术风格的图像：
 
 提示词：
-"A futuristic cityscape at sunset, blend of Cyberpunk and Art Deco 
-styles, neon lights reflecting on wet streets, geometric patterns 
-on buildings, flying cars, people in retro-futuristic fashion, 
-oil painting texture combined with digital art, 
+"A futuristic cityscape at sunset, blend of Cyberpunk and Art Deco
+styles, neon lights reflecting on wet streets, geometric patterns
+on buildings, flying cars, people in retro-futuristic fashion,
+oil painting texture combined with digital art,
 color palette: purple, orange, teal, highly detailed"
 
 风格融合技巧：
+
 - 明确列出要融合的风格（Cyberpunk + Art Deco）
 - 描述如何融合（oil painting + digital art）
 - 指定色彩方案
@@ -758,6 +805,7 @@ color palette: purple, orange, teal, highly detailed"
 
 数据（CSV格式）：
 ```
+
 月份,销售额,订单数,客单价,退货率
 2024-01,150000,500,300,5%
 2024-02,165000,550,300,4.5%
@@ -765,7 +813,8 @@ color palette: purple, orange, teal, highly detailed"
 2024-04,180000,600,300,5.2%
 2024-05,190000,650,292,6%
 2024-06,210000,700,300,5.5%
-```
+
+````
 
 分析要求：
 1. 计算环比增长率（MoM）
@@ -811,7 +860,7 @@ color palette: purple, orange, teal, highly detailed"
     {"chart_type": "bar", "description": "每月客单价对比"}
   ]
 }
-```
+````
 
 ### 6.2 可视化建议
 
@@ -831,6 +880,7 @@ color palette: purple, orange, teal, highly detailed"
 数据5：用户在网站上的行为路径（流程展示）
 
 请为每个数据集推荐：
+
 1. 最佳图表类型
 2. 备选图表类型
 3. 设计建议（颜色、标签、图例等）
@@ -838,6 +888,7 @@ color palette: purple, orange, teal, highly detailed"
 5. 推荐工具（Python: matplotlib/seaborn/plotly, Tableau, etc.）"}
 
 **预期输出**：
+
 - 每个数据集的详细可视化建议
 - 包含图表示例描述
 - 设计最佳实践
@@ -865,6 +916,7 @@ color palette: purple, orange, teal, highly detailed"
 问：是否所有的猫都会游泳？
 
 要求：
+
 1. 先列出已知条件
 2. 分析逻辑关系
 3. 逐步推理
@@ -873,31 +925,38 @@ color palette: purple, orange, teal, highly detailed"
 
 **预期输出**：
 ```
+
 ## 推理过程
 
 ### 步骤1：列出已知条件
+
 - 条件1：所有的猫都是动物（猫 → 动物）
 - 条件2：有些动物会游泳（存在部分动物会游泳）
 
 ### 步骤2：分析逻辑关系
+
 - 条件1建立了「猫」和「动物」的包含关系
 - 条件2只说明「有些」动物会游泳，不是「所有」动物
 - 从逻辑上，我们无法确定「会游泳的动物」是否包含「猫」
 
 ### 步骤3：逐步推理
+
 1. 假设：所有的猫都会游泳
 2. 验证：已知条件只说「有些动物会游泳」，这可能包含猫，也可能不包含
 3. 反例：如果「会游泳的动物」指的是鲸鱼、海豚等，那么猫不在其中
 4. 结论：无法确定所有猫都会游泳
 
 ### 最终结论
+
 ❌ 不能得出「所有的猫都会游泳」这个结论。
 正确回答是：不确定/无法确定。
 
 ### 思维陷阱
+
 ⚠️ 常见错误：将「有些A是B」错误推导为「所有A是B」或「所有B是A」
 ⚠️ 这是典型的逻辑谬误，需要特别注意量词的范围。
-```
+
+````
 
 ### 7.2 问题解决
 
@@ -926,20 +985,23 @@ color palette: purple, orange, teal, highly detailed"
 5. 提供类似题目的通用解法"}
 
 **预期输出**：
-```
+````
+
 ## 方法1：工作效率法
 
 ### 思路
+
 将注满游泳池的工作量视为1，计算每根水管的注水效率（每小时完成的工作量）。
 
 ### 计算步骤
+
 1. 甲管效率 = 1/2（每小时注满1/2个游泳池）
 2. 乙管效率 = 1/3
 3. 丙管效率 = 1/4
 
 4. 三根水管同时工作的总效率：
    总效率 = 1/2 + 1/3 + 1/4
-   
+
    通分（公分母12）：
    = 6/12 + 4/12 + 3/12
    = 13/12
@@ -955,9 +1017,11 @@ color palette: purple, orange, teal, highly detailed"
 ## 方法2：方程法
 
 ### 思路
+
 设需要x小时注满，建立方程。
 
 ### 计算步骤
+
 1. 设需要x小时
 2. 甲管在x小时内完成的工作量：x × (1/2) = x/2
 3. 乙管在x小时内完成的工作量：x × (1/3) = x/3
@@ -977,17 +1041,20 @@ color palette: purple, orange, teal, highly detailed"
 ## 答案验证
 
 ### 验证1：代入检验
+
 将x = 12/13代入原方程：
+
 - 甲管完成：(12/13) × (1/2) = 6/13
 - 乙管完成：(12/13) × (1/3) = 4/13
 - 丙管完成：(12/13) × (1/4) = 3/13
 - 总计：6/13 + 4/13 + 3/13 = 13/13 = 1 ✓
 
 ### 验证2：合理性检验
--  fastest single pipe (甲) takes 2 hours
--  三管同时开，时间应该少于2小时
--  12/13 ≈ 0.923小时 < 2小时 ✓
--  结果合理
+
+- fastest single pipe (甲) takes 2 hours
+- 三管同时开，时间应该少于2小时
+- 12/13 ≈ 0.923小时 < 2小时 ✓
+- 结果合理
 
 ## 通用解法
 
@@ -996,15 +1063,18 @@ color palette: purple, orange, teal, highly detailed"
 公式：1/T = 1/t₁ + 1/t₂ + ... + 1/tₙ
 
 其中：
+
 - T = 合作完成所需时间
 - t₁, t₂, ..., tₙ = 各自单独完成所需时间
 
 步骤：
+
 1. 确定总工作量（通常设为1）
 2. 计算各自的工作效率（1/t）
 3. 求和得到总效率
 4. 用总工作量除以总效率得到时间
-```
+
+````
 
 ---
 
@@ -1046,7 +1116,7 @@ color palette: purple, orange, teal, highly detailed"
 **预期输出**：
 ```json
 {"sentiment": "neutral", "confidence": 0.68, "highlights": ["包装完好", "还没开始用", "期待后续效果"]}
-```
+````
 
 ### 8.2 思维链（Chain-of-Thought）高级应用
 
@@ -1063,35 +1133,43 @@ color palette: purple, orange, teal, highly detailed"
 
 **预期输出**：
 ```
+
 ## 思维链推理过程
 
 ### 步骤1：理解问题
+
 问题：一个农民有17只羊，除了7只以外都死了，还剩几只羊？
 
 关键短语：「除了7只以外都死了」
 这句话的意思是：有7只羊没有死，其他的都死了。
 
 ### 步骤2：分解问题
+
 - 子问题1：农民原来有多少只羊？→ 17只
 - 子问题2：「除了7只以外都死了」这句话如何理解？
 - 子问题3：没有死的羊有多少只？
 
 ### 步骤3：逐个解决
+
 - 子问题1答案：17只
 - 子问题2答案：「除了A以外都B」的意思是「A没有B，其他的都B」
   所以「除了7只以外都死了」=「7只没有死，其他都死了」
 - 子问题3答案：7只
 
 ### 步骤4：综合答案
+
 还存活的羊数量 = 7只
 
 ### 步骤5：验证答案
+
 - 检查：17只羊，7只存活，10只死亡 → 符合「除了7只以外都死了」
 - 答案合理 ✓
 
 ## 最终答案
+
 还剩7只羊。
-```
+
+````
 
 ### 8.3 函数调用（Function Calling）
 
@@ -1145,7 +1223,7 @@ response_message = response["choices"][0]["message"]
 if response_message.get("function_call"):
     function_name = response_message["function_call"]["name"]
     function_args = json.loads(response_message["function_call"]["arguments"])
-    
+
     # 这里应该实际调用天气API
     # 为演示目的，我们模拟返回结果
     function_response = {
@@ -1155,7 +1233,7 @@ if response_message.get("function_call"):
         "condition": "多云",
         "humidity": 65
     }
-    
+
     # 将函数响应发回模型
     second_response = openai.ChatCompletion.create(
         model="gpt-4o",
@@ -1169,11 +1247,12 @@ if response_message.get("function_call"):
             }
         ]
     )
-    
+
     print(second_response["choices"][0]["message"]["content"])
-```
+````
 
 **预期输出**：
+
 ```
 上海今天天气不错！当前气温22°C，多云，湿度65%。是个适合外出的一天。
 ```
@@ -1190,6 +1269,7 @@ if response_message.get("function_call"):
 {"role": "user", "content": "请为一篇关于「人工智能在医疗行业的应用」的文章生成详细大纲。
 
 要求：
+
 1. 包含引言、主体（5-7个部分）、结论
 2. 每个部分列出3-5个要点
 3. 逻辑清晰，层次分明
@@ -1204,6 +1284,7 @@ if response_message.get("function_call"):
 [插入步骤1生成的大纲]
 
 要求：
+
 1. 字数300-400字
 2. 吸引读者注意力
 3. 提出文章要解决的问题
@@ -1218,6 +1299,7 @@ if response_message.get("function_call"):
 [插入大纲中该部分的要点]
 
 要求：
+
 1. 字数500-600字
 2. 包含具体案例或数据
 3. 解释技术原理
@@ -1225,6 +1307,7 @@ if response_message.get("function_call"):
 ```
 
 **优势**：
+
 - ✅ 更好地控制输出质量
 - ✅ 易于调试和优化
 - ✅ 可以针对每个步骤使用不同的模型或参数
@@ -1238,12 +1321,12 @@ if response_message.get("function_call"):
 
 控制生成文本的随机性。
 
-| 任务类型 | 推荐Temperature | 说明 |
-|---------|----------------|------|
-| 事实性任务（翻译、摘要、问答） | 0 - 0.3 | 低温度使输出更确定、一致 |
-| 平衡任务（通用对话、解释） | 0.3 - 0.7 | 适度随机性，保持连贯 |
-| 创意任务（写作、头脑风暴） | 0.7 - 1.0 | 高温度增加多样性和创意 |
-| 代码生成 | 0.2 - 0.5 | 较低温度确保语法正确和逻辑一致 |
+| 任务类型                       | 推荐Temperature | 说明                           |
+| ------------------------------ | --------------- | ------------------------------ |
+| 事实性任务（翻译、摘要、问答） | 0 - 0.3         | 低温度使输出更确定、一致       |
+| 平衡任务（通用对话、解释）     | 0.3 - 0.7       | 适度随机性，保持连贯           |
+| 创意任务（写作、头脑风暴）     | 0.7 - 1.0       | 高温度增加多样性和创意         |
+| 代码生成                       | 0.2 - 0.5       | 较低温度确保语法正确和逻辑一致 |
 
 **示例**：
 
@@ -1268,6 +1351,7 @@ response = openai.ChatCompletion.create(
 控制模型生成的最大token数。
 
 **建议**：
+
 - 简单任务：100-300 tokens
 - 中等任务（摘要、解释）：300-1000 tokens
 - 复杂任务（文章、代码）：1000-4000 tokens
@@ -1286,6 +1370,7 @@ response = openai.ChatCompletion.create(
 控制生成时考虑的token范围。
 
 **建议**：
+
 - 一般任务：top_p=0.9（默认）
 - 需要高质量输出：top_p=0.95
 - 需要更多样性：top_p=0.99
@@ -1303,10 +1388,10 @@ response = openai.ChatCompletion.create(
 
 控制重复和引入新话题。
 
-| 参数 | 范围 | 作用 | 使用场景 |
-|------|------|------|---------|
+| 参数              | 范围        | 作用                | 使用场景       |
+| ----------------- | ----------- | ------------------- | -------------- |
 | frequency_penalty | -2.0 到 2.0 | 降低重复token的概率 | 避免啰嗦、重复 |
-| presence_penalty | -2.0 到 2.0 | 鼓励引入新话题 | 增加话题多样性 |
+| presence_penalty  | -2.0 到 2.0 | 鼓励引入新话题      | 增加话题多样性 |
 
 ```python
 # 避免重复 - 提高frequency_penalty
@@ -1400,6 +1485,7 @@ response = openai.ChatCompletion.create(
 {"role": "user", "content": "请解释量子计算的基本原理。
 
 要求：
+
 1. 如果你使用了外部知识，请说明信息来源
 2. 如果某个观点存在争议，请说明
 3. 对于不确定的部分，请明确标注"}
@@ -1505,6 +1591,7 @@ response = openai.ChatCompletion.create(
 {"role": "user", "content": "请写一篇关于人工智能的短文。
 
 要求：
+
 1. 字数：500-600字
 2. 包含3个主要观点
 3. 每个观点用一段话阐述"}
@@ -1542,6 +1629,7 @@ response = openai.ChatCompletion.create(
 问题：[问题内容]
 
 要求：
+
 1. 先列出已知条件和未知数
 2. 建立数学模型或方程
 3. 逐步计算，每一步都详细说明
@@ -1557,9 +1645,10 @@ response = openai.ChatCompletion.create(
 示例：
 问题：如果3个苹果花费6元，那么5个苹果花费多少元？
 推理：
+
 1. 先求单价：6元 ÷ 3个 = 2元/个
 2. 再求总价：2元/个 × 5个 = 10元
-答案：10元
+   答案：10元
 
 现在请解决：
 问题：如果一辆汽车以每小时60公里的速度行驶，2.5小时能行驶多少公里？
@@ -1600,9 +1689,11 @@ response = openai.ChatCompletion.create(
 请写一篇关于「[文章主题]」的[文体，如：教程/评论/分析报告]。
 
 ## 目标读者
+
 [描述目标读者，如：中级开发者/学术研究/普通消费者]
 
 ## 文章要求
+
 1. 字数：[X-Y字]
 2. 结构：
    - 引言：[要求]
@@ -1613,6 +1704,7 @@ response = openai.ChatCompletion.create(
 5. 语调：[客观/热情/严谨/ persuasive]
 
 ## 补充信息
+
 [提供任何相关的背景信息、关键词、参考资料等]
 ```
 
@@ -1623,21 +1715,25 @@ response = openai.ChatCompletion.create(
 擅长[领域，如：Web开发/数据科学/算法实现]。
 
 ## 任务描述
+
 [详细描述需要实现的功 volcani能或解决的问题]
 
 ## 具体需求
+
 1. [需求1]
 2. [需求2]
 3. [需求3]
-...
+   ...
 
 ## 技术要求
+
 - 编程语言：[语言及版本]
 - 框架/库：[列出需要的框架]
 - 代码规范：[如：PEP 8/Airbnb Style]
 - 性能要求：[如：时间复杂度O(n log n)]
 
 ## 输出要求
+
 1. 完整的可运行代码
 2. 详细注释
 3. 文档字符串（docstring）
@@ -1646,6 +1742,7 @@ response = openai.ChatCompletion.create(
 6. 复杂度分析
 
 ## 约束条件
+
 [列出任何限制或特殊情况]
 ```
 
@@ -1655,34 +1752,43 @@ response = openai.ChatCompletion.create(
 你是一个数据分析专家，擅长[领域，如：商业分析/科学研究/金融分析]。
 
 ## 数据描述
+
 [描述提供的数据，或粘贴数据]
 
 ## 分析任务
+
 请完成以下分析：
 
 ### 1. 数据概览
+
 - 数据规模（行数、列数）
 - 各字段的数据类型和含义
 - 缺失值情况
 
 ### 2. 描述性统计
+
 - 核心指标（均值、中位数、标准差等）
 - 数据分布情况
 
 ### 3. 趋势分析
+
 [根据数据特点指定]
 
 ### 4. 洞察提取
+
 - 关键发现
 - 异常值识别
 - 相关性分析
 
 ### 5. 建议
+
 - 基于数据的业务建议
 - 后续分析方向
 
 ## 输出格式
+
 请以JSON格式输出，包含以下字段：
+
 - summary（文本摘要）
 - statistics（统计指标字典）
 - insights（洞察数组）
@@ -1690,6 +1796,7 @@ response = openai.ChatCompletion.create(
 - recommendations（建议数组）
 
 ## 注意事项
+
 [任何特殊要求或注意事项]
 ```
 
@@ -1699,32 +1806,41 @@ response = openai.ChatCompletion.create(
 请使用DALL-E 3生成一张[图像类型，如：产品展示图/艺术插画/写实照片]。
 
 ## 图像描述
+
 [详细的描述，包含以下要素：]
 
 ### 主体
+
 [描述图像中的主要对象或人物]
 
 ### 环境/背景
+
 [描述场景、地点、背景元素]
 
 ### 风格
+
 [艺术风格、摄影风格、插画风格等]
 
 ### 光照和色彩
+
 [描述光照条件、色彩方案]
 
 ### 构图
+
 [描述视角、布局、焦点]
 
 ### 质感
+
 [描述材质、纹理]
 
 ## 技术参数
+
 - 宽高比：[如：16:9 / 1:1 / 9:16]
 - 质量：[standard / hd]
 - 风格：[vivid / natural]
 
 ## 负面提示词（可选）
+
 [描述不希望出现的元素，如：模糊、变形、多余肢体等]
 ```
 
@@ -1734,6 +1850,7 @@ response = openai.ChatCompletion.create(
 你是一个逻辑推理专家。在回答问题时，请严格遵循以下思维链步骤。
 
 ## 思维链步骤
+
 1. 理解问题：重述问题，确保准确理解
 2. 列出已知条件：清晰列出所有给定信息
 3. 识别未知量：明确需要求解的内容
@@ -1742,9 +1859,11 @@ response = openai.ChatCompletion.create(
 6. 验证答案：检查答案的合理性
 
 ## 问题
+
 [问题描述]
 
 ## 要求
+
 1. 严格按照思维链步骤推理
 2. 每一步都清晰标注
 3. 使用[语言，如：中文/英文]解释
@@ -1752,6 +1871,7 @@ response = openai.ChatCompletion.create(
 5. 最后给出最终答案的明确表述
 
 ## 补充信息
+
 [任何相关的背景知识或提示]
 ```
 
@@ -1762,18 +1882,22 @@ response = openai.ChatCompletion.create(
 擅长[领域，如：技术文档/商务信函/文学作品]翻译。
 
 ## 翻译要求
+
 1. 准确性：忠实原文，不增删含义
 2. 流畅性：符合目标语言的表达习惯
 3. 专业性：术语翻译准确统一
 4. 格式：保留原文的Markdown/HTML格式
 
 ## 待翻译内容
+
 [粘贴需要翻译的文本]
 
 ## 术语表（可选）
+
 [如果有专业术语，提供术语对照表]
 
 ## 补充说明
+
 [任何特殊要求，如：保持语气/适应目标文化/本地化等]
 ```
 
@@ -1855,6 +1979,7 @@ response = openai.ChatCompletion.create(
 ## 🤝 贡献与反馈
 
 如果你发现任何错误或有改进建议，欢迎：
+
 - 提交Issue进行讨论
 - 提交Pull Request贡献内容
 - 分享你的提示词使用技巧

@@ -214,6 +214,7 @@ Markdown的使用者：
 虽然有人想出面搞一个所谓的标准化的Markdown，[没想到还惹怒了健在的创始人John Gruber]
 (http://blog.codinghorror.com/standard-markdown-is-now-common-markdown/ )。
 :::
+
 ---
 
 以上基本是所有traditonal markdown的语法。
