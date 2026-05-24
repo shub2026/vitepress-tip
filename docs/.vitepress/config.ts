@@ -107,6 +107,8 @@ export default withMermaid(
             { text: '证件照尺寸', link: '/other/id-photo-sizes' },
             { text: '证件照美白', link: '/other/id-photo-whitening' },
             { text: '证件照灯光部署方案', link: '/other/id-photo-lighting' },
+            { text: 'Lightroom处理流程与技巧', link: '/other/lightroom-workflow-and-tips' },
+            { text: 'Lightroom预设使用指南', link: '/other/lightroom-preset-guide' },
           ]
         },
       ],
