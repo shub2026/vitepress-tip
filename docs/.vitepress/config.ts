@@ -67,7 +67,7 @@ export default withMermaid(
         { text: '首页', link: '/' },
         { text: '构建指南', link: '/vite/basic-setup' },
         { text: 'AI提示词', link: '/AI_about/ai-about' },
-        { text: '书签', link: 'https://my.sntip.cn' },
+        { text: '书签', link: '/bookmarks' },
               // vitepress版本号
         { text: `VitePress ${ devDependencies.vitepress.replace('^','') }`, link: 'https://vitepress.dev/zh/', noIcon: true },
       ],
@@ -109,6 +109,7 @@ export default withMermaid(
             { text: '证件照灯光部署方案', link: '/other/id-photo-lighting' },
             { text: 'Lightroom处理流程与技巧', link: '/other/lightroom-workflow-and-tips' },
             { text: 'Lightroom预设使用指南', link: '/other/lightroom-preset-guide' },
+            { text: '知行书签', link: '/bookmarks' },
           ]
         },
       ],
