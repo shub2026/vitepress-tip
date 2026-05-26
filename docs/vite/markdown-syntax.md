@@ -219,7 +219,7 @@ Markdown的使用者：
 
 以上基本是所有traditonal markdown的语法。
 
-## 其它：
+## 其它
 
 列表的使用(非traditonal markdown)：
 
