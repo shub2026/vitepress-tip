@@ -46,6 +46,6 @@ triggers:
   push:
     branches:
       exclude:
-        - master
+        - main
       include:
         - .*

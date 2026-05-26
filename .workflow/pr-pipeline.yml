@@ -33,4 +33,4 @@ triggers:
   pr:
     branches:
       include:
-        - master
+        - main
