@@ -1,147 +1,315 @@
-# Gitee Go 流水线配置与部署
+# Gitee Go 流水线 + 1Panel 部署配置指南
 
-Gitee Go 是 Gitee 提供的持续集成（CI）服务，支持在代码推送时自动执行构建。本文档介绍 VitePress 项目的 Gitee Go 流水线配置。
+本文档详细介绍从**代码推送 → Gitee Go 自动构建 → 服务器自动拉取部署**的完整流程。适用于本项目（基于 VitePress 的知识分享站点 `sntip.cn`）。
 
-> **说明**：本项目采用 **Gitee Go 单一流水线方案**，推送 `main` 分支即触发构建，不再使用 GitHub Pages 部署。
+## 一、架构概览
 
-## 一、流水线文件结构
+```
+本地推送 main 分支
+       ↓
+Gitee 仓库收到推送
+       ├──→ Gitee Go 流水线构建（CI：编译验证）
+       └──→ Webhook → 服务器（CD：拉取代码 + 构建 + 更新站点）
+```
 
-流水线配置文件存放在项目根目录的 `.workflow/` 目录下：
+| 组件 | 作用 | 配置位置 |
+|------|------|----------|
+| Gitee Go | 代码推送后自动构建，验证编译是否通过 | `.workflow/main-pipeline.yml` |
+| Gitee Webhook | 推送后通知服务器执行部署脚本 | Gitee 仓库 Webhook 设置 |
+| 1Panel 计划任务 | 服务器定时拉取并构建 | 1Panel 后台 → 计划任务 |
 
-| 文件 | 触发条件 | 用途 |
-|------|----------|------|
-| `master-pipeline.yml` | `main` 分支推送 | 生产环境构建 + 发布 |
-| `branch-pipeline.yml` | 非 `main` 分支推送 | 分支验证构建 |
-| `pr-pipeline.yml` | PR 提交到 `main` | PR 预检查构建 |
+## 二、Gitee 端配置
 
-## 二、流水线配置详解
+### 2.1 开通 Gitee Go
 
-### 2.1 构建阶段
+1. 进入 Gitee 仓库页面
+2. 点击顶部菜单 **服务 → Gitee Go**
+3. 首次使用点击 **开通 Gitee Go**，按提示授权
+4. 选择 **免费版** 即可满足 VitePress 构建需求
+
+### 2.2 确认流水线文件
+
+本项目已配置好流水线文件 `.workflow/main-pipeline.yml`，核心内容：
 
 ```yaml
-- step: build@nodejs
-  name: build_nodejs
-  displayName: Nodejs 构建
-  nodeVersion: 18.15.0   # VitePress 要求 Node >= 18
-  commands:
-    - npm install && npm run docs:build
-  artifacts:
-    - name: BUILD_ARTIFACT
-      path:
-        - ./docs/.vitepress/dist   # VitePress 构建输出目录
+version: '1.0'
+name: main-pipeline
+displayName: main-pipeline
+triggers:
+  trigger: auto
+  push:
+    branches:
+      prefix:
+        - ''
+stages:
+  - name: stage-build
+    displayName: 构建
+    strategy: naturally
+    trigger: auto
+    steps:
+      - step: build@nodejs
+        name: build-nodejs
+        displayName: Nodejs 构建
+        nodeVersion: 20.18.0
+        commands:
+          - npm config set registry https://registry.npmmirror.com
+          - npm install && npm run docs:build
+        artifacts:
+          - name: BUILD_ARTIFACT
+            path:
+              - docs/.vitepress/dist
+        caches:
+          - ~/.npm
 ```
 
 **要点说明：**
+- 推送任意分支（`prefix: ''`）均会触发构建
+- 使用 **Node.js 20.18.0**（LTS 版本，兼容性好）
+- 设置国内 npm 镜像源加速依赖安装
+- 构建产物为 `docs/.vitepress/dist`
+- 缓存 `~/.npm` 避免重复下载依赖
 
-- **Node 版本**：VitePress 1.6+ 要求 **Node >= 18**，推荐使用 `18.15.0` 或 `20.10.0`
-- **构建命令**：`npm run docs:build`，对应 `package.json` 中的 `docs:build` 脚本
-- **产物路径**：VitePress 默认构建输出为 `docs/.vitepress/dist`，需正确配置 artifact 路径
-- **依赖安装**：`npm install` 会安装 `package.json` 中声明的所有依赖
+### 2.3 触发流水线验证
 
-### 2.2 制品上传阶段
+1. 前往 **服务 → Gitee Go → 流水线**
+2. 应能看到 `main-pipeline` 流水线
+3. 本地推送一次代码到 `main` 分支，检查流水线是否自动触发
+4. 点击流水线名称可查看**实时构建日志**
 
-```yaml
-- step: publish@general_artifacts
-  name: publish_general_artifacts
-  displayName: 上传制品
-  dependArtifact: BUILD_ARTIFACT
-  artifactName: output
-  dependsOn: build_nodejs
+### 2.4 配置 Webhook（通知服务器）
+
+Gitee Go 负责 CI 验证，实际部署还需配置 Webhook 通知服务器拉取代码：
+
+1. 进入 Gitee 仓库 → **管理 → WebHooks**
+2. 点击 **添加 WebHook**
+3. 填写以下信息：
+
+| 字段 | 值 |
+|------|-----|
+| **URL** | `http://你的服务器IP:端口/webhook`（需服务器端监听） |
+| **密码/密钥** | 自定义一个密钥（如 `mypassword123`），服务器端验证用 |
+| **触发事件** | 勾选 **Push** 即可 |
+
+4. 点击 **添加**
+
+> 服务器端需要部署一个 Webhook 接收服务，可参考下方第三节的 PHP 接收脚本。
+
+## 三、服务器端配置（1Panel）
+
+### 3.1 服务器环境准备
+
+通过 SSH 登录服务器，确保已安装以下环境：
+
+```sh
+# 检查 Git
+node --version  # 需 >= 18
+npm --version
 ```
 
-构建产物上传到 Gitee 制品库，7 天后自动清除，可用于后续部署步骤。
+如未安装，以 CentOS/RHEL 为例：
 
-### 2.3 发布阶段（仅 main 分支流水线）
-
-```yaml
-- step: publish@release_artifacts
-  name: publish_release_artifacts
-  displayName: '发布'
-  dependArtifact: output
-  version: '1.0.0.0'
-  autoIncrement: true
+```sh
+yum install -y git
 ```
 
-`main` 分支的流水线增加发布阶段，生成版本号并发布制品。
+Node.js 推荐通过 nvm 安装（方便切换版本）：
 
-## 三、Gitee Go 配置步骤
+```sh
+# 安装 nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+source ~/.bashrc
 
-### 3.1 开启 Gitee Go
-
-1. 进入 Gitee 仓库页面
-2. 点击顶部菜单 **服务 > Gitee Go**
-3. 点击 **开通 Gitee Go**（首次使用需授权）
-4. 选择 **免费版** 即可满足 VitePress 构建需求
-
-### 3.2 确认流水线生效
-
-开通后，Gitee 会自动扫描 `.workflow/` 目录下的流水线配置文件：
-
-1. 进入 **服务 > Gitee Go > 流水线**
-2. 应能看到三条流水线：`MasterPipeline`、`BranchPipeline`、`PRPipeline`
-3. 推送代码到对应分支即可触发流水线执行
-
-### 3.3 查看构建结果
-
-- 在 **Gitee Go > 流水线** 页面查看执行状态
-- 点击具体流水线可查看构建日志
-- 构建成功后可在 **制品库** 中下载产物
-
-## 四、结合 1Panel 部署
-
-Gitee Go 构建完成后，制品上传至 Gitee 制品库。实际部署推荐使用已有 Webhook 方案将站点部署到自定义域名 `doc.sntip.cn` 对应的服务器：
-
-### 方案：1Panel + Webhook 持续部署（推荐）
-
-通过 Gitee 仓库 WebHook 触发 1Panel 服务器自动拉取并构建：
-
-1. 推送 `main` 分支 → 触发 **Gitee Go 流水线**（自动构建验证）
-2. 同时通过仓库 **WebHook** 通知服务器
-3. 服务器端 `deploy.sh` 脚本拉取最新代码并执行构建
-4. 完整链路：`main Push → Gitee WebHook → PHP 接收 → Shell 部署 → 1Panel 站点更新`
-
-> Gitee Go 负责 CI（持续集成），WebHook + 1Panel 负责 CD（持续部署），各司其职。
-
-详细部署流程参见 [1Panel 部署](./1panel-deploy) 文档。
-
-## 五、流水线常见问题
-
-### Q1：构建失败，提示 Node 版本过低？
-
-```text
-Error: Minimum Node.js version required is 18.x
+# 安装 Node.js 20 LTS
+nvm install 20
+nvm use 20
+node --version  # 确认输出 v20.x
 ```
 
-**解决**：检查 `.workflow/*.yml` 中 `nodeVersion` 是否设置为 `18.15.0` 或更高版本。
+### 3.2 克隆项目到服务器
 
-### Q2：构建产物路径错误？
+```sh
+# 创建目录
+mkdir -p /opt/1panel/www/sites/sntip/index
+cd /opt/1panel/www/sites/sntip/index
 
-```text
-Artifact path does not exist: ./dist
+# 克隆仓库
+git clone https://gitee.com/你的用户名/vitepress-tip.git
+cd vitepress-tip
+
+# 安装依赖并首次构建
+npm install
+npm run docs:build
 ```
 
-**解决**：VitePress 的输出目录是 `docs/.vitepress/dist`，非根目录的 `dist`。将 artifact path 改为 `./docs/.vitepress/dist`。
+构建完成后，记下 `docs/.vitepress/dist` 的完整路径。
 
-### Q3：`npm run build` 命令不存在？
+### 3.3 1Panel 创建网站
 
-```text
-missing script: build
+1. 登录 1Panel 后台 → **网站** → **创建网站**
+2. 选择 **静态网站**
+3. 配置：
+
+| 配置项 | 值 |
+|--------|-----|
+| 主域名 | `doc.sntip.cn`（你的域名） |
+| 根目录 | `/opt/1panel/www/sites/sntip/index/vitepress-tip/docs/.vitepress/dist` |
+
+4. 点击 **确认** 创建
+
+### 3.4 配置伪静态（SPA 路由支持）
+
+VitePress 是 SPA 应用，直接访问子路径会 404，需配置伪静态规则：
+
+1. 在 1Panel 网站列表中找到刚创建的网站 → **设置 → 伪静态**
+2. 填入以下规则并保存：
+
+```nginx
+location / {
+    try_files $uri $uri/ /index.html;
+}
 ```
 
-**解决**：VitePress 项目的构建命令是 `npm run docs:build`，对应脚本：
-```json
-"docs:build": "vitepress build docs"
+### 3.5 配置 Webhook 接收服务
+
+在服务器上创建一个 PHP 脚本作为 Webhook 接收端点（需服务器已安装 PHP 和 Nginx）：
+
+创建文件 `/opt/1panel/www/sites/sntip/index/webhook/deploy.php`：
+
+```php
+<?php
+// Gitee Webhook 部署触发脚本
+
+$secret = 'mypassword123'; // 与 Gitee Webhook 设置的密钥一致
+
+// 获取请求内容
+$payload = file_get_contents('php://input');
+$signature = $_SERVER['HTTP_X_GITEE_TOKEN'] ?? '';
+
+// 验证密钥
+if ($signature !== $secret) {
+    http_response_code(403);
+    die('Forbidden: token mismatch');
+}
+
+// 执行部署脚本（后台运行，避免超时）
+exec('nohup bash /opt/1panel/www/sites/sntip/index/deploy.sh > /tmp/deploy.log 2>&1 &');
+
+echo 'Deploy triggered successfully';
 ```
 
-### Q4：流水线未自动触发？
+> 如果你不想用 PHP，也可以使用 Node.js 的 `express` 搭建轻量级 Webhook 服务，原理相同。
 
-- 检查 `.workflow/*.yml` 中的 `triggers` 配置是否正确
-- 确认 Gitee Go 服务已开通
-- **注意**：本项目的默认分支为 `main`，流水线触发分支配置为 `main`，请勿推送到错误的分支
+### 3.6 创建部署脚本
+
+创建 `/opt/1panel/www/sites/sntip/index/deploy.sh`：
+
+```sh
+#!/bin/bash
+# VitePress 自动部署脚本
+
+PROJECT_DIR="/opt/1panel/www/sites/sntip/index/vitepress-tip"
+
+cd "$PROJECT_DIR" || exit 1
+
+# 拉取最新代码
+git fetch origin
+git reset --hard origin/main
+
+# 安装依赖并构建
+npm install
+npm run docs:build
+
+echo "$(date): Deploy completed"
+```
+
+赋予执行权限：
+
+```sh
+chmod +x /opt/1panel/www/sites/sntip/index/deploy.sh
+```
+
+### 3.7 配置 1Panel 计划任务（可选）
+
+如果不想配置 Webhook，也可以用 1Panel 的计划任务定期拉取更新：
+
+1. 进入 1Panel **计划任务** → **创建计划任务**
+2. 任务类型：**Shell 脚本**
+3. 名称：`更新VitePress站点`
+4. 执行周期：建议 **每天一次**（如凌晨 3:00），或 **每 30 分钟** 测试用
+5. 脚本内容：粘贴上述 `deploy.sh` 内容
+6. 点击 **执行** 手动测试一次
+
+### 3.8 配置 SSL 证书（HTTPS）
+
+1. 在 1Panel **网站 → 设置 → HTTPS**
+2. 点击 **申请证书 → Let's Encrypt**
+3. 选择域名 `doc.sntip.cn`，自动申请并配置
+4. 开启 **强制 HTTPS** 跳转
+
+## 四、完整发布流程验证
+
+完成以上配置后，发布新文章的完整流程：
+
+```sh
+# 本地编辑文章后
+cd vitepress-tip
+git add .
+git commit -m "新增部署配置指南"
+git push origin main
+```
+
+自动化链路：
+
+```
+git push
+  ↓
+① Gitee Go 自动构建（CI，查看是否编译通过）
+  ↓
+② Gitee Webhook → 服务器（CD）
+  ↓
+③ 服务器拉取代码 → 构建 → 更新站点
+  ↓
+④ 访问 https://doc.sntip.cn 查看更新
+```
+
+## 五、常见问题
+
+### Q1：Gitee Go 构建失败？
+
+检查 `.workflow/main-pipeline.yml`：
+- `nodeVersion` 是否为 `20.18.0` 或以上
+- `artifacts.path` 是否正确指向 `docs/.vitepress/dist`
+- 构建日志中是否有 npm 安装错误
+
+### Q2：Webhook 没触发服务器更新？
+
+```sh
+# 在服务器上检查 Webhook 服务是否运行
+# 查看部署日志
+tail -f /tmp/deploy.log
+
+# 手动测试部署脚本
+bash /opt/1panel/www/sites/sntip/index/deploy.sh
+```
+
+### Q3：网站访问 404？
+
+- 确认 1Panel 网站根目录是否指向 `docs/.vitepress/dist`
+- 确认伪静态规则已配置
+- 确认 SSL 证书已正确配置
+
+### Q4：权限不足（Permission denied）？
+
+1Panel 容器以 uid 1000 运行，如果站点目录在其他路径，可调整目录权限：
+
+```sh
+chown -R 1000:1000 /opt/1panel/www/sites/sntip/index/vitepress-tip
+```
 
 ## 六、参考链接
 
 - [Gitee Go 官方文档](https://gitee.com/help/articles/4311)
-- [VitePress 构建配置](https://vitepress.dev/zh/reference/site-config)
 - [Gitee WebHook 配置指南](https://gitee.com/help/articles/4336)
-- [1Panel 部署方案](./1panel-deploy)
+- [VitePress 部署文档](https://vitepress.dev/zh/guide/deploy)
+- [1Panel 部署](./1panel-deploy)
+- [1Panel 自动拉取脚本](./1panel-script)

@@ -12,12 +12,11 @@ stages:
     displayName: 构建
     strategy: naturally
     trigger: auto
-    executor: []
     steps:
       - step: build@nodejs
         name: main-pipeline
         displayName: Nodejs 构建
-        nodeVersion: 24.5.0
+        nodeVersion: 20.18.0
         commands:
           - '# 设置NPM源,提升安装速度'
           - npm config set registry https://registry.npmmirror.com
@@ -30,7 +29,6 @@ stages:
               - docs/.vitepress/dist
         caches:
           - ~/.npm
-          - ~/.yarn
         notify: []
         strategy:
           retry: '0'
