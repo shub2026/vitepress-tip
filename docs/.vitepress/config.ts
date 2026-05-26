@@ -65,8 +65,7 @@ export default withMermaid(
       },
       nav: [
         { text: '首页', link: '/' },
-        { text: '构建指南', link: '/vite/basic-setup' },
-        { text: 'AI提示词', link: '/AI_about/ai-about' },
+        { text: 'Git站', link: 'https://doc.sntip.cn' },
         { text: '书签', link: 'https://my.sntip.cn' },
               // vitepress版本号
         { text: `VitePress ${ devDependencies.vitepress.replace('^','') }`, link: 'https://vitepress.dev/zh/', noIcon: true },
