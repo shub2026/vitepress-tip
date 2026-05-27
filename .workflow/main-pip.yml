@@ -67,14 +67,11 @@ stages:
         script:
           - cd /opt/1panel/www/sites/sntip/index
           - ls -la
-          - 'TAR_FILE=$(find . -name "*.tar.gz" -type f | head -1)'
-          - 'if [ -z "$TAR_FILE" ]; then echo "ERROR: no tar.gz found"; exit 1; fi'
-          - echo "Found: $TAR_FILE"
           - rm -rf ./*.html ./*.js ./*.css ./*.svg ./*.png ./*.ico ./*.jpg ./assets 2>/dev/null
-          - tar -zxf "$TAR_FILE"
-          - rm -f "$TAR_FILE"
+          - tar -zxf output.tar.gz
+          - rm -f output.tar.gz
           - chmod -R 755 .
-          - echo "Deploy Success"
+          - echo Deploy Success
         notify: []
         strategy:
           retry: '0'
