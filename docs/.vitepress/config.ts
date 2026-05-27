@@ -10,7 +10,6 @@ export default withMermaid(
         chunkSizeWarningLimit: 1500,
       }
     },
-    lastUpdated: true, //首次配置不会立即生效，需git提交后爬取时间戳
     head: [
       ['link', { rel: 'icon', href: '/favicon.ico' }],
       ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/images/logo.png' }],
@@ -59,7 +58,7 @@ export default withMermaid(
       },
     },
       outline: { 
-      level: [2,3], // 显示2-4级标题
+      level: [2,3], // 显示h2-h3级标题
       // level: 'deep', // 显示2-6级标题
       label: '当前页大纲' // 文字显示
       },
@@ -114,7 +113,7 @@ export default withMermaid(
         },
       ],
       socialLinks: [
-        { icon: 'github', link: 'https://gitee.com/shub77/vitepress-tip' }
+        { icon: 'gitee', link: 'https://gitee.com/shub77/vitepress-tip' }
       ],
       footer: {
         message: '© 2026 知行笔记 Sntip.cn',
