@@ -13,13 +13,13 @@ Gitee Go 流水线（CI + CD 一体化）
   ├─→ ① Node.js 构建（npm install + docs:build）
   ├─→ ② 上传制品（output.tar.gz）
   ├─→ ③ 发布版本（自动递增）
-  └─→ ④ 主机部署（解压到 /home/admin/vitepress-project）
+  └─→ ④ 主机部署（解压到 /opt/wwwroot）
 ```
 
 | 组件           | 作用                               | 配置位置                       |
 | -------------- | ---------------------------------- | ------------------------------ |
 | Gitee Go       | 代码推送后自动构建 + 主机部署      | `.workflow/main-pipeline.yml`  |
-| Gitee 自有主机 | 接收制品并解压到指定目录           | `deploy@agent` 步骤（ali2026） |
+| Gitee 自有主机 | 接收制品并解压到指定目录           | `deploy@agent` 步骤（my-server） |
 | 1Panel / Nginx | Web 服务器，将站点目录对外提供服务 | 1Panel 网站配置                |
 
 ## 二、Gitee 端配置
@@ -38,7 +38,7 @@ Gitee Go 流水线（CI + CD 一体化）
 ```yaml
 version: '1.0'
 name: main-pipeline
-displayName: main-pipeline
+displayName: 知行笔记 - 主流水线
 triggers:
   trigger: auto
   push:
@@ -53,16 +53,17 @@ stages:
     steps:
       - step: build@nodejs
         name: build-nodejs
-        displayName: Nodejs 构建
-        nodeVersion: 20.18.0 # Node.js 20 LTS
+        displayName: Node.js 构建
+        nodeVersion: 20.18.0
         commands:
           - npm config set registry https://registry.npmmirror.com
-          - npm install && npm run docs:build
+          - npm ci
+          - npm run docs:build
           - cd docs/.vitepress/dist && tar -czf ../../../output.tar.gz .
         artifacts:
           - name: BUILD_ARTIFACT
             path:
-              - output.tar.gz # 打包后的产物
+              - output.tar.gz
       - step: publish@general_artifacts
         name: publish-artifacts
         displayName: 上传制品
@@ -71,18 +72,16 @@ stages:
         dependsOn: build-nodejs
       - step: publish@release_artifacts
         name: publish-release
-        displayName: 发布
+        displayName: 发布版本
         dependArtifact: output
         version: 1.0.0.0
         autoIncrement: true
         dependsOn: publish-artifacts
       - step: deploy@agent
         name: deploy_agent
-        displayName: 主机部署
+        displayName: 部署到服务器
         hostGroupID:
-          ID: ali2026
-          hostID:
-            - ddcb52f3-610e-4d38-bef6-54427fe27014
+          ID: my-server
         deployArtifact:
           - source: artifact
             name: output
@@ -91,10 +90,10 @@ stages:
             artifactName: output
             artifactVersion: latest
         script:
-          - mkdir -p /home/admin/vitepress-project
-          - rm -rf /home/admin/vitepress-project/*
-          - tar -zxvf ~/gitee_go/deploy/output.tar.gz -C /home/admin/vitepress-project
-          - chmod -R 777 /home/admin/vitepress-project
+          - mkdir -p /opt/wwwroot
+          - find /opt/wwwroot -mindepth 1 -not -name '.*' -delete 2>/dev/null || true
+          - tar -xzf ~/gitee_go/deploy/output.tar.gz -C /opt/wwwroot
+          - chmod -R 755 /opt/wwwroot
 ```
 
 **流水线四阶段：**
@@ -104,7 +103,7 @@ stages:
 | 构建 | `build@nodejs`              | 使用 Node 20.18.0（LTS），安装依赖并执行 `docs:build`，打包为 `output.tar.gz` |
 | 上传 | `publish@general_artifacts` | 将构建产物上传到 Gitee 制品库                                                 |
 | 发布 | `publish@release_artifacts` | 生成发布版本，版本号自动递增                                                  |
-| 部署 | `deploy@agent`              | 通过 Gitee 自有主机（ali2026）解压到 `/home/admin/vitepress-project`          |
+| 部署 | `deploy@agent`              | 通过 Gitee 自有主机（my-server）解压到 `/opt/wwwroot`              |
 
 **要点说明：**
 
@@ -170,15 +169,12 @@ nvm use 20
 node --version  # 确认输出 v20.x
 ```
 
-### 3.2 克隆项目到服务器
+### 3.2 服务器端项目目录
 
 ```sh
-# 创建目录
-mkdir -p /opt/1panel/www/sites/sntip/index
-cd /opt/1panel/www/sites/sntip/index
-
-# 克隆仓库
-git clone https://gitee.com/你的用户名/vitepress-tip.git
+# 克隆项目到 /opt 目录
+cd /opt
+git clone https://gitee.com/shub77/vitepress-tip.git
 cd vitepress-tip
 
 # 安装依赖并首次构建
@@ -186,7 +182,7 @@ npm install
 npm run docs:build
 ```
 
-构建完成后，记下 `docs/.vitepress/dist` 的完整路径。
+构建完成后，站点输出在 `docs/.vitepress/dist`，但实际部署时由 Gitee Go 流水线自动解压到 `/opt/wwwroot`。
 
 ### 3.3 1Panel 创建网站
 
@@ -197,7 +193,7 @@ npm run docs:build
 | 配置项 | 值                                                                     |
 | ------ | ---------------------------------------------------------------------- |
 | 主域名 | `doc.sntip.cn`（你的域名）                                             |
-| 根目录 | `/opt/1panel/www/sites/sntip/index/vitepress-tip/docs/.vitepress/dist` |
+| 根目录 | `/opt/wwwroot` |
 
 4. 点击 **确认** 创建
 
@@ -237,40 +233,32 @@ if ($signature !== $secret) {
 }
 
 // 执行部署脚本（后台运行，避免超时）
-exec('nohup bash /opt/1panel/www/sites/sntip/index/deploy.sh > /tmp/deploy.log 2>&1 &');
+exec('nohup bash /root/vitepress-tip/deploy.sh > /tmp/deploy.log 2>&1 &');
 
 echo 'Deploy triggered successfully';
 ```
 
 > 如果你不想用 PHP，也可以使用 Node.js 的 `express` 搭建轻量级 Webhook 服务，原理相同。
 
-### 3.6 创建部署脚本
+### 3.6 部署脚本
 
-创建 `/opt/1panel/www/sites/sntip/index/deploy.sh`：
+项目根目录已提供 `deploy.sh` 脚本，支持三种模式：
 
 ```sh
-#!/bin/bash
-# VitePress 自动部署脚本
+# 完整部署：拉取 → 构建 → 部署到 /opt/wwwroot
+bash /root/vitepress-tip/deploy.sh
 
-PROJECT_DIR="/opt/1panel/www/sites/sntip/index/vitepress-tip"
+# 仅拉取 + 构建（预检查用）
+bash /root/vitepress-tip/deploy.sh --pull
 
-cd "$PROJECT_DIR" || exit 1
-
-# 拉取最新代码
-git fetch origin
-git reset --hard origin/main
-
-# 安装依赖并构建
-npm install
-npm run docs:build
-
-echo "$(date): Deploy completed"
+# Gitee Go 制品快速部署（配合流水线）
+bash /root/vitepress-tip/deploy.sh --quick
 ```
 
 赋予执行权限：
 
 ```sh
-chmod +x /opt/1panel/www/sites/sntip/index/deploy.sh
+chmod +x /root/vitepress-tip/deploy.sh
 ```
 
 ### 3.7 配置 1Panel 计划任务（可选）
@@ -281,7 +269,7 @@ chmod +x /opt/1panel/www/sites/sntip/index/deploy.sh
 2. 任务类型：**Shell 脚本**
 3. 名称：`更新VitePress站点`
 4. 执行周期：建议 **每天一次**（如凌晨 3:00），或 **每 30 分钟** 测试用
-5. 脚本内容：粘贴上述 `deploy.sh` 内容
+5. 脚本内容：`bash /root/vitepress-tip/deploy.sh`
 6. 点击 **执行** 手动测试一次
 
 ### 3.8 配置 SSL 证书（HTTPS）
@@ -306,15 +294,19 @@ git push origin main
 自动化链路：
 
 ```
-git push
-  ↓
-① Gitee Go 自动构建（CI，查看是否编译通过）
-  ↓
-② Gitee Webhook → 服务器（CD）
-  ↓
-③ 服务器拉取代码 → 构建 → 更新站点
-  ↓
-④ 访问 https://doc.sntip.cn 查看更新
+git push origin main
+      ↓
+① Gitee Go 自动触发（检测到 main 分支推送）
+      ↓
+② Node.js 构建（npm ci + docs:build）
+      ↓
+③ 上传制品 → 发布版本
+      ↓
+④ 主机部署：解压到 /opt/wwwroot
+      ↓
+⑤ Nginx / 1Panel 对外提供服务
+      ↓
+⑥ 访问网站确认更新
 ```
 
 ## 五、常见问题
@@ -335,12 +327,12 @@ git push
 tail -f /tmp/deploy.log
 
 # 手动测试部署脚本
-bash /opt/1panel/www/sites/sntip/index/deploy.sh
+bash /root/vitepress-tip/deploy.sh
 ```
 
 ### Q3：网站访问 404？
 
-- 确认 1Panel 网站根目录是否指向 `docs/.vitepress/dist`
+- 确认 Nginx/1Panel 网站根目录是否指向 `/opt/wwwroot`
 - 确认伪静态规则已配置
 - 确认 SSL 证书已正确配置
 
@@ -349,7 +341,7 @@ bash /opt/1panel/www/sites/sntip/index/deploy.sh
 1Panel 容器以 uid 1000 运行，如果站点目录在其他路径，可调整目录权限：
 
 ```sh
-chown -R 1000:1000 /opt/1panel/www/sites/sntip/index/vitepress-tip
+chown -R 1000:1000 /opt/wwwroot
 ```
 
 ## 六、参考链接
