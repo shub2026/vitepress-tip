@@ -8,15 +8,19 @@
 本地推送 main 分支
        ↓
 Gitee 仓库收到推送
-       ├──→ Gitee Go 流水线构建（CI：编译验证）
-       └──→ Webhook → 服务器（CD：拉取代码 + 构建 + 更新站点）
+       ↓
+Gitee Go 流水线（CI + CD 一体化）
+  ├─→ ① Node.js 构建（npm install + docs:build）
+  ├─→ ② 上传制品（output.tar.gz）
+  ├─→ ③ 发布版本（自动递增）
+  └─→ ④ 主机部署（解压到 /home/admin/vitepress-project）
 ```
 
 | 组件 | 作用 | 配置位置 |
 |------|------|----------|
-| Gitee Go | 代码推送后自动构建，验证编译是否通过 | `.workflow/main-pipeline.yml` |
-| Gitee Webhook | 推送后通知服务器执行部署脚本 | Gitee 仓库 Webhook 设置 |
-| 1Panel 计划任务 | 服务器定时拉取并构建 | 1Panel 后台 → 计划任务 |
+| Gitee Go | 代码推送后自动构建 + 主机部署 | `.workflow/main-pipeline.yml` |
+| Gitee 自有主机 | 接收制品并解压到指定目录 | `deploy@agent` 步骤（ali2026） |
+| 1Panel / Nginx | Web 服务器，将站点目录对外提供服务 | 1Panel 网站配置 |
 
 ## 二、Gitee 端配置
 
@@ -40,41 +44,81 @@ triggers:
   push:
     branches:
       prefix:
-        - ''
+        - main
 stages:
   - name: stage-build
-    displayName: 构建
+    displayName: 构建与发布部署
     strategy: naturally
     trigger: auto
     steps:
       - step: build@nodejs
         name: build-nodejs
         displayName: Nodejs 构建
-        nodeVersion: 20.18.0
+        nodeVersion: 20.18.0          # Node.js 20 LTS
         commands:
           - npm config set registry https://registry.npmmirror.com
           - npm install && npm run docs:build
+          - cd docs/.vitepress/dist && tar -czf ../../../output.tar.gz .
         artifacts:
           - name: BUILD_ARTIFACT
             path:
-              - docs/.vitepress/dist
-        caches:
-          - ~/.npm
+              - output.tar.gz         # 打包后的产物
+      - step: publish@general_artifacts
+        name: publish-artifacts
+        displayName: 上传制品
+        dependArtifact: BUILD_ARTIFACT
+        artifactName: output
+        dependsOn: build-nodejs
+      - step: publish@release_artifacts
+        name: publish-release
+        displayName: 发布
+        dependArtifact: output
+        version: 1.0.0.0
+        autoIncrement: true
+        dependsOn: publish-artifacts
+      - step: deploy@agent
+        name: deploy_agent
+        displayName: 主机部署
+        hostGroupID:
+          ID: ali2026
+          hostID:
+            - ddcb52f3-610e-4d38-bef6-54427fe27014
+        deployArtifact:
+          - source: artifact
+            name: output
+            target: ~/gitee_go/deploy
+            artifactRepository: release
+            artifactName: output
+            artifactVersion: latest
+        script:
+          - mkdir -p /home/admin/vitepress-project
+          - rm -rf /home/admin/vitepress-project/*
+          - tar -zxvf ~/gitee_go/deploy/output.tar.gz -C /home/admin/vitepress-project
+          - chmod -R 777 /home/admin/vitepress-project
 ```
 
-**要点说明：**
-- 推送任意分支（`prefix: ''`）均会触发构建
-- 使用 **Node.js 20.18.0**（LTS 版本，兼容性好）
-- 设置国内 npm 镜像源加速依赖安装
-- 构建产物为 `docs/.vitepress/dist`
-- 缓存 `~/.npm` 避免重复下载依赖
+**流水线四阶段：**
 
-### 2.3 触发流水线验证
+| 阶段 | 步骤 | 说明 |
+|------|------|------|
+| 构建 | `build@nodejs` | 使用 Node 20.18.0（LTS），安装依赖并执行 `docs:build`，打包为 `output.tar.gz` |
+| 上传 | `publish@general_artifacts` | 将构建产物上传到 Gitee 制品库 |
+| 发布 | `publish@release_artifacts` | 生成发布版本，版本号自动递增 |
+| 部署 | `deploy@agent` | 通过 Gitee 自有主机（ali2026）解压到 `/home/admin/vitepress-project` |
+
+**要点说明：**
+- 推送 `main` 分支自动触发（`prefix: main`）
+- 使用 **Node.js 20.18.0**（LTS 稳定版本）
+- 设置国内 npm 镜像源加速依赖安装
+- 构建产物通过 `tar` 打包为单个文件，便于传输
+- 部署脚本直接解压到目标目录，无需中间转移
+
+### 2.3 验证流水线
 
 1. 前往 **服务 → Gitee Go → 流水线**
 2. 应能看到 `main-pipeline` 流水线
 3. 本地推送一次代码到 `main` 分支，检查流水线是否自动触发
-4. 点击流水线名称可查看**实时构建日志**
+4. 点击流水线运行记录可查看**实时构建日志**，确认四阶段（构建→上传→发布→部署）均执行成功
 
 ### 2.4 配置 Webhook（通知服务器）
 
@@ -277,8 +321,8 @@ git push
 ### Q1：Gitee Go 构建失败？
 
 检查 `.workflow/main-pipeline.yml`：
-- `nodeVersion` 是否为 `20.18.0` 或以上
-- `artifacts.path` 是否正确指向 `docs/.vitepress/dist`
+- `nodeVersion` 是否为 `20.18.0`（LTS 版本）
+- 构建产物是否正确打包为 `output.tar.gz`
 - 构建日志中是否有 npm 安装错误
 
 ### Q2：Webhook 没触发服务器更新？
