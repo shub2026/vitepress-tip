@@ -65,8 +65,20 @@ stages:
             artifactName: output
             artifactVersion: latest
         script:
+          - set -e
           - '# 验证制品已下载到服务器'
           - ls -la ~/gitee_go/deploy/
+          - '# 查找制品文件'
+          - 'ARTIFACT_FILE=$(find ~/gitee_go/deploy/ -name "*.tar.gz" -type f | head -1)'
+          - 'if [ -z "$ARTIFACT_FILE" ]; then echo "错误: 未找到tar.gz制品文件"; exit 1; fi'
+          - 'echo "制品文件: $ARTIFACT_FILE"'
+          - '# 确保目标目录存在并清空'
+          - mkdir -p /opt/1panel/www/sites/sntip/index
+          - rm -rf /opt/1panel/www/sites/sntip/index/*
+          - '# 解压到Web目录'
+          - tar -zxvf "$ARTIFACT_FILE" -C /opt/1panel/www/sites/sntip/index
+          - chmod -R 755 /opt/1panel/www/sites/sntip/index
+          - ls -la /opt/1panel/www/sites/sntip/index
           - echo "Deploy Success"
         notify: []
         strategy:
