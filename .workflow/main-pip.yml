@@ -28,6 +28,7 @@ stages:
           - '# 打包产物为 output.tar.gz'
           - cd docs/.vitepress/dist && tar -czf ../../../output.tar.gz .
           - '# 验证打包结果'
+          - cd ../../..
           - ls -la output.tar.gz
           - tar -tzf output.tar.gz
         artifacts:
