@@ -61,12 +61,12 @@ stages:
         deployArtifact:
           - source: artifact
             name: output
-            target: /opt/1panel/www/sites/sntip/index
+            target: /opt/wwwroot
             artifactRepository: release
             artifactName: output
             artifactVersion: latest
         script:
-          - cd /opt/1panel/www/sites/sntip/index
+          - cd /opt/wwwroot
           - ls -la
           - tar -zxf output.tar.gz
           - rm -f output.tar.gz
