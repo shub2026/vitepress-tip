@@ -16,19 +16,18 @@ stages:
       - step: build@nodejs
         name: build-nodejs
         displayName: Nodejs 构建
-        nodeVersion: 25.4.0
+        nodeVersion: 20.18.0
         commands:
           - '# 设置NPM源,提升安装速度'
           - npm config set registry https://registry.npmmirror.com
-          - '# 执行编译命令'
-          - npm install
+          - '# 执行编译命令(使用npm ci保证依赖一致性)'
+          - npm ci --prefer-offline --no-audit
           - npm run docs:build
           - '# 检查构建结果目录'
           - ls -la docs/.vitepress/dist/
           - '# 打包产物为 output.tar.gz'
-          - cd docs/.vitepress/dist && tar -czf ../../../output.tar.gz .
+          - tar -czf output.tar.gz -C docs/.vitepress/dist .
           - '# 验证打包结果'
-          - cd ../../..
           - ls -la output.tar.gz
           - tar -tzf output.tar.gz
         artifacts:
@@ -66,18 +65,23 @@ stages:
             artifactName: output
             artifactVersion: latest
         script:
-          - '# 检查文件是否存在'
+          - set -e
+          - '# 检查制品文件是否存在'
           - ls -la ~/gitee_go/deploy/
-          - '# 创建目标目录'
-          - mkdir -p /home/admin/vitepress-project
+          - '# 查找实际的制品文件名'
+          - 'ARTIFACT_FILE=$(find ~/gitee_go/deploy/ -name "*.tar.gz" -type f | head -1)'
+          - 'echo "找到制品文件: $ARTIFACT_FILE"'
+          - 'if [ -z "$ARTIFACT_FILE" ]; then echo "错误: 未找到tar.gz制品文件"; exit 1; fi'
+          - '# 创建Web服务目标目录'
+          - mkdir -p /opt/1panel/apps/openresty/openresty/sites-enabled/vitepress
           - '# 清空目标目录'
-          - rm -rf /home/admin/vitepress-project/*
-          - '# 解压到目标目录'
-          - tar -zxvf ~/gitee_go/deploy/output.tar.gz -C /home/admin/vitepress-project
+          - rm -rf /opt/1panel/apps/openresty/openresty/sites-enabled/vitepress/*
+          - '# 解压到Web服务目标目录'
+          - tar -zxvf "$ARTIFACT_FILE" -C /opt/1panel/apps/openresty/openresty/sites-enabled/vitepress
           - '# 设置权限'
-          - chmod -R 755 /home/admin/vitepress-project
+          - chmod -R 755 /opt/1panel/apps/openresty/openresty/sites-enabled/vitepress
           - '# 验证解压结果'
-          - ls -la /home/admin/vitepress-project/
+          - ls -la /opt/1panel/apps/openresty/openresty/sites-enabled/vitepress/
           - echo "Deploy Success"
         notify: []
         strategy:
