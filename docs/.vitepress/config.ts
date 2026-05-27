@@ -49,14 +49,14 @@ export default withMermaid(
           }
         }
       },
-        //上次更新时间
-    lastUpdated: {
-      text: '最后更新于',
-      formatOptions: {
-        dateStyle: 'short', // 可选值full、long、medium、short
-        timeStyle: 'medium' // 可选值full、long、medium、short
+      // 上次更新时间
+      lastUpdated: {
+        text: '最后更新于',
+        formatOptions: {
+          dateStyle: 'short', // 可选值full、long、medium、short
+          timeStyle: 'medium' // 可选值full、long、medium、short
+        },
       },
-    },
       outline: { 
       level: [2,3], // 显示h2-h3级标题
       // level: 'deep', // 显示2-6级标题
@@ -71,7 +71,7 @@ export default withMermaid(
       ],
       sidebar: [
         {
-          text: ' 构建指南',
+          text: '构建指南',
           items: [
             { text: '基本构建', link: '/vite/basic-setup' },
             { text: '远程关联', link: '/vite/remote-connect' },
@@ -83,7 +83,7 @@ export default withMermaid(
           ]
         },
         {
-          text: ' AI提示词指南',
+          text: 'AI提示词指南',
           collapsed: false,
           items: [
             { text: '提示词说明', link: '/AI_about/ai-about' },
@@ -98,7 +98,7 @@ export default withMermaid(
           ]
         },
         {
-          text: ' 其他',
+          text: '其他',
           collapsed: true,
           items: [
             { text: '示例展示', link: '/other/eg/list' },

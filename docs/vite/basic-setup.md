@@ -33,17 +33,17 @@ npm run docs:preview
 
 ```sh
 # HTTP方式
- git clone https://gitee.com/shub77/vitepress-tip
+git clone https://gitee.com/shub77/vitepress-tip
 
 # SSH连接
- git clone git@gitee.com:shub77/vitepress-tip.git
+git clone git@gitee.com:shub77/vitepress-tip.git
 ```
 
 ## 关联仓库
 
 ```sh
 # SSH连接
- git remote add origin git@gitee.com:shub77/vitepress-tip.git
+git remote add origin git@gitee.com:shub77/vitepress-tip.git
 ```
 
 ---

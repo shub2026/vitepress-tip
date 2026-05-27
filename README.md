@@ -62,8 +62,9 @@ vitepress-tip/
 │   ├── public/                 # 静态资源（图片、图标）
 │   ├── bookmarks.md            # 书签页
 │   └── index.md                # 首页
-├── .workflow/
-│   └── main-pip.yml            # Gitee Go 流水线配置
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # GitHub Actions 部署配置
 ├── .editorconfig
 ├── .prettierrc
 └── package.json
@@ -81,15 +82,17 @@ vitepress-tip/
 
 ## 部署
 
-### 自动部署（Gitee Go 流水线）
+### 自动部署（GitHub Actions）
 
-推送 `main` 分支自动触发：构建 → 上传制品 → 发布 → 部署到服务器。
+推送 `main` 分支自动触发：构建 → 部署到 GitHub Pages。
 
-流水线配置：`.workflow/main-pip.yml`
+流水线配置：`.github/workflows/deploy.yml`
 
 ```
-构建(Node 20) → 打包 output.tar.gz → 上传制品 → 发布版本 → 解压到 Web 目录
+构建(Node 20) → 打包 dist → 部署到 GitHub Pages
 ```
+
+> 注：如需使用 Gitee Go 流水线，请在 Gitee 仓库中配置 `.workflow/main-pip.yml`
 
 ### 手动构建
 
