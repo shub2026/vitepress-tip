@@ -66,10 +66,11 @@ stages:
             artifactVersion: latest
         script:
           - cd /opt/1panel/www/sites/sntip/index
+          - rm -f output.tar.gz artifact_BUILD_ARTIFACT.tar.gz
           - ls -la
-          - rm -rf ./*.html ./*.js ./*.css ./*.svg ./*.png ./*.ico ./*.jpg ./assets 2>/dev/null
-          - tar -zxf artifact_BUILD_ARTIFACT.tar.gz
-          - rm -f artifact_BUILD_ARTIFACT.tar.gz
+          - wget -q --no-check-certificate -O /opt/1panel/www/sites/sntip/index/output.tar.gz --header ARTIFACT-TOKEN:ts6JQL5VLIZkgmHoXaupvEJ+Sx2kO3VR2j/lq4Pja2+hAjUobmxA/Bvcm4JDs4T https://go-repo.gitee.com/shub77/vitepress-tip/gitee-go/artifact-repo/download/2hjOiQJX7g0QIM+2wet5rZd6BZPdcvQAofrmMjtSsK4Tk=
+          - tar -zxf output.tar.gz
+          - rm -f output.tar.gz
           - chmod -R 755 .
           - echo Deploy Success
         notify: []
