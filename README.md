@@ -14,6 +14,7 @@
 - 🗺️ Mermaid 流程图支持
 - 🕐 文章最后更新时间显示
 - 🗂️ 自动生成 Sitemap
+- 🚀 Gitee Go 流水线自动构建部署
 
 ## 快速开始
 
@@ -46,15 +47,24 @@ npm run docs:dev
 vitepress-tip/
 ├── docs/
 │   ├── .vitepress/
-│   │   ├── config.ts          # 站点配置（导航、侧边栏等）
-│   │   └── theme/             # 自定义主题
-│   │       ├── index.ts
-│   │       └── style/         # CSS 变量与自定义样式
-│   ├── vite/                  # 构建指南文章
-│   ├── AI_about/              # AI 提示词指南
-│   ├── other/                 # 其他文章
-│   ├── public/                # 静态资源（图片、图标）
-│   └── index.md               # 首页
+│   │   ├── components/         # 自定义 Vue 组件
+│   │   │   └── BookmarkNav.vue
+│   │   ├── config.ts           # 站点配置（导航、侧边栏、SEO 等）
+│   │   └── theme/              # 自定义主题
+│   │       ├── index.ts        # 主题入口
+│   │       └── style/          # 自定义样式
+│   │           ├── var.css         # 品牌色 & 渐变色变量
+│   │           ├── hero.css        # 首页 Hero 布局
+│   │           ├── blockquote.css  # 引用块样式
+│   │           └── custom-block.css# 提示容器样式（7 种类型）
+│   ├── vite/                   # 构建指南文章
+│   ├── AI_about/               # AI 提示词指南
+│   ├── other/                  # 其他文章
+│   ├── public/                 # 静态资源（图片、图标）
+│   ├── bookmarks.md            # 书签页
+│   └── index.md                # 首页
+├── .workflow/
+│   └── main-pip.yml            # Gitee Go 流水线配置
 ├── .editorconfig
 ├── .prettierrc
 └── package.json
@@ -72,13 +82,23 @@ vitepress-tip/
 
 ## 部署
 
-构建后将 `docs/.vitepress/dist` 目录部署到任意静态托管服务：
+### 自动部署（Gitee Go 流水线）
+
+推送 `main` 分支自动触发：构建 → 上传制品 → 发布 → 部署到服务器。
+
+流水线配置：`.workflow/main-pip.yml`
+
+```
+构建(Node 20) → 打包 output.tar.gz → 上传制品 → 发布版本 → 解压到 Web 目录
+```
+
+### 手动构建
 
 ```sh
 npm run docs:build
 ```
 
-支持 Vercel、Netlify、GitHub Pages、Gitee Pages、1Panel 等平台。
+构建产物位于 `docs/.vitepress/dist`，可部署到任意静态托管服务（Vercel、Netlify、GitHub Pages、1Panel 等）。
 
 ## License
 
