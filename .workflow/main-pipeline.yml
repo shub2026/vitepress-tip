@@ -2,11 +2,10 @@ version: '1.0'
 name: main-pipeline
 displayName: main-pipeline
 triggers:
-  trigger: auto
   push:
     branches:
       prefix:
-        - ''
+        - main
 stages:
   - name: stage-build
     displayName: 构建与发布
@@ -29,7 +28,6 @@ stages:
         artifacts:
           - name: BUILD_ARTIFACT
             path:
-              - docs/.vitepress/dist
               - output.tar.gz
         caches:
           - ~/.npm
