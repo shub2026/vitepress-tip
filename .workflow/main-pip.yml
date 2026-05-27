@@ -59,11 +59,18 @@ stages:
             artifactName: output
             artifactVersion: latest
         script:
-          - '# 解压到目标目录（tar 内不含 target/ 子目录，直接解压到站点根目录）'
+          - '# 检查文件是否存在'
+          - ls -la ~/gitee_go/deploy/
+          - '# 创建目标目录'
           - mkdir -p /home/admin/vitepress-project
+          - '# 清空目标目录'
           - rm -rf /home/admin/vitepress-project/*
+          - '# 解压到目标目录'
           - tar -zxvf ~/gitee_go/deploy/output.tar.gz -C /home/admin/vitepress-project
-          - chmod -R 777 /home/admin/vitepress-project
+          - '# 设置权限'
+          - chmod -R 755 /home/admin/vitepress-project
+          - '# 验证解压结果'
+          - ls -la /home/admin/vitepress-project/
           - echo "Deploy Success"
         notify: []
         strategy:
