@@ -68,8 +68,8 @@ stages:
           - cd /opt/1panel/www/sites/sntip/index
           - ls -la
           - rm -rf ./*.html ./*.js ./*.css ./*.svg ./*.png ./*.ico ./*.jpg ./assets 2>/dev/null
-          - tar -zxf output.tar.gz
-          - rm -f output.tar.gz
+          - tar -zxf artifact_BUILD_ARTIFACT.tar.gz
+          - rm -f artifact_BUILD_ARTIFACT.tar.gz
           - chmod -R 755 .
           - echo Deploy Success
         notify: []
