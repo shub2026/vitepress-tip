@@ -2,7 +2,6 @@ version: '1.0'
 name: main-pip
 displayName: main-pip
 triggers:
-  trigger: auto
   push:
     branches:
       prefix:
@@ -21,7 +20,7 @@ stages:
           - '# 设置NPM源,提升安装速度'
           - npm config set registry https://registry.npmmirror.com
           - '# 执行编译命令(使用npm ci保证依赖一致性)'
-          - npm ci --prefer-offline --no-audit
+          - npm install
           - npm run docs:build
           - '# 检查构建结果目录'
           - ls -la docs/.vitepress/dist/
@@ -67,9 +66,8 @@ stages:
         script:
           - cd /opt/1panel/www/sites/sntip/index
           - ls -la
+          - tar -zxf output.tar.gz
           - rm -f output.tar.gz
-          - tar -zxf artifact_BUILD_ARTIFACT.tar.gz
-          - rm -f artifact_BUILD_ARTIFACT.tar.gz
           - chmod -R 755 .
           - echo Deploy Success
         notify: []
