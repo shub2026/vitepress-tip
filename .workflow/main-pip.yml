@@ -16,7 +16,7 @@ stages:
       - step: build@nodejs
         name: build-nodejs
         displayName: Nodejs 构建
-        nodeVersion: 20.18.0
+        nodeVersion: 20.10.0
         commands:
           - '# 设置NPM源,提升安装速度'
           - npm config set registry https://registry.npmmirror.com
