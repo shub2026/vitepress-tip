@@ -1,7 +1,8 @@
 version: '1.0'
-name: main-pipeline
-displayName: main-pipeline
+name: vitepress-build
+displayName: vitepress-build
 triggers:
+  trigger: auto
   push:
     branches:
       prefix:
@@ -15,25 +16,18 @@ stages:
       - step: build@nodejs
         name: build-nodejs
         displayName: Nodejs 构建
-        nodeVersion: 20.18.0
+        nodeVersion: 25.4.0
         commands:
           - '# 设置NPM源,提升安装速度'
           - npm config set registry https://registry.npmmirror.com
-          - ''
           - '# 执行编译命令'
           - npm install && npm run docs:build
-          - ''
           - '# 打包产物为 output.tar.gz'
           - cd docs/.vitepress/dist && tar -czf ../../../output.tar.gz .
         artifacts:
           - name: BUILD_ARTIFACT
             path:
               - output.tar.gz
-        caches:
-          - ~/.npm
-        notify: []
-        strategy:
-          retry: '0'
       - step: publish@general_artifacts
         name: publish-artifacts
         displayName: 上传制品
@@ -44,6 +38,33 @@ stages:
         name: publish-release
         displayName: 发布
         dependArtifact: output
-        version: '1.0.0.0'
+        version: 1.0.0.0
         autoIncrement: true
         dependsOn: publish-artifacts
+      - step: deploy@agent
+        name: deploy_agent
+        displayName: 主机部署
+        hostGroupID:
+          ID: ali2026
+          hostID:
+            - ddcb52f3-610e-4d38-bef6-54427fe27014
+        deployArtifact:
+          - source: artifact
+            name: output
+            target: ~/gitee_go/deploy
+            artifactRepository: release
+            artifactName: output
+            artifactVersion: latest
+        script:
+          - cd ~/gitee_go/deploy
+          - tar -zxvf output.tar.gz
+          - mkdir -p /home/admin/vitepress-project
+          - rm -rf /home/admin/vitepress-project/*
+          - mv target/* /home/admin/vitepress-project/
+          - chmod -R 777 /home/admin/vitepress-project
+          - echo "Deploy Success"
+          - ''
+        notify: []
+        strategy:
+          retry: '0'
+        dependsOn: publish-release
