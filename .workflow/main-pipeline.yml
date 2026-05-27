@@ -27,7 +27,7 @@ stages:
         artifacts:
           - name: BUILD_ARTIFACT
             path:
-              - ./dist
+              - docs/.vitepress/dist
         caches:
           - ~/.npm
           - ~/.yarn
