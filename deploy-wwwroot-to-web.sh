@@ -9,18 +9,27 @@
 #   4. 有变动才执行部署
 # ============================================================================
 
-# 确保 HOME 环境变量存在（必须在 set -eu 之前）
+# 确保 HOME 和 USER 环境变量存在（必须在 set -eu 之前）
 if [ -z "${HOME:-}" ]; then
-    HOME=$(eval echo "~$(whoami)")
+    HOME=$(eval echo "~$(id -un)")
     export HOME
+fi
+if [ -z "${USER:-}" ]; then
+    USER=$(id -un)
+    export USER
 fi
 
 set -eu
 
 SOURCE_TAR="/opt/wwwroot/output.tar.gz"
 TARGET_DIR="/opt/1panel/www/sites/sntip/index"
-TEMP_DIR="/tmp/deploy_cs_$$"
+TEMP_DIR=$(mktemp -d /tmp/deploy_cs.XXXXXX)
 EXTRACT_DIR="$TEMP_DIR/extract"
+
+# 将临时文件放入 TEMP_DIR 内部，确保 cleanup 能一次性清理
+TAR_ERR_FILE="$TEMP_DIR/tar_err.log"
+MD5_SRC_FILE="$TEMP_DIR/source.md5"
+MD5_TGT_FILE="$TEMP_DIR/target.md5"
 
 # -------------------- 颜色输出 --------------------
 RED='\033[0;31m'
@@ -56,9 +65,9 @@ tar -tzf "$SOURCE_TAR" 2>/dev/null | head -20 || true
 echo "---"
 
 # 尝试直接解压
-if ! tar -xzf "$SOURCE_TAR" -C "$EXTRACT_DIR" 2>/tmp/tar_error.txt; then
+if ! tar -xzf "$SOURCE_TAR" -C "$EXTRACT_DIR" 2>"$TAR_ERR_FILE"; then
     log_error "制品解压失败:"
-    cat /tmp/tar_error.txt
+    cat "$TAR_ERR_FILE"
     exit 1
 fi
 
@@ -97,11 +106,13 @@ if [ -n "$NESTED_TAR" ]; then
         echo "---"
         
         # 尝试二次解压
-        if tar -xzf "$NESTED_TAR" -C "$NESTED_DIR" 2>/tmp/tar_error2.txt; then
+        if tar -xzf "$NESTED_TAR" -C "$NESTED_DIR" 2>"$TAR_ERR_FILE"; then
             # 二次解压成功，用内层内容替换
             NESTED_FILES=$(find "$NESTED_DIR" -type f 2>/dev/null | wc -l)
             if [ "$NESTED_FILES" -gt 0 ]; then
-                rm -rf "$EXTRACT_DIR"/*
+                # 彻底清空 EXTRACT_DIR 并重新创建
+                rm -rf "$EXTRACT_DIR"
+                mkdir -p "$EXTRACT_DIR"
                 cp -a "$NESTED_DIR/." "$EXTRACT_DIR/"
                 log_info "二次解压成功，获得 $NESTED_FILES 个文件"
             else
@@ -110,7 +121,7 @@ if [ -n "$NESTED_TAR" ]; then
             fi
         else
             log_error "嵌套包解压失败:"
-            cat /tmp/tar_error2.txt 2>/dev/null || true
+            cat "$TAR_ERR_FILE" 2>/dev/null || true
             log_warn "删除损坏的嵌套包，保留其他解压内容"
             rm -f "$NESTED_TAR"
         fi
@@ -130,22 +141,22 @@ mkdir -p "$TARGET_DIR"
 # -------------------- 对比文件差异 --------------------
 log_info "正在对比源与目标目录..."
 
-# 生成解压目录文件清单（含 MD5）
+# 生成解压目录文件清单（含 MD5），使用 + 提升性能
 cd "$EXTRACT_DIR"
-find . -type f -exec md5sum {} \; 2>/dev/null | sort > "$TEMP_DIR/source.md5" || true
+find . -type f -exec md5sum {} + 2>/dev/null | sort > "$MD5_SRC_FILE" || true
 
-# 生成目标目录文件清单（含 MD5）
+# 生成目标目录文件清单（含 MD5），使用 + 提升性能
 cd "$TARGET_DIR"
 TARGET_FILE_COUNT=$(find . -type f 2>/dev/null | wc -l)
 if [ "$TARGET_FILE_COUNT" -eq 0 ]; then
     log_warn "目标目录为空，将执行首次部署..."
-    > "$TEMP_DIR/target.md5"
+    > "$MD5_TGT_FILE"
 else
-    find . -type f -exec md5sum {} \; 2>/dev/null | sort > "$TEMP_DIR/target.md5" || true
+    find . -type f -exec md5sum {} + 2>/dev/null | sort > "$MD5_TGT_FILE" || true
 fi
 
 # 对比差异
-DIFF_OUTPUT=$(diff "$TEMP_DIR/source.md5" "$TEMP_DIR/target.md5" 2>/dev/null) || true
+DIFF_OUTPUT=$(diff "$MD5_SRC_FILE" "$MD5_TGT_FILE" 2>/dev/null) || true
 
 if [ -z "$DIFF_OUTPUT" ]; then
     log_ok "目标目录已是最新，无需部署。"
@@ -153,8 +164,8 @@ if [ -z "$DIFF_OUTPUT" ]; then
 fi
 
 # -------------------- 显示变动摘要 --------------------
-ADDED=$(echo "$DIFF_OUTPUT" | grep -c "^< " || echo 0)
-REMOVED=$(echo "$DIFF_OUTPUT" | grep -c "^> " || echo 0)
+ADDED=$(echo "$DIFF_OUTPUT" | grep -c "^< " 2>/dev/null || true)
+REMOVED=$(echo "$DIFF_OUTPUT" | grep -c "^> " 2>/dev/null || true)
 
 log_warn "检测到文件变动（新增: $ADDED, 删除: $REMOVED）"
 
@@ -174,8 +185,8 @@ if [ "$TARGET_FILE_COUNT" -gt 0 ]; then
     cp -a "$TARGET_DIR" "$BACKUP_DIR"
     log_info "已备份到: $BACKUP_DIR"
 
-    # 清理超出5个的旧备份
-    OLD_BACKUPS=$(ls -1dr "${TARGET_DIR}_backup_"* 2>/dev/null | tail -n +6 || true)
+    # 清理超出5个的旧备份（增加正则匹配避免误删）
+    OLD_BACKUPS=$(ls -1dr "${TARGET_DIR}_backup_"* 2>/dev/null | grep -E "${TARGET_DIR}_backup_[0-9]{8}_[0-9]{6}$" | tail -n +6 || true)
     if [ -n "$OLD_BACKUPS" ]; then
         echo "$OLD_BACKUPS" | xargs rm -rf
         log_info "已清理旧备份，保留最近5个"
@@ -188,8 +199,10 @@ find "$TARGET_DIR" -mindepth 1 -not -name '.*' -delete 2>/dev/null || true
 # 复制解压后的文件到目标
 cp -a "$EXTRACT_DIR/." "$TARGET_DIR/"
 
-# 设置权限
-chmod -R 755 "$TARGET_DIR"
+# 设置规范化权限
+log_info "正在设置目录与文件权限..."
+find "$TARGET_DIR" -type d -exec chmod 755 {} +
+find "$TARGET_DIR" -type f -exec chmod 644 {} +
 
 log_ok "部署完成 → $TARGET_DIR"
 

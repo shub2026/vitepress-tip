@@ -122,7 +122,10 @@ stages:
             artifactRepository: release
             artifactName: output
             artifactVersion: latest
-        script: []
+        script:
+          - mkdir -p /opt/wwwroot
+          - tar -xzf ~/gitee_go/deploy/output.tar.gz -C /opt/wwwroot
+          - chmod -R 755 /opt/wwwroot
         strategy: {}
 ```
 
@@ -138,21 +141,26 @@ stages:
 **脚本文件**: `deploy-wwwroot-to-web.sh`
 
 **核心功能**:
-- 定时检测 `~/gitee_go/deploy/output.tar.gz` 是否存在
-- 解压到临时目录,通过 MD5 对比判断文件是否变动
-- 仅在文件变动时执行部署,避免无效操作
-- 自动备份旧版本(保留最近 5 个备份)
+- 定时检测 `/opt/wwwroot/output.tar.gz` 是否存在
+- 智能处理嵌套制品包（自动二次解压）
+- 解压到临时目录，通过 MD5 对比判断文件是否变动
+- 仅在文件变动时执行部署，避免无效操作
+- 自动备份旧版本（保留最近 5 个备份，正则匹配防误删）
+- 规范化权限设置（目录 755、文件 644）
 
 **目录说明**:
-- **源文件**: `~/gitee_go/deploy/output.tar.gz`(流水线推送)
+- **源文件**: `/opt/wwwroot/output.tar.gz`(流水线推送)
 - **目标目录**: `/opt/1panel/www/sites/sntip/index`(Web 访问目录)
-- **临时目录**: `/tmp/deploy_cs_$$`(对比后自动清理)
+- **临时目录**: `/tmp/deploy_cs.XXXXXX`(使用 mktemp 创建，执行后自动清理)
 
-**关键修复记录**:
-- ✅ **BOM 字符问题**: 移除文件开头的 UTF-8 BOM,确保 shebang 正确识别
-- ✅ **HOME 变量防护**: 在 `set -eu` 之前添加 HOME 环境变量检查,使用 `${HOME:-}` 安全语法
-- ✅ **编码修复**: 统一使用 UTF-8 编码和 LF 换行符,避免跨平台兼容性问题
-- ✅ **路径规范化**: 使用 `$HOME` 环境变量代替硬编码 `/root`,提高脚本可移植性
+**关键优化记录**:
+- ✅ **BOM 字符修复**: 确保文件使用 UTF-8 无 BOM 编码，shebang 正确识别
+- ✅ **环境变量防护**: 使用 `id -un` 替代 `whoami`，在 `set -eu` 前初始化 HOME 和 USER
+- ✅ **临时文件安全**: 使用 `mktemp -d` 创建唯一临时目录，避免 PID 冲突和资源泄漏
+- ✅ **MD5 性能优化**: `find -exec md5sum {} +` 替代 `\;`，批量处理提升性能
+- ✅ **权限规范化**: 目录 755、文件 644，替代不安全的 `chmod -R 755`
+- ✅ **嵌套制品处理**: 自动检测并二次解压 Gitee Go 产生的嵌套 `artifact_*.tar.gz`
+- ✅ **备份安全增强**: 增加正则匹配防止误删非备份目录
 
 **完整脚本代码**:
 
@@ -162,24 +170,33 @@ stages:
 # 条件部署脚本：将流水线制品解压到 1Panel 站点目录
 # 用法：bash deploy-wwwroot-to-web.sh
 # 逻辑：
-#   1. 检测 ~/gitee_go/deploy/output.tar.gz 是否存在
+#   1. 检测 /opt/wwwroot/output.tar.gz 是否存在
 #   2. 解压到临时目录
 #   3. 对比临时目录与目标目录差异
 #   4. 有变动才执行部署
 # ============================================================================
 
-# 确保 HOME 环境变量存在（必须在 set -eu 之前）
+# 确保 HOME 和 USER 环境变量存在（必须在 set -eu 之前）
 if [ -z "${HOME:-}" ]; then
-    HOME=$(eval echo "~$(whoami)")
+    HOME=$(eval echo "~$(id -un)")
     export HOME
+fi
+if [ -z "${USER:-}" ]; then
+    USER=$(id -un)
+    export USER
 fi
 
 set -eu
 
-SOURCE_TAR="$HOME/gitee_go/deploy/output.tar.gz"
+SOURCE_TAR="/opt/wwwroot/output.tar.gz"
 TARGET_DIR="/opt/1panel/www/sites/sntip/index"
-TEMP_DIR="/tmp/deploy_cs_$$"
+TEMP_DIR=$(mktemp -d /tmp/deploy_cs.XXXXXX)
 EXTRACT_DIR="$TEMP_DIR/extract"
+
+# 将临时文件放入 TEMP_DIR 内部，确保 cleanup 能一次性清理
+TAR_ERR_FILE="$TEMP_DIR/tar_err.log"
+MD5_SRC_FILE="$TEMP_DIR/source.md5"
+MD5_TGT_FILE="$TEMP_DIR/target.md5"
 
 # -------------------- 颜色输出 --------------------
 RED='\033[0;31m'
@@ -208,7 +225,75 @@ fi
 # -------------------- 解压制品到临时目录 --------------------
 log_info "解压制品: $SOURCE_TAR"
 mkdir -p "$EXTRACT_DIR"
-tar -xzf "$SOURCE_TAR" -C "$EXTRACT_DIR"
+
+# 查看制品内容结构
+log_info "制品内容列表:"
+tar -tzf "$SOURCE_TAR" 2>/dev/null | head -20 || true
+echo "---"
+
+# 尝试直接解压
+if ! tar -xzf "$SOURCE_TAR" -C "$EXTRACT_DIR" 2>"$TAR_ERR_FILE"; then
+    log_error "制品解压失败:"
+    cat "$TAR_ERR_FILE"
+    exit 1
+fi
+
+# 检查是否存在嵌套的 artifact tar.gz 文件
+NESTED_TAR=$(find "$EXTRACT_DIR" -name "artifact_*.tar.gz" -type f 2>/dev/null | head -1)
+if [ -n "$NESTED_TAR" ]; then
+    log_info "检测到嵌套制品包: $(basename "$NESTED_TAR")"
+    
+    # 检查文件大小和类型
+    NESTED_SIZE=$(wc -c < "$NESTED_TAR" 2>/dev/null || echo 0)
+    log_info "嵌套包大小: $NESTED_SIZE 字节"
+    
+    # 使用 file 命令检查文件类型
+    if command -v file >/dev/null 2>&1; then
+        NESTED_TYPE=$(file "$NESTED_TAR" 2>/dev/null || echo "unknown")
+        log_info "嵌套包类型: $NESTED_TYPE"
+    fi
+    
+    # 如果文件太小（小于100字节），可能是空包或占位符
+    if [ "$NESTED_SIZE" -lt 100 ]; then
+        log_warn "嵌套包过小（$NESTED_SIZE 字节），可能是空包，直接删除"
+        rm -f "$NESTED_TAR"
+    else
+        log_info "正在二次解压..."
+        
+        # 创建二次解压目录
+        NESTED_DIR="$TEMP_DIR/nested"
+        mkdir -p "$NESTED_DIR"
+        
+        # 查看嵌套包内容
+        log_info "嵌套包内容列表:"
+        if ! tar -tzf "$NESTED_TAR" 2>/tmp/tar_list_error.txt | head -20; then
+            log_warn "无法列出嵌套包内容:"
+            cat /tmp/tar_list_error.txt 2>/dev/null || true
+        fi
+        echo "---"
+        
+        # 尝试二次解压
+        if tar -xzf "$NESTED_TAR" -C "$NESTED_DIR" 2>"$TAR_ERR_FILE"; then
+            # 二次解压成功，用内层内容替换
+            NESTED_FILES=$(find "$NESTED_DIR" -type f 2>/dev/null | wc -l)
+            if [ "$NESTED_FILES" -gt 0 ]; then
+                # 彻底清空 EXTRACT_DIR 并重新创建
+                rm -rf "$EXTRACT_DIR"
+                mkdir -p "$EXTRACT_DIR"
+                cp -a "$NESTED_DIR/." "$EXTRACT_DIR/"
+                log_info "二次解压成功，获得 $NESTED_FILES 个文件"
+            else
+                log_error "二次解压后目录为空"
+                exit 1
+            fi
+        else
+            log_error "嵌套包解压失败:"
+            cat "$TAR_ERR_FILE" 2>/dev/null || true
+            log_warn "删除损坏的嵌套包，保留其他解压内容"
+            rm -f "$NESTED_TAR"
+        fi
+    fi
+fi
 
 SOURCE_FILE_COUNT=$(find "$EXTRACT_DIR" -type f 2>/dev/null | wc -l)
 if [ "$SOURCE_FILE_COUNT" -eq 0 ]; then
@@ -223,22 +308,22 @@ mkdir -p "$TARGET_DIR"
 # -------------------- 对比文件差异 --------------------
 log_info "正在对比源与目标目录..."
 
-# 生成解压目录文件清单（含 MD5）
+# 生成解压目录文件清单（含 MD5），使用 + 提升性能
 cd "$EXTRACT_DIR"
-find . -type f -exec md5sum {} \; 2>/dev/null | sort > "$TEMP_DIR/source.md5" || true
+find . -type f -exec md5sum {} + 2>/dev/null | sort > "$MD5_SRC_FILE" || true
 
-# 生成目标目录文件清单（含 MD5）
+# 生成目标目录文件清单（含 MD5），使用 + 提升性能
 cd "$TARGET_DIR"
 TARGET_FILE_COUNT=$(find . -type f 2>/dev/null | wc -l)
 if [ "$TARGET_FILE_COUNT" -eq 0 ]; then
     log_warn "目标目录为空，将执行首次部署..."
-    > "$TEMP_DIR/target.md5"
+    > "$MD5_TGT_FILE"
 else
-    find . -type f -exec md5sum {} \; 2>/dev/null | sort > "$TEMP_DIR/target.md5" || true
+    find . -type f -exec md5sum {} + 2>/dev/null | sort > "$MD5_TGT_FILE" || true
 fi
 
 # 对比差异
-DIFF_OUTPUT=$(diff "$TEMP_DIR/source.md5" "$TEMP_DIR/target.md5" 2>/dev/null) || true
+DIFF_OUTPUT=$(diff "$MD5_SRC_FILE" "$MD5_TGT_FILE" 2>/dev/null) || true
 
 if [ -z "$DIFF_OUTPUT" ]; then
     log_ok "目标目录已是最新，无需部署。"
@@ -246,8 +331,8 @@ if [ -z "$DIFF_OUTPUT" ]; then
 fi
 
 # -------------------- 显示变动摘要 --------------------
-ADDED=$(echo "$DIFF_OUTPUT" | grep -c "^< " || echo 0)
-REMOVED=$(echo "$DIFF_OUTPUT" | grep -c "^> " || echo 0)
+ADDED=$(echo "$DIFF_OUTPUT" | grep -c "^< " 2>/dev/null || true)
+REMOVED=$(echo "$DIFF_OUTPUT" | grep -c "^> " 2>/dev/null || true)
 
 log_warn "检测到文件变动（新增: $ADDED, 删除: $REMOVED）"
 
@@ -267,8 +352,8 @@ if [ "$TARGET_FILE_COUNT" -gt 0 ]; then
     cp -a "$TARGET_DIR" "$BACKUP_DIR"
     log_info "已备份到: $BACKUP_DIR"
 
-    # 清理超出5个的旧备份
-    OLD_BACKUPS=$(ls -1dr "${TARGET_DIR}_backup_"* 2>/dev/null | tail -n +6 || true)
+    # 清理超出5个的旧备份（增加正则匹配避免误删）
+    OLD_BACKUPS=$(ls -1dr "${TARGET_DIR}_backup_"* 2>/dev/null | grep -E "${TARGET_DIR}_backup_[0-9]{8}_[0-9]{6}$" | tail -n +6 || true)
     if [ -n "$OLD_BACKUPS" ]; then
         echo "$OLD_BACKUPS" | xargs rm -rf
         log_info "已清理旧备份，保留最近5个"
@@ -281,8 +366,10 @@ find "$TARGET_DIR" -mindepth 1 -not -name '.*' -delete 2>/dev/null || true
 # 复制解压后的文件到目标
 cp -a "$EXTRACT_DIR/." "$TARGET_DIR/"
 
-# 设置权限
-chmod -R 755 "$TARGET_DIR"
+# 设置规范化权限
+log_info "正在设置目录与文件权限..."
+find "$TARGET_DIR" -type d -exec chmod 755 {} +
+find "$TARGET_DIR" -type f -exec chmod 644 {} +
 
 log_ok "部署完成 → $TARGET_DIR"
 ```
