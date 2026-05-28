@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # ============================================================================
 # 条件部署脚本：将流水线制品解压到 1Panel 站点目录
 # 用法：bash deploy-wwwroot-to-web.sh
@@ -17,7 +17,7 @@ fi
 
 set -eu
 
-SOURCE_TAR="$HOME/gitee_go/deploy/output.tar.gz"
+SOURCE_TAR="/opt/wwwroot/output.tar.gz"
 TARGET_DIR="/opt/1panel/www/sites/sntip/index"
 TEMP_DIR="/tmp/deploy_cs_$$"
 EXTRACT_DIR="$TEMP_DIR/extract"
@@ -49,7 +49,73 @@ fi
 # -------------------- 解压制品到临时目录 --------------------
 log_info "解压制品: $SOURCE_TAR"
 mkdir -p "$EXTRACT_DIR"
-tar -xzf "$SOURCE_TAR" -C "$EXTRACT_DIR"
+
+# 查看制品内容结构
+log_info "制品内容列表:"
+tar -tzf "$SOURCE_TAR" 2>/dev/null | head -20 || true
+echo "---"
+
+# 尝试直接解压
+if ! tar -xzf "$SOURCE_TAR" -C "$EXTRACT_DIR" 2>/tmp/tar_error.txt; then
+    log_error "制品解压失败:"
+    cat /tmp/tar_error.txt
+    exit 1
+fi
+
+# 检查是否存在嵌套的 artifact tar.gz 文件
+NESTED_TAR=$(find "$EXTRACT_DIR" -name "artifact_*.tar.gz" -type f 2>/dev/null | head -1)
+if [ -n "$NESTED_TAR" ]; then
+    log_info "检测到嵌套制品包: $(basename "$NESTED_TAR")"
+    
+    # 检查文件大小和类型
+    NESTED_SIZE=$(wc -c < "$NESTED_TAR" 2>/dev/null || echo 0)
+    log_info "嵌套包大小: $NESTED_SIZE 字节"
+    
+    # 使用 file 命令检查文件类型
+    if command -v file >/dev/null 2>&1; then
+        NESTED_TYPE=$(file "$NESTED_TAR" 2>/dev/null || echo "unknown")
+        log_info "嵌套包类型: $NESTED_TYPE"
+    fi
+    
+    # 如果文件太小（小于100字节），可能是空包或占位符
+    if [ "$NESTED_SIZE" -lt 100 ]; then
+        log_warn "嵌套包过小（$NESTED_SIZE 字节），可能是空包，直接删除"
+        rm -f "$NESTED_TAR"
+    else
+        log_info "正在二次解压..."
+        
+        # 创建二次解压目录
+        NESTED_DIR="$TEMP_DIR/nested"
+        mkdir -p "$NESTED_DIR"
+        
+        # 查看嵌套包内容
+        log_info "嵌套包内容列表:"
+        if ! tar -tzf "$NESTED_TAR" 2>/tmp/tar_list_error.txt | head -20; then
+            log_warn "无法列出嵌套包内容:"
+            cat /tmp/tar_list_error.txt 2>/dev/null || true
+        fi
+        echo "---"
+        
+        # 尝试二次解压
+        if tar -xzf "$NESTED_TAR" -C "$NESTED_DIR" 2>/tmp/tar_error2.txt; then
+            # 二次解压成功，用内层内容替换
+            NESTED_FILES=$(find "$NESTED_DIR" -type f 2>/dev/null | wc -l)
+            if [ "$NESTED_FILES" -gt 0 ]; then
+                rm -rf "$EXTRACT_DIR"/*
+                cp -a "$NESTED_DIR/." "$EXTRACT_DIR/"
+                log_info "二次解压成功，获得 $NESTED_FILES 个文件"
+            else
+                log_error "二次解压后目录为空"
+                exit 1
+            fi
+        else
+            log_error "嵌套包解压失败:"
+            cat /tmp/tar_error2.txt 2>/dev/null || true
+            log_warn "删除损坏的嵌套包，保留其他解压内容"
+            rm -f "$NESTED_TAR"
+        fi
+    fi
+fi
 
 SOURCE_FILE_COUNT=$(find "$EXTRACT_DIR" -type f 2>/dev/null | wc -l)
 if [ "$SOURCE_FILE_COUNT" -eq 0 ]; then
