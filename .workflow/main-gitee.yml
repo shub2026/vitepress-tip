@@ -72,5 +72,8 @@ stages:
             artifactRepository: release
             artifactName: output
             artifactVersion: latest
-        script: []
+        script:
+          - mkdir -p /opt/wwwroot
+          - tar -xzf ~/gitee_go/deploy/output.tar.gz -C /opt/wwwroot
+          - chmod -R 755 /opt/wwwroot
         strategy: {}
