@@ -77,5 +77,5 @@ stages:
           - find /opt/wwwroot -mindepth 1 -not -name '.*' -delete 2>/dev/null || true
           - tar -xzf ~/gitee_go/deploy/output.tar.gz -C /opt/wwwroot
           - chmod -R 755 /opt/wwwroot
-          - echo "Deploy done: $(date '+%Y-%m-%d %H:%M:%S') -> /opt/wwwroot"
+          - printf 'Deploy done: %s -> /opt/wwwroot\n' "$(date '+%Y-%m-%d %H:%M:%S')"
         strategy: {}
