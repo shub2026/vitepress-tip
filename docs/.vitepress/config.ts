@@ -79,7 +79,8 @@ export default withMermaid(
             { text: '1Panel部署', link: '/vite/1panel-deploy' },
             { text: '1Panel脚本', link: '/vite/1panel-script' },
             { text: 'Gitee Go流水线', link: '/vite/gitee-go-deploy' },
-            { text: 'Gitee Go优化V2', link: '/vite/gitee-go-deploy-v2' }, 
+            { text: 'Gitee Go优化V2', link: '/vite/gitee-go-deploy-v2' },
+            { text: '流水线优化方案', link: '/vite/gitee-go-pipeline-optimization' },
             { text: 'Markdown语法', link: '/vite/markdown-syntax' },
           ]
         },
