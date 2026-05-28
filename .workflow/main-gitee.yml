@@ -67,42 +67,13 @@ stages:
             - c2a096df-4e33-455b-96ec-b183130b69b4
         deployArtifact:
           - source: artifact
-            name: BUILD_ARTIFACT
+            name: output
             target: ~/gitee_go/deploy
-            artifactRepository: general
+            artifactRepository: release
             artifactName: output
             artifactVersion: latest
         script:
-          - 'echo "=== 开始部署 ==="'
-          - 'echo "当前用户: $(whoami)"'
-          - 'echo "当前目录: $(pwd)"'
-          - 'echo "检查制品文件..."'
-          - 'ls -lh $HOME/gitee_go/deploy/'
-          - 'echo "创建临时解压目录..."'
-          - 'rm -rf /tmp/vitepress-deploy'
-          - 'mkdir -p /tmp/vitepress-deploy'
-          - 'echo "查找并解压制品文件..."'
-          - 'ARTIFACT_FILE=$(find $HOME/gitee_go/deploy -name "*.tar.gz" -type f | head -n 1)'
-          - 'if [ -z "$ARTIFACT_FILE" ]; then echo "错误: 未找到制品文件"; exit 1; fi'
-          - 'echo "找到制品: $ARTIFACT_FILE"'
-          - 'tar -xzf "$ARTIFACT_FILE" -C /tmp/vitepress-deploy'
-          - 'echo "检查解压结果..."'
-          - 'ls -la /tmp/vitepress-deploy/'
-          - 'echo "文件数量: $(find /tmp/vitepress-deploy -type f | wc -l)"'
-          - 'echo "创建目标目录..."'
-          - 'mkdir -p /opt/1panel/www/sites/sntip/index'
-          - 'echo "清空目标目录..."'
-          - 'find /opt/1panel/www/sites/sntip/index -mindepth 1 -delete 2>/dev/null || true'
-          - 'echo "复制网页文件到目标目录..."'
-          - 'cp -a /tmp/vitepress-deploy/. /opt/1panel/www/sites/sntip/index/'
-          - 'echo "清理压缩包..."'
-          - 'rm -f /opt/1panel/www/sites/sntip/index/*.tar.gz'
-          - 'echo "设置权限..."'
-          - 'chmod -R 755 /opt/1panel/www/sites/sntip/index'
-          - 'echo "验证部署结果..."'
-          - 'ls -la /opt/1panel/www/sites/sntip/index/'
-          - 'echo "最终文件数量: $(find /opt/1panel/www/sites/sntip/index -type f | wc -l)"'
-          - 'echo "清理临时文件..."'
-          - 'rm -rf /tmp/vitepress-deploy'
-          - 'echo "=== 部署完成 ==="'
+          - mkdir -p /opt/wwwroot
+          - tar -xzf ~/gitee_go/deploy/output.tar.gz -C /opt/wwwroot
+          - chmod -R 755 /opt/wwwroot
         strategy: {}
