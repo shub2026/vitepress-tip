@@ -1,11 +1,13 @@
 # 优化简化部署方案
 
-流程为Gitee go执行构建-上传制品-发布版本-部署
-- 其中部署环节只负责把构建产物发送到服务器`/opt/wwwroot`目录
-- 下一步由1Panel自动脚本执行解压缩任务
+**流程为Gitee go执行构建-上传制品-发布版本-部署**
+>- 其中部署环节只负责把构建产物发送到服务器`/opt/wwwroot`目录
+>- 下一步由1Panel自动脚本执行解压缩任务到`Web`访问目录
 
-## main-gitee.yml 部署阶段代码
-> 流水线完成**构建-上传制品-发布版本-部署**环节，减少服务器构建压力（特别是轻应用服务器，2核2G实在带不动）
+## 部署阶段代码`main-gitee.yml`
+
+流水线完成**构建-上传制品-发布版本-部署**环节，减少服务器构建压力（特别是轻应用服务器，2核2G实在带不动）
+
 ```yaml
 version: '1.0'
 name: main-gitee
@@ -88,11 +90,12 @@ stages:
         strategy: {}
 ```
 ## deploy-wwwroot-to-cs.sh 条件部署脚本
+
 脚本为加压缩，把流水线产出的压缩包，解压到指定文件夹*如Web访问目录*
 - **文件**: `deploy-wwwroot-to-web.sh`
-- **功能**: 将 /opt/wwwroot/output.tar.gz 解压后部署到 /opt/1panel/www/sites/cs/index
+- **功能**: 将 `/opt/wwwroot/output.tar.gz` 解压后部署到` /opt/1panel/www/sites/cs/index`
 - **核心逻辑**: 
-  1. 检测 /opt/wwwroot/output.tar.gz 制品
+  1. 检测 `/opt/wwwroot/output.tar.gz `制品
   2. 解压到临时目录
   3. MD5 对比临时目录与目标目录差异
   4. 有变动才备份 + 部署
