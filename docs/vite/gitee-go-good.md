@@ -1,13 +1,15 @@
 # Gitee go优化部署方案
-尝试了好多次Gitee go直接部署，总是不成功，最后采用折中办法，先走流水线，最后再执行脚本解压缩到Web目录，**具体流程为Gitee go执行构建-上传制品-发布版本-部署**
+尝试了好多次Gitee go直接部署，总是不成功。
+流水线只能到把压缩文件放到目录，成为`/opt/wwwroot/output.tar.gz`没法解压到网站web目录。
+最后采用折中办法，先走流水线，最后再执行脚本解压缩到Web目录，**具体流程为Gitee go执行构建-上传制品-发布版本-部署**
 >- 其中部署环节只负责把构建产物发送到服务器`/opt/wwwroot`目录
->- 下一步由1Panel自动脚本执行解压缩任务到`Web`访问目录
+>- 下一步由1Panel自动脚本执行解压缩任务到`Web`目录进行访问
 
 ## 流水线代码
 
 *特别是轻应用服务器，2核2G构建常常失败*
-流水线完成**构建-上传制品-发布版本-部署**环节，减少服务器构建压力
-以下为`main-gitee.yml`文件代码
+流水线完成**构建-上传制品-发布版本-部署**环节，在服务器构建减少服务器构建压力
+以下为流水线`main-gitee.yml`文件代码
 ```yaml
 version: '1.0'
 name: main-gitee
@@ -91,9 +93,9 @@ stages:
 ```
 ## 解压部署脚本
 
-脚本目的为解压缩，把流水线产出的压缩包，解压到指定文件夹*如Web访问目录*
+流水线跑完后，服务器设置脚本间隔3分钟执行。脚本目的为解压缩，把`/opt/wwwroot/output.tar.gz`解压到指定文件夹*如Web访问目录*
 - **文件**: `deploy-wwwroot-to-web.sh`
-- **功能**: 将 `/opt/wwwroot/output.tar.gz` 解压后部署到` /opt/1panel/www/sites/cs/index`
+- **功能**: 将 `/opt/wwwroot/output.tar.gz` 解压后部署到` /opt/1panel/www/sites/sntip/index`
 - **核心逻辑**: 
   1. 检测 `/opt/wwwroot/output.tar.gz `制品
   2. 解压到临时目录
