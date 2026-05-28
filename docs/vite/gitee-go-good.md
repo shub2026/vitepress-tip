@@ -20,7 +20,7 @@ graph TB
 ```
 
 **核心流程**:
-1. **Gitee Go 流水线**: 完成构建、打包制品、推送到服务器 `$HOME/gitee_go/deploy` 目录
+1. **Gitee Go 流水线**: 完成构建、打包制品、推送到服务器 `~/gitee_go/deploy` 目录
 2. **自动解压脚本**: `deploy-wwwroot-to-web.sh` 定时检测并解压制品到 Web 目录
 3. **应急部署脚本**: `deploy.sh` 用于流水线失败时手动在服务器构建
 
@@ -40,7 +40,7 @@ graph TB
 **关键配置**:
 - **构建环境**: Gitee Go 云服务器(Node.js 25.4.0)
 - **制品格式**: `output.tar.gz`(包含 `docs/.vitepress/dist` 全部内容)
-- **部署目标**: `$HOME/gitee_go/deploy/output.tar.gz`
+- **部署目标**: `~/gitee_go/deploy/output.tar.gz`
 - **触发条件**: main 分支自动触发
 
 **完整流水线代码**(`.workflow/main-gitee.yml`):
@@ -116,7 +116,7 @@ stages:
         deployArtifact:
           - source: artifact
             name: output
-            target: $HOME/gitee_go/deploy
+            target: ~/gitee_go/deploy
             artifactRepository: release
             artifactName: output
             artifactVersion: latest
@@ -126,7 +126,7 @@ stages:
 
 **流水线说明**:
 - **构建阶段**: 在 Gitee Go 云服务器完成 `npm ci` 和 `npm run docs:build`
-- **部署阶段**: 只推送制品压缩包到 `$HOME/gitee_go/deploy`,不执行解压操作
+- **部署阶段**: 只推送制品压缩包到 `~/gitee_go/deploy`,不执行解压操作
 - **优势**: 减轻本地服务器构建压力,避免 2核2G 服务器内存不足导致构建失败
 
 ---
@@ -136,13 +136,13 @@ stages:
 **脚本文件**: `deploy-wwwroot-to-web.sh`
 
 **核心功能**:
-- 定时检测 `$HOME/gitee_go/deploy/output.tar.gz` 是否存在
+- 定时检测 `~/gitee_go/deploy/output.tar.gz` 是否存在
 - 解压到临时目录,通过 MD5 对比判断文件是否变动
 - 仅在文件变动时执行部署,避免无效操作
 - 自动备份旧版本(保留最近 5 个备份)
 
 **目录说明**:
-- **源文件**: `$HOME/gitee_go/deploy/output.tar.gz`(流水线推送)
+- **源文件**: `~/gitee_go/deploy/output.tar.gz`(流水线推送)
 - **目标目录**: `/opt/1panel/www/sites/sntip/index`(Web 访问目录)
 - **临时目录**: `/tmp/deploy_cs_$$`(对比后自动清理)
 
@@ -162,7 +162,7 @@ stages:
 
 set -eu
 
-SOURCE_TAR="$HOME/gitee_go/deploy/output.tar.gz"
+SOURCE_TAR="/root/gitee_go/deploy/output.tar.gz"
 TARGET_DIR="/opt/1panel/www/sites/sntip/index"
 TEMP_DIR="/tmp/deploy_cs_$$"
 EXTRACT_DIR="$TEMP_DIR/extract"

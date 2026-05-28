@@ -68,7 +68,7 @@ stages:
         deployArtifact:
           - source: artifact
             name: output
-            target: $HOME/gitee_go/deploy
+            target: ~/gitee_go/deploy
             artifactRepository: release
             artifactName: output
             artifactVersion: latest
