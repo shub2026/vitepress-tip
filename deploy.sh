@@ -1,7 +1,7 @@
 #!/bin/bash
 # ============================================================================
 # VitePress 知行笔记 - 服务器端部署脚本
-# 用途：拉取 Gitee 仓库最新代码 → 构建 → 部署到 /opt/wwwroot
+# 用途：拉取 Gitee 仓库最新代码 → 构建 → 部署到web目录 opt/1panel/www/sites/sntip/index
 # 用法：
 #   bash deploy.sh          # 完整构建部署
 #   bash deploy.sh --pull   # 仅拉取 + 构建（不覆盖 wwwroot）
@@ -12,7 +12,7 @@ set -euo pipefail
 
 # -------------------- 配置区 --------------------
 PROJECT_DIR="/opt/vitepress-tip"
-DEPLOY_DIR="/opt/wwwroot"
+DEPLOY_DIR="/opt/1panel/www/sites/sntip/index"
 GIT_REMOTE="origin"
 GIT_BRANCH="main"
 NPM_REGISTRY="https://registry.npmmirror.com"
