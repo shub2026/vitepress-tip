@@ -1,0 +1,65 @@
+version: '1.0'
+name: main-pipeline2
+displayName: main-pipeline2
+triggers:
+  trigger: auto
+  push:
+    branches:
+      prefix:
+        - main
+stages:
+  - name: stage-build
+    displayName: 构建与发布部署
+    strategy: naturally
+    trigger: auto
+    steps:
+      - step: build@nodejs
+        name: build-nodejs
+        displayName: Node.js 构建
+        nodeVersion: 20.10.0
+        commands:
+          - npm config set registry https://registry.npmmirror.com
+          - npm ci
+          - npm run docs:build
+          - cd docs/.vitepress/dist && tar -czf ../../../output.tar.gz .
+        artifacts:
+          - name: BUILD_ARTIFACT
+            path:
+              - output.tar.gz
+        strategy: {}
+      - step: publish@general_artifacts
+        name: publish-artifacts
+        displayName: 上传制品
+        dependArtifact: BUILD_ARTIFACT
+        artifactName: output
+        strategy: {}
+        dependsOn: build-nodejs
+      - step: publish@release_artifacts
+        name: publish-release
+        displayName: 发布版本
+        dependArtifact: output
+        version: 1.0.0.0
+        autoIncrement: true
+        strategy: {}
+        dependsOn: publish-artifacts
+      - step: deploy@agent
+        name: deploy_agent
+        displayName: 部署到服务器
+        hostGroupID:
+          ID: ali2026
+          hostID:
+            - c2a096df-4e33-455b-96ec-b183130b69b4
+        deployArtifact:
+          - source: artifact
+            name: output
+            target: ~/gitee_go/deploy
+            artifactRepository: release
+            artifactName: output
+            artifactVersion: latest
+        script:
+          - mkdir -p /opt/wwwroot
+          - find /opt/wwwroot -mindepth 1 -not -name '.*' -delete 2>/dev/null || true
+          - tar -xzf ~/gitee_go/deploy/output.tar.gz -C /opt/wwwroot
+          - chmod -R 755 /opt/wwwroot
+          - echo "✅ 部署完成: $(date '+%Y-%m-%d %H:%M:%S') → /opt/wwwroot"
+        strategy: {}
