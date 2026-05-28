@@ -39,20 +39,6 @@ stages:
         notify: []
         strategy:
           retry: '0'
-  - name: stage-release
-    displayName: 发布版本
-    strategy: naturally
-    trigger: auto
-    steps:
-      - step: publish@release_artifacts
-        name: publish_release_artifacts
-        displayName: 发布
-        dependArtifact: output
-        version: 1.0.0.0
-        autoIncrement: true
-        notify: []
-        strategy:
-          retry: '0'
   - name: stage-deploy
     displayName: 部署
     strategy: naturally
@@ -69,7 +55,7 @@ stages:
           - source: artifact
             name: output
             target: ~/gitee_go/deploy
-            artifactRepository: release
+            artifactRepository: general
             artifactName: output
             artifactVersion: latest
         script:
@@ -81,13 +67,9 @@ stages:
           - 'echo "创建临时解压目录..."'
           - 'rm -rf /tmp/vitepress-deploy'
           - 'mkdir -p /tmp/vitepress-deploy'
-          - 'echo "第一次解压（外层制品）..."'
+          - 'echo "解压制品文件..."'
           - 'tar -xzf $HOME/gitee_go/deploy/output.tar.gz -C /tmp/vitepress-deploy'
-          - 'echo "检查第一次解压结果..."'
-          - 'ls -la /tmp/vitepress-deploy/'
-          - 'echo "第二次解压（内层构建产物）..."'
-          - 'if [ -f /tmp/vitepress-deploy/artifact_BUILD_ARTIFACT.tar.gz ]; then tar -xzf /tmp/vitepress-deploy/artifact_BUILD_ARTIFACT.tar.gz -C /tmp/vitepress-deploy; else echo "未找到内层制品，跳过第二次解压"; fi'
-          - 'echo "检查最终解压结果..."'
+          - 'echo "检查解压结果..."'
           - 'ls -la /tmp/vitepress-deploy/'
           - 'echo "文件数量: $(find /tmp/vitepress-deploy -type f | wc -l)"'
           - 'echo "创建目标目录..."'
