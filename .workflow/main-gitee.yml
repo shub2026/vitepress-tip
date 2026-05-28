@@ -39,6 +39,20 @@ stages:
         notify: []
         strategy:
           retry: '0'
+  - name: stage-release
+    displayName: 发布版本
+    strategy: naturally
+    trigger: auto
+    steps:
+      - step: publish@release_artifacts
+        name: publish_release_artifacts
+        displayName: 发布
+        dependArtifact: BUILD_ARTIFACT
+        version: 1.0.0.0
+        autoIncrement: true
+        notify: []
+        strategy:
+          retry: '0'
   - name: stage-deploy
     displayName: 部署
     strategy: naturally
@@ -53,7 +67,7 @@ stages:
             - c2a096df-4e33-455b-96ec-b183130b69b4
         deployArtifact:
           - source: artifact
-            name: output
+            name: BUILD_ARTIFACT
             target: ~/gitee_go/deploy
             artifactRepository: general
             artifactName: output
@@ -63,12 +77,15 @@ stages:
           - 'echo "当前用户: $(whoami)"'
           - 'echo "当前目录: $(pwd)"'
           - 'echo "检查制品文件..."'
-          - 'ls -lh $HOME/gitee_go/deploy/output.tar.gz'
+          - 'ls -lh $HOME/gitee_go/deploy/'
           - 'echo "创建临时解压目录..."'
           - 'rm -rf /tmp/vitepress-deploy'
           - 'mkdir -p /tmp/vitepress-deploy'
-          - 'echo "解压制品文件..."'
-          - 'tar -xzf $HOME/gitee_go/deploy/output.tar.gz -C /tmp/vitepress-deploy'
+          - 'echo "查找并解压制品文件..."'
+          - 'ARTIFACT_FILE=$(find $HOME/gitee_go/deploy -name "*.tar.gz" -type f | head -n 1)'
+          - 'if [ -z "$ARTIFACT_FILE" ]; then echo "错误: 未找到制品文件"; exit 1; fi'
+          - 'echo "找到制品: $ARTIFACT_FILE"'
+          - 'tar -xzf "$ARTIFACT_FILE" -C /tmp/vitepress-deploy'
           - 'echo "检查解压结果..."'
           - 'ls -la /tmp/vitepress-deploy/'
           - 'echo "文件数量: $(find /tmp/vitepress-deploy -type f | wc -l)"'
