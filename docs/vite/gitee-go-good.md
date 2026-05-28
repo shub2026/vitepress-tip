@@ -118,7 +118,7 @@ stages:
 set -eu
 
 SOURCE_TAR="/opt/wwwroot/output.tar.gz"
-TARGET_DIR="/opt/1panel/www/sites/cs/index"
+TARGET_DIR="/opt/1panel/www/sites/sntip/index"
 TEMP_DIR="/tmp/deploy_cs_$$"
 EXTRACT_DIR="$TEMP_DIR/extract"
 
@@ -202,11 +202,18 @@ fi
 # -------------------- 执行部署 --------------------
 log_info "开始部署..."
 
-# 备份旧版本
+# 备份旧版本（仅保留最近5个）
 if [ "$TARGET_FILE_COUNT" -gt 0 ]; then
     BACKUP_DIR="${TARGET_DIR}_backup_$(date +%Y%m%d_%H%M%S)"
     cp -a "$TARGET_DIR" "$BACKUP_DIR"
     log_info "已备份到: $BACKUP_DIR"
+
+    # 清理超出5个的旧备份
+    OLD_BACKUPS=$(ls -1dr "${TARGET_DIR}_backup_"* 2>/dev/null | tail -n +6 || true)
+    if [ -n "$OLD_BACKUPS" ]; then
+        echo "$OLD_BACKUPS" | xargs rm -rf
+        log_info "已清理旧备份，保留最近5个"
+    fi
 fi
 
 # 清空目标目录（保留隐藏文件如 .user.ini）
@@ -219,4 +226,5 @@ cp -a "$EXTRACT_DIR/." "$TARGET_DIR/"
 chmod -R 755 "$TARGET_DIR"
 
 log_ok "部署完成 → $TARGET_DIR"
+
 ```

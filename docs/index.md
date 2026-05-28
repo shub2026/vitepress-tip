@@ -5,7 +5,6 @@ hero:
   name: '知行笔记'
   text: '知行合一 止于至善'
   tagline: '使用VitePress构建的极简风格网站，初次使用，从零开始'
-  # 💡 提示：图片建议放在 public 文件夹下，更名为 your-photo.png
   image:
     src: /images/img-icon.svg
     alt: 项目 Logo 占位符
@@ -31,5 +30,5 @@ features:
     details: 轻松掌握 Markdown 语法，专注创作，创建精美的文档网站
     link: /vite/markdown-syntax
   - title: ⚡ 极速部署
-    details: 基于 VitePress 构建，享受极致的加载速度与自动化发布体验，快速上手中文教程-测试推送解压V36
+    details: 基于 VitePress 构建，享受极致的加载速度与自动化发布体验，快速上手中文教程-推送测试V28
 ---
