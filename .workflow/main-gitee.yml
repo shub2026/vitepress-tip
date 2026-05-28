@@ -73,7 +73,7 @@ stages:
             artifactName: output
             artifactVersion: latest
         script:
-          - mkdir -p /opt/wwwroot
-          - tar -xzf ~/gitee_go/deploy/output.tar.gz -C /opt/wwwroot
-          - chmod -R 755 /opt/wwwroot
+          - mkdir -p /opt/1panel/www/sites/sntip/index
+          - tar -xzf ~/gitee_go/deploy/output.tar.gz -C /opt/1panel/www/sites/sntip/index
+          - chmod -R 755 /opt/1panel/www/sites/sntip/index
         strategy: {}

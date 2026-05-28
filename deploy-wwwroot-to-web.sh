@@ -11,7 +11,7 @@
 
 set -eu
 
-SOURCE_TAR="/opt/wwwroot/output.tar.gz"
+SOURCE_TAR="/root/gitee_go/deploy/output.tar.gz"
 TARGET_DIR="/opt/1panel/www/sites/sntip/index"
 TEMP_DIR="/tmp/deploy_cs_$$"
 EXTRACT_DIR="$TEMP_DIR/extract"
