@@ -65,9 +65,19 @@ pull_latest() {
     log_info "拉取最新代码到 $PROJECT_DIR ..."
     
     if [ ! -d "$PROJECT_DIR/.git" ]; then
-        log_info "首次部署：克隆仓库..."
+        log_info "目录不是 Git 仓库，准备克隆..."
+        
+        # 如果目录存在但不为空，先备份后清理
+        if [ -d "$PROJECT_DIR" ] && [ "$(ls -A "$PROJECT_DIR" 2>/dev/null)" ]; then
+            log_warn "$PROJECT_DIR 已存在且不为空，将备份后重新克隆"
+            BACKUP_SRC="${PROJECT_DIR}_backup_src_$(date +%Y%m%d_%H%M%S)"
+            mv "$PROJECT_DIR" "$BACKUP_SRC"
+            log_info "已备份原目录到: $BACKUP_SRC"
+        fi
+        
         mkdir -p "$PROJECT_DIR"
         git clone "$GIT_REPO" "$PROJECT_DIR"
+        log_ok "仓库克隆完成"
     else
         cd "$PROJECT_DIR"
         

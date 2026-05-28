@@ -1,15 +1,50 @@
-# Gitee go优化部署方案
-尝试了好多次Gitee go直接部署，总是不成功。
-流水线只能到把压缩文件放到目录，成为`/opt/wwwroot/output.tar.gz`没法解压到网站web目录。
-最后采用折中办法，先走流水线，最后再执行脚本解压缩到Web目录，**具体流程为Gitee go执行构建-上传制品-发布版本-部署**
->- 其中部署环节只负责把构建产物发送到服务器`/opt/wwwroot`目录
->- 下一步由1Panel自动脚本执行解压缩任务到`Web`目录进行访问
+# Gitee Go 部署方案文档
 
-## 流水线代码
+## 📋 部署架构概述
 
-*特别是轻应用服务器，2核2G构建常常失败*
-流水线完成**构建-上传制品-发布版本-部署**环节，在服务器构建减少服务器构建压力
-以下为流水线`main-gitee.yml`文件代码
+本项目采用**三层部署架构**,平衡 CI/CD 自动化与服务器资源压力:
+
+```mermaid
+graph TB
+    A[代码推送到 main 分支] --> B[Gitee Go 流水线]
+    B --> C[构建阶段: Node.js 构建]
+    C --> D[上传制品: output.tar.gz]
+    D --> E[发布版本]
+    E --> F[部署阶段: 推送到 ~/gitee_go/deploy]
+    F --> G[定时脚本: deploy-wwwroot-to-web.sh]
+    G --> H[Web 目录: /opt/1panel/www/sites/sntip/index]
+    
+    I[应急方案] --> J[手动执行: deploy.sh]
+    J --> K[服务器直接构建]
+    K --> H
+```
+
+**核心流程**:
+1. **Gitee Go 流水线**: 完成构建、打包制品、推送到服务器 `$HOME/gitee_go/deploy` 目录
+2. **自动解压脚本**: `deploy-wwwroot-to-web.sh` 定时检测并解压制品到 Web 目录
+3. **应急部署脚本**: `deploy.sh` 用于流水线失败时手动在服务器构建
+
+**设计原因**:
+- 轻量应用服务器(2核2G)直接在流水线构建常失败
+- 分离制品推送与实际部署,降低流水线复杂度
+- 定时脚本实现智能对比,只在文件变动时部署
+
+---
+
+## 🚀 方案一: Gitee Go 流水线 + 定时解压(主方案)
+
+### 1.1 流水线配置
+
+流水线完成**构建 → 上传制品 → 发布版本 → 部署制品到服务器**四个阶段。
+
+**关键配置**:
+- **构建环境**: Gitee Go 云服务器(Node.js 25.4.0)
+- **制品格式**: `output.tar.gz`(包含 `docs/.vitepress/dist` 全部内容)
+- **部署目标**: `$HOME/gitee_go/deploy/output.tar.gz`
+- **触发条件**: main 分支自动触发
+
+**完整流水线代码**(`.workflow/main-gitee.yml`):
+
 ```yaml
 version: '1.0'
 name: main-gitee
@@ -81,30 +116,38 @@ stages:
         deployArtifact:
           - source: artifact
             name: output
-            target: ~/gitee_go/deploy
+            target: $HOME/gitee_go/deploy
             artifactRepository: release
             artifactName: output
             artifactVersion: latest
-        script:
-          - mkdir -p /opt/wwwroot
-          - tar -xzf ~/gitee_go/deploy/output.tar.gz -C /opt/wwwroot
-          - chmod -R 755 /opt/wwwroot
+        script: []
         strategy: {}
 ```
-## 解压部署脚本
 
-流水线跑完后，服务器设置脚本间隔3分钟执行。脚本目的为解压缩，把`/opt/wwwroot/output.tar.gz`解压到指定文件夹*如Web访问目录*
-- **文件**: `deploy-wwwroot-to-web.sh`
-- **功能**: 将 `/opt/wwwroot/output.tar.gz` 解压后部署到` /opt/1panel/www/sites/sntip/index`
-- **核心逻辑**: 
-  1. 检测 `/opt/wwwroot/output.tar.gz `制品
-  2. 解压到临时目录
-  3. MD5 对比临时目录与目标目录差异
-  4. 有变动才备份 + 部署
-- **修复记录**:
-  - v1: pipefail 导致空目录退出 → 改为 set -eu
-  - v2: 源目录是 tar.gz 而非解压后的文件 → 改为先解压再对比部署
-- **代码**
+**流水线说明**:
+- **构建阶段**: 在 Gitee Go 云服务器完成 `npm ci` 和 `npm run docs:build`
+- **部署阶段**: 只推送制品压缩包到 `$HOME/gitee_go/deploy`,不执行解压操作
+- **优势**: 减轻本地服务器构建压力,避免 2核2G 服务器内存不足导致构建失败
+
+---
+
+### 1.2 自动解压脚本
+
+**脚本文件**: `deploy-wwwroot-to-web.sh`
+
+**核心功能**:
+- 定时检测 `$HOME/gitee_go/deploy/output.tar.gz` 是否存在
+- 解压到临时目录,通过 MD5 对比判断文件是否变动
+- 仅在文件变动时执行部署,避免无效操作
+- 自动备份旧版本(保留最近 5 个备份)
+
+**目录说明**:
+- **源文件**: `$HOME/gitee_go/deploy/output.tar.gz`(流水线推送)
+- **目标目录**: `/opt/1panel/www/sites/sntip/index`(Web 访问目录)
+- **临时目录**: `/tmp/deploy_cs_$$`(对比后自动清理)
+
+**完整脚本代码**:
+
 ```sh
 #!/bin/bash
 # ============================================================================
@@ -119,7 +162,7 @@ stages:
 
 set -eu
 
-SOURCE_TAR="/opt/wwwroot/output.tar.gz"
+SOURCE_TAR="$HOME/gitee_go/deploy/output.tar.gz"
 TARGET_DIR="/opt/1panel/www/sites/sntip/index"
 TEMP_DIR="/tmp/deploy_cs_$$"
 EXTRACT_DIR="$TEMP_DIR/extract"
@@ -228,5 +271,341 @@ cp -a "$EXTRACT_DIR/." "$TARGET_DIR/"
 chmod -R 755 "$TARGET_DIR"
 
 log_ok "部署完成 → $TARGET_DIR"
-
 ```
+
+**定时任务配置**:
+
+在服务器 crontab 中配置每 3 分钟执行一次:
+
+```bash
+# 编辑定时任务
+crontab -e
+
+# 添加以下内容(每 3 分钟执行一次)
+*/3 * * * * /bin/bash /path/to/deploy-wwwroot-to-web.sh >> /var/log/deploy-wwwroot.log 2>&1
+```
+
+---
+
+## 🔧 方案二: 手动应急部署(备用方案)
+
+当 Gitee Go 流水线失败或需要紧急修复时,使用此方案直接在服务器构建。
+
+**脚本文件**: `deploy.sh`
+
+**核心功能**:
+- 在 `/opt/wwwroot` 目录拉取最新代码
+- 安装依赖并构建 VitePress 项目
+- 自动备份旧版本,部署到 Web 目录
+- 支持版本回滚(`--rollback` 参数)
+
+**目录说明**:
+- **代码目录**: `/opt/wwwroot`(Git 仓库拉取位置)
+- **构建产物**: `/opt/wwwroot/docs/.vitepress/dist`
+- **Web 目录**: `/opt/1panel/www/sites/sntip/index`
+
+**使用方式**:
+
+```bash
+# 完整部署(拉取 + 构建 + 部署)
+bash deploy.sh
+
+# 回滚到上一版本
+bash deploy.sh --rollback
+
+# 查看帮助
+bash deploy.sh --help
+```
+
+**完整脚本代码**:
+
+```sh
+#!/bin/bash
+# ============================================================================
+# VitePress 知行笔记 - 应急部署脚本
+# 用途:当 Gitee Go 流水线失败时的应急方案
+# 功能:在服务器上直接拉取代码 → 构建 → 部署到 Web 目录
+# ============================================================================
+
+set -eu
+
+# -------------------- 配置区 --------------------
+PROJECT_DIR="/opt/wwwroot"
+GIT_REPO="https://gitee.com/shub77/vitepress-tip.git"
+GIT_BRANCH="main"
+DIST_DIR="$PROJECT_DIR/docs/.vitepress/dist"
+WEB_DIR="/opt/1panel/www/sites/sntip/index"
+NPM_REGISTRY="https://registry.npmmirror.com"
+MAX_BACKUPS=5
+
+# -------------------- 颜色输出 --------------------
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+log_info()  { echo -e "${BLUE}[INFO]${NC}  $1"; }
+log_ok()    { echo -e "${GREEN}[OK]${NC}    $1"; }
+log_warn()  { echo -e "${YELLOW}[WARN]${NC}  $1"; }
+log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
+
+# -------------------- 函数:环境检查 --------------------
+check_environment() {
+    log_info "检查服务器环境..."
+    
+    local required_cmds=(git npm node)
+    for cmd in "${required_cmds[@]}"; do
+        if ! command -v "$cmd" &>/dev/null; then
+            log_error "缺少必要命令: $cmd"
+            exit 1
+        fi
+    done
+    
+    local current_node_version
+    current_node_version=$(node -v | sed 's/^v//')
+    log_info "当前 Node.js 版本: $current_node_version"
+    
+    local available_space
+    available_space=$(df -m "$PROJECT_DIR" 2>/dev/null | awk 'NR==2 {print $4}' || echo "0")
+    if [ "$available_space" -lt 500 ]; then
+        log_error "磁盘空间不足: ${available_space}MB (至少需要 500MB)"
+        exit 1
+    fi
+    
+    log_ok "环境检查通过 (可用空间: ${available_space}MB)"
+}
+
+# -------------------- 函数:拉取最新代码 --------------------
+pull_latest() {
+    log_info "拉取最新代码到 $PROJECT_DIR ..."
+    
+    if [ ! -d "$PROJECT_DIR/.git" ]; then
+        log_info "目录不是 Git 仓库,准备克隆..."
+        
+        if [ -d "$PROJECT_DIR" ] && [ "$(ls -A "$PROJECT_DIR" 2>/dev/null)" ]; then
+            log_warn "$PROJECT_DIR 已存在且不为空,将备份后重新克隆"
+            BACKUP_SRC="${PROJECT_DIR}_backup_src_$(date +%Y%m%d_%H%M%S)"
+            mv "$PROJECT_DIR" "$BACKUP_SRC"
+            log_info "已备份原目录到: $BACKUP_SRC"
+        fi
+        
+        mkdir -p "$PROJECT_DIR"
+        git clone "$GIT_REPO" "$PROJECT_DIR"
+        log_ok "仓库克隆完成"
+    else
+        cd "$PROJECT_DIR"
+        git stash 2>/dev/null || true
+        git fetch origin
+        git reset --hard "origin/$GIT_BRANCH"
+    fi
+    
+    log_ok "代码已更新到最新 commit: $(cd "$PROJECT_DIR" && git rev-parse --short HEAD)"
+}
+
+# -------------------- 函数:构建项目 --------------------
+build_project() {
+    log_info "安装依赖并构建 VitePress..."
+    
+    cd "$PROJECT_DIR"
+    npm config set registry "$NPM_REGISTRY"
+    npm ci --prefer-offline --no-audit
+    npm run docs:build
+    
+    log_ok "构建完成 → $DIST_DIR"
+}
+
+# -------------------- 函数:验证构建产物 --------------------
+verify_build() {
+    log_info "验证构建产物完整性..."
+    
+    if [ ! -d "$DIST_DIR" ]; then
+        log_error "构建产物目录不存在: $DIST_DIR"
+        return 1
+    fi
+    
+    local required_files=("index.html" "assets" "404.html")
+    for file in "${required_files[@]}"; do
+        if [ ! -e "$DIST_DIR/$file" ]; then
+            log_error "缺少关键文件/目录: $file"
+            return 1
+        fi
+    done
+    
+    local total_size
+    total_size=$(du -sm "$DIST_DIR" | awk '{print $1}')
+    if [ "$total_size" -lt 1 ]; then
+        log_error "构建产物过小: ${total_size}MB"
+        return 1
+    fi
+    
+    local file_count
+    file_count=$(find "$DIST_DIR" -type f | wc -l)
+    
+    log_ok "构建产物验证通过 (${total_size}MB, $file_count 个文件)"
+    return 0
+}
+
+# -------------------- 函数:部署到 Web 目录 --------------------
+deploy_to_web() {
+    log_info "部署到 Web 目录: $WEB_DIR"
+    
+    mkdir -p "$WEB_DIR"
+    
+    if [ "$(ls -A "$WEB_DIR" 2>/dev/null)" ]; then
+        BACKUP_DIR="${WEB_DIR}_backup_$(date +%Y%m%d_%H%M%S)"
+        cp -a "$WEB_DIR" "$BACKUP_DIR"
+        log_info "已备份旧版本到: $BACKUP_DIR"
+        
+        OLD_BACKUPS=$(ls -1dr "${WEB_DIR}_backup_"* 2>/dev/null | tail -n +$((MAX_BACKUPS + 1)) || true)
+        if [ -n "$OLD_BACKUPS" ]; then
+            echo "$OLD_BACKUPS" | xargs rm -rf
+            log_info "已清理旧备份,保留最近 $MAX_BACKUPS 个"
+        fi
+    fi
+    
+    find "$WEB_DIR" -mindepth 1 -not -name '.*' -delete 2>/dev/null || true
+    cp -a "$DIST_DIR/." "$WEB_DIR/"
+    chmod -R 755 "$WEB_DIR"
+    
+    local file_count
+    file_count=$(find "$WEB_DIR" -type f | wc -l)
+    
+    log_ok "部署完成 → $WEB_DIR ($file_count 个文件)"
+}
+
+# -------------------- 函数:回滚 --------------------
+rollback_deploy() {
+    echo ""
+    echo "╔══════════════════════════════════════════════╗"
+    echo "║     回滚到上一版本                           ║"
+    echo "╚══════════════════════════════════════════════╝"
+    echo ""
+    
+    local LATEST_BACKUP
+    LATEST_BACKUP=$(ls -dt "${WEB_DIR}_backup_"* 2>/dev/null | head -n 1)
+    
+    if [ -z "$LATEST_BACKUP" ] || [ ! -d "$LATEST_BACKUP" ]; then
+        log_error "未找到可用的备份版本"
+        exit 1
+    fi
+    
+    log_info "最新备份: $LATEST_BACKUP"
+    read -p "确认回滚到此版本? (y/N): " confirm
+    
+    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+        log_info "已取消回滚"
+        exit 0
+    fi
+    
+    local CURRENT_BACKUP="${WEB_DIR}_backup_current_$(date +%Y%m%d_%H%M%S)"
+    if [ "$(ls -A "$WEB_DIR" 2>/dev/null)" ]; then
+        cp -a "$WEB_DIR" "$CURRENT_BACKUP"
+        log_info "已备份当前版本到: $CURRENT_BACKUP"
+    fi
+    
+    log_info "恢复备份到 $WEB_DIR ..."
+    find "$WEB_DIR" -mindepth 1 -not -name '.*' -delete 2>/dev/null || true
+    cp -a "$LATEST_BACKUP/." "$WEB_DIR/"
+    chmod -R 755 "$WEB_DIR"
+    
+    local file_count
+    file_count=$(find "$WEB_DIR" -type f | wc -l)
+    
+    log_ok "🎉 回滚完成!站点已恢复到备份版本 ($file_count 个文件)"
+    log_info "Web 目录: $WEB_DIR"
+    echo ""
+}
+
+# -------------------- 入口 --------------------
+case "${1:-}" in
+    --rollback)
+        rollback_deploy
+        ;;
+    --help|-h)
+        echo "用法: bash deploy.sh [选项]"
+        echo ""
+        echo "选项:"
+        echo "  (无参数)       完整部署:拉取代码 → 构建 → 部署到 Web 目录"
+        echo "  --rollback     回滚到上一版本(从备份恢复)"
+        echo "  --help         显示此帮助"
+        ;;
+    *)
+        check_environment
+        pull_latest
+        build_project
+        
+        if ! verify_build; then
+            log_error "构建产物验证失败,中止部署"
+            exit 1
+        fi
+        
+        deploy_to_web
+        
+        local END_TIME=$(date +%s)
+        log_ok "🎉 全部完成!"
+        log_info "代码目录: $PROJECT_DIR"
+        log_info "Web 目录: $WEB_DIR"
+        ;;
+esac
+```
+
+---
+
+## 📊 两种方案对比
+
+| 对比项 | 方案一: 流水线 + 定时脚本 | 方案二: 手动应急部署 |
+|--------|--------------------------|----------------------|
+| **使用场景** | 日常自动部署 | 流水线失败时的应急方案 |
+| **构建位置** | Gitee Go 云服务器 | 本地服务器 `/opt/wwwroot` |
+| **触发方式** | 代码推送自动触发 + 定时任务 | 手动执行 `bash deploy.sh` |
+| **服务器压力** | 低(只接收制品压缩包) | 高(需要安装依赖和构建) |
+| **部署速度** | 快(3分钟内自动检测部署) | 较慢(需完整构建流程) |
+| **资源要求** | 低(只需解压和文件对比) | 高(需要 Node.js 和足够内存) |
+| **自动化程度** | 全自动 | 手动 |
+| **回滚支持** | 手动恢复备份 | 支持 `--rollback` 参数 |
+| **适用服务器** | 所有配置(包括2核2G) | 建议4核以上服务器 |
+
+## 💡 使用建议
+
+### 日常开发
+- 直接推送到 `main` 分支,流水线自动构建
+- 定时脚本自动检测并部署新版本
+- 无需人工干预
+
+### 应急场景
+1. **流水线构建失败**:
+   - 检查 Gitee Go 构建日志
+   - 确认失败原因(通常是内存不足)
+   - SSH 登录服务器执行 `bash deploy.sh`
+
+2. **新版本有问题**:
+   - 快速回滚: `bash deploy.sh --rollback`
+   - 检查并修复代码后重新推送
+
+3. **首次部署**:
+   - 推荐使用方案一(流水线)
+   - 如服务器配置足够(4核8G以上),可使用方案二
+
+## 🔍 常见问题
+
+**Q1: 为什么不在流水线中直接解压部署?**
+- 流水线部署步骤权限受限,无法直接操作 Web 目录
+- 分离后更灵活,可独立控制部署时机
+
+**Q2: 定时脚本的执行间隔是多久?**
+- 建议 3 分钟,可根据实际需求调整 crontab
+- 脚本使用 MD5 对比,无变动时秒级退出
+
+**Q3: 两种方案可以同时使用吗?**
+- 可以,但建议以方案一为主,方案二为辅
+- 避免同时执行导致文件冲突
+
+**Q4: 如何查看部署日志?**
+- 定时脚本: `tail -f /var/log/deploy-wwwroot.log`
+- 应急脚本: 直接查看终端输出
+- 流水线: Gitee Go 控制台查看构建日志
+
+**Q5: 备份文件占用空间过大怎么办?**
+- 脚本自动保留最近 5 个备份
+- 手动清理: `ls -dt /opt/1panel/www/sites/sntip/index_backup_* | tail -n +6 | xargs rm -rf`
