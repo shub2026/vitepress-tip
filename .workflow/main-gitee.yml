@@ -73,7 +73,21 @@ stages:
             artifactName: output
             artifactVersion: latest
         script:
+          - echo "=== 开始部署 ==="
+          - echo "当前用户: $(whoami)"
+          - echo "当前目录: $(pwd)"
+          - echo "检查制品文件..."
+          - ls -lh ~/gitee_go/deploy/output.tar.gz
+          - echo "创建目标目录..."
           - mkdir -p /opt/1panel/www/sites/sntip/index
-          - tar -xzf ~/gitee_go/deploy/output.tar.gz -C /opt/1panel/www/sites/sntip/index
+          - echo "清空目标目录..."
+          - find /opt/1panel/www/sites/sntip/index -mindepth 1 -delete 2>/dev/null || true
+          - echo "解压制品文件..."
+          - tar -xzf $HOME/gitee_go/deploy/output.tar.gz -C /opt/1panel/www/sites/sntip/index
+          - echo "设置权限..."
           - chmod -R 755 /opt/1panel/www/sites/sntip/index
+          - echo "验证部署结果..."
+          - ls -la /opt/1panel/www/sites/sntip/index/
+          - echo "文件数量: $(find /opt/1panel/www/sites/sntip/index -type f | wc -l)"
+          - echo "=== 部署完成 ==="
         strategy: {}
