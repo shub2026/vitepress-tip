@@ -14,7 +14,7 @@ hero:
       link: /vite/basic-setup
     - theme: alt
       text: 📄 AI提示词
-      link: /AI_about/ai-about
+      link: /AI_about/ai-about.md
     - theme: alt
       text: 🔖 书签
       link: https://my.sntip.cn
@@ -25,7 +25,7 @@ features:
     link: /vite/basic-setup
   - title: 📄 AI提示词指南
     details: 系统整理当前主流AI大模型的提示词（Prompt）最佳实践，帮助开发者和AI使用者快速掌握各模型的提示词技巧，提高AI交互效率和输出质量
-    link: /AI_about/ai-about
+    link: /AI_about/ai-about.md
   - title: 🧠 MD内容专注
     details: 轻松掌握 Markdown 语法，专注创作，创建精美的文档网站
     link: /vite/markdown-syntax

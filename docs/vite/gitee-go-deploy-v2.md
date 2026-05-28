@@ -46,7 +46,7 @@ graph TB
 - **触发条件**: main 分支自动触发
 
 **完整流水线代码**(`.workflow/main-gitee.yml`):
-
+::: details 查看流水线代码
 ```yaml
 version: '1.0'
 name: main-gitee
@@ -128,7 +128,7 @@ stages:
           - chmod -R 755 /opt/wwwroot
         strategy: {}
 ```
-
+:::
 **流水线说明**:
 - **构建阶段**: 在 Gitee Go 云服务器完成 `npm ci` 和 `npm run docs:build`
 - **部署阶段**: 只推送制品压缩包到 `~/gitee_go/deploy`,不执行解压操作
