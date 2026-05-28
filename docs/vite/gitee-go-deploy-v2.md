@@ -1,4 +1,6 @@
-# Gitee Go 部署方案文档
+# Gitee Go 部署方案实操文档
+
+针对实际部署中的问题，优化配置，使用以下方案
 
 ## 📋 部署架构概述
 
@@ -146,23 +148,35 @@ stages:
 - **目标目录**: `/opt/1panel/www/sites/sntip/index`(Web 访问目录)
 - **临时目录**: `/tmp/deploy_cs_$$`(对比后自动清理)
 
+**关键修复记录**:
+- ✅ **BOM 字符问题**: 移除文件开头的 UTF-8 BOM,确保 shebang 正确识别
+- ✅ **HOME 变量防护**: 在 `set -eu` 之前添加 HOME 环境变量检查,使用 `${HOME:-}` 安全语法
+- ✅ **编码修复**: 统一使用 UTF-8 编码和 LF 换行符,避免跨平台兼容性问题
+- ✅ **路径规范化**: 使用 `$HOME` 环境变量代替硬编码 `/root`,提高脚本可移植性
+
 **完整脚本代码**:
 
 ```sh
 #!/bin/bash
 # ============================================================================
-# 条件部署脚本：将 /opt/wwwroot 制品解压到 1Panel 站点目录
+# 条件部署脚本：将流水线制品解压到 1Panel 站点目录
 # 用法：bash deploy-wwwroot-to-web.sh
 # 逻辑：
-#   1. 检测 /opt/wwwroot/output.tar.gz 是否存在
+#   1. 检测 ~/gitee_go/deploy/output.tar.gz 是否存在
 #   2. 解压到临时目录
 #   3. 对比临时目录与目标目录差异
 #   4. 有变动才执行部署
 # ============================================================================
 
+# 确保 HOME 环境变量存在（必须在 set -eu 之前）
+if [ -z "${HOME:-}" ]; then
+    HOME=$(eval echo "~$(whoami)")
+    export HOME
+fi
+
 set -eu
 
-SOURCE_TAR="/root/gitee_go/deploy/output.tar.gz"
+SOURCE_TAR="$HOME/gitee_go/deploy/output.tar.gz"
 TARGET_DIR="/opt/1panel/www/sites/sntip/index"
 TEMP_DIR="/tmp/deploy_cs_$$"
 EXTRACT_DIR="$TEMP_DIR/extract"
@@ -609,3 +623,11 @@ esac
 **Q5: 备份文件占用空间过大怎么办?**
 - 脚本自动保留最近 5 个备份
 - 手动清理: `ls -dt /opt/1panel/www/sites/sntip/index_backup_* | tail -n +6 | xargs rm -rf`
+
+**Q6: 定时脚本报错 `HOME: unbound variable` 或 `#!/bin/bash: No such file or directory`?**
+- **原因 1**: `set -eu` 模式下,cron 环境可能没有定义 `$HOME` 变量
+  - **解决**: 在 `set -eu` 之前添加 HOME 检查:`if [ -z "${HOME:-}" ]; then HOME=$(eval echo "~$(whoami)"); export HOME; fi`
+- **原因 2**: 文件包含 UTF-8 BOM 字符,导致 shebang 无法识别
+  - **解决**: 使用 UTF-8 无 BOM 编码保存文件,LF 换行符
+- **原因 3**: 文件使用 CRLF 换行符(Windows 格式)
+  - **解决**: 转换为 LF 换行符:`dos2unix deploy-wwwroot-to-web.sh`
