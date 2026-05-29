@@ -11,8 +11,7 @@ export default withMermaid(
       }
     },
     head: [
-      ['link', { rel: 'icon', href: '/favicon.ico' }],
-      ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/images/logo.png' }],
+      ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/images/logo.svg' }],
       ['meta', { name: 'keywords', content: 'VitePress,文档,知识分享,知行笔记,教程' }],
       ['meta', { property: 'og:title', content: '知行笔记' }],
       ['meta', { property: 'og:description', content: '基于 VitePress 的极简风格知识分享平台' }],
@@ -33,7 +32,7 @@ export default withMermaid(
       },
     },
     themeConfig: {
-      logo: '/images/logo.png',
+      logo: '/images/logo.svg',
       search: {
         provider: 'local',
         options: {
@@ -77,14 +76,14 @@ export default withMermaid(
         {
           text: '构建指南',
           items: [
-            { text: '基本构建', link: '/Vite/basic-setup' },
-            { text: '远程关联', link: '/Vite/remote-connect' },
-            { text: 'Git常用命令', link: '/Vite/git-commands' },
-            { text: '1Panel部署', link: '/Vite/1panel-deploy' },
-            { text: '1Panel脚本', link: '/Vite/1panel-script' },
-            { text: 'Gitee Go流水线', link: '/Vite/gitee-go-deploy' },
-            { text: 'Gitee Go优化V2', link: '/Vite/gitee-go-deploy-v2' },
-            { text: 'Markdown语法', link: '/Vite/markdown-syntax' },
+            { text: '基本构建', link: '/vite/basic-setup' },
+            { text: '远程关联', link: '/vite/remote-connect' },
+            { text: 'Git常用命令', link: '/vite/git-commands' },
+            { text: '1Panel部署', link: '/vite/1panel-deploy' },
+            { text: '1Panel脚本', link: '/vite/1panel-script' },
+            { text: 'Gitee Go流水线', link: '/vite/gitee-go-deploy' },
+            { text: 'Gitee Go优化V2', link: '/vite/gitee-go-deploy-v2' },
+            { text: 'Markdown语法', link: '/vite/markdown-syntax' },
           ]
         },
         {
@@ -106,13 +105,13 @@ export default withMermaid(
           text: '其他',
           collapsed: true,
           items: [
-            { text: '示例展示', link: '/Other/eg/list' },
-            { text: '页面样式', link: '/Other/eg/page' },
-            { text: '证件照尺寸', link: '/Other/id-photo-sizes' },
-            { text: '证件照美白', link: '/Other/id-photo-whitening' },
-            { text: '证件照灯光部署方案', link: '/Other/id-photo-lighting' },
-            { text: 'Lightroom处理流程与技巧', link: '/Other/lightroom-workflow-and-tips' },
-            { text: 'Lightroom预设使用指南', link: '/Other/lightroom-preset-guide' },
+            { text: '示例展示', link: '/other/eg/list' },
+            { text: '页面样式', link: '/other/eg/page' },
+            { text: '证件照尺寸', link: '/other/id-photo-sizes' },
+            { text: '证件照美白', link: '/other/id-photo-whitening' },
+            { text: '证件照灯光部署方案', link: '/other/id-photo-lighting' },
+            { text: 'Lightroom处理流程与技巧', link: '/other/lightroom-workflow-and-tips' },
+            { text: 'Lightroom预设使用指南', link: '/other/lightroom-preset-guide' },
             { text: '知行书签', link: '/bookmarks' },
           ]
         },
