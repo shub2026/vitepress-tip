@@ -25,7 +25,12 @@ export default withMermaid(
       hostname: 'https://sntip.cn'
     },
     mermaid: {
-      theme: 'default'
+      // 参考 https://mermaid.js.org/config/theming.html
+      // 插件自动跟随 VitePress 深浅模式切换 dark 主题
+      theme: 'default',
+      themeVariables: {
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif',
+      },
     },
     themeConfig: {
       logo: '/images/logo.png',
