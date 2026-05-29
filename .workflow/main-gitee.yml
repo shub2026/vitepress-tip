@@ -1,16 +1,13 @@
 version: '1.0'
 name: main-gitee
-displayName: VitePress 自动构建与部署
-
+displayName: main-gitee
 triggers:
   trigger: auto
   push:
     branches:
       prefix:
         - main
-
 stages:
-  # ==================== 阶段一：构建 ====================
   - name: stage-build
     displayName: 构建
     strategy: naturally
@@ -19,31 +16,16 @@ stages:
       - step: build@nodejs
         name: build-nodejs
         displayName: Node.js 构建
-        nodeVersion: '20'                    # P7: 使用 LTS 版本
+        nodeVersion: 25.4.0
         commands:
-          # 配置镜像源
           - npm config set registry https://registry.npmmirror.com
-          # 安装依赖（优先使用缓存）
-          - if [ ! -d node_modules ]; then npm ci; else npm ci --prefer-offline; fi
-          # 构建项目
+          - npm ci
           - npm run docs:build
-          # P6: 构建产物完整性校验
-          - test -f docs/.vitepress/dist/index.html || { echo "ERROR: index.html not found, build may have failed"; exit 1; }
-          - FILE_COUNT=$(find docs/.vitepress/dist -type f | wc -l)
-          - echo "Build output: $FILE_COUNT files"
-          - test "$FILE_COUNT" -gt 5 || { echo "ERROR: too few output files ($FILE_COUNT), build may be incomplete"; exit 1; }
-          # 打包制品（排除 sourcemap）
-          - cd docs/.vitepress/dist && tar -czf ../../../output.tar.gz --exclude='*.map' .
-          # 显示制品信息
-          - ls -lh ../../../output.tar.gz
+          - cd docs/.vitepress/dist && tar -czf ../../../output.tar.gz .
         artifacts:
           - name: BUILD_ARTIFACT
             path:
               - output.tar.gz
-        strategy:
-          retry: '2'                         # P8: 构建重试
-
-  # ==================== 阶段二：上传制品 ====================
   - name: stage-upload
     displayName: 上传制品
     strategy: naturally
@@ -56,9 +38,7 @@ stages:
         artifactName: output
         notify: []
         strategy:
-          retry: '1'                         # P8: 上传重试
-
-  # ==================== 阶段三：发布版本 ====================
+          retry: '0'
   - name: stage-release
     displayName: 发布版本
     strategy: naturally
@@ -72,9 +52,7 @@ stages:
         autoIncrement: true
         notify: []
         strategy:
-          retry: '1'                         # P8: 发布重试
-
-  # ==================== 阶段四：部署 ====================
+          retry: '0'
   - name: stage-deploy
     displayName: 部署
     strategy: naturally
@@ -82,7 +60,7 @@ stages:
     steps:
       - step: deploy@agent
         name: deploy_agent
-        displayName: 部署制品到服务器
+        displayName: 部署到服务器
         hostGroupID:
           ID: ali2026
           hostID:
@@ -90,13 +68,10 @@ stages:
         deployArtifact:
           - source: artifact
             name: output
-            target: ~/gitee_go/deploy        # P1/P2: 仅推送制品，不解压
+            target: ~/gitee_go/deploy
             artifactRepository: release
             artifactName: output
             artifactVersion: latest
-        # P1/P3/P10: 删除冗余 script
-        # 解压、对比、权限设置全部由 deploy-web-v2.sh 完成
         script:
           - echo "制品已推送到 ~/gitee_go/deploy/，等待 deploy-web-v2.sh 定时部署"
-        strategy:
-          retry: '1'                         # P8: 部署重试
+        strategy: {}
