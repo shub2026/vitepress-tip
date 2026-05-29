@@ -1,0 +1,16 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 底色圆角方形 RGB(50, 203, 143) -->
+  <rect width="200" height="200" rx="44" fill="#32CB8F"/>
+
+  <!-- 左斜线（从左下到右上，白色粗线，圆头） -->
+  <line x1="42" y1="148" x2="102" y2="42" stroke="white" stroke-width="18" stroke-linecap="round"/>
+
+  <!-- 右斜线（与左线平行，向右偏移） -->
+  <line x1="78" y1="148" x2="138" y2="42" stroke="white" stroke-width="18" stroke-linecap="round"/>
+
+  <!-- 右侧小圆点（上） -->
+  <circle cx="168" cy="80" r="11" fill="white"/>
+
+  <!-- 右侧大圆点（下） -->
+  <circle cx="152" cy="126" r="16" fill="white"/>
+</svg>
