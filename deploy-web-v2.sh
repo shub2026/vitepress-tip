@@ -363,7 +363,7 @@ compare_directories() {
     local md5_src="$3"
     local md5_tgt="$4"
 
-    log_info_f "正在对比源与目标目录..."
+    log_info_f "正在对比源与目标目录..." >&2
 
     # 生成源目录 MD5 清单
     (cd "$src_dir" && find . -type f -exec md5sum {} + 2>/dev/null || true) | sort > "$md5_src"
@@ -372,7 +372,7 @@ compare_directories() {
     local tgt_file_count
     tgt_file_count=$(find "$tgt_dir" -type f 2>/dev/null | wc -l)
     if [ "$tgt_file_count" -eq 0 ]; then
-        log_warn_f "目标目录为空，将执行首次部署..."
+        log_warn_f "目标目录为空，将执行首次部署..." >&2
         > "$md5_tgt"
         echo "0"  # 返回目标文件数
         return 0
@@ -637,9 +637,8 @@ main() {
     log_info_f "制品路径: $SOURCE_TAR"
 
     if [ ! -f "$SOURCE_TAR" ]; then
-        log_error_f "制品文件不存在: $SOURCE_TAR"
-        log_info_f "请确认 Gitee Go 流水线已成功推送制品"
-        exit 1
+        log_info_f "无新制品文件: $SOURCE_TAR（等待下一次流水线推送）"
+        exit 0
     fi
 
     local tar_size
