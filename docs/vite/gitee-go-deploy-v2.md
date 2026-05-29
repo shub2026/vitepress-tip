@@ -964,14 +964,14 @@ crontab -e
 **脚本文件**: `deploy.sh`
 
 **核心功能**:
-- 在 `/opt/wwwroot` 目录拉取最新代码
+- 在 `/opt/code` 目录拉取最新代码
 - 安装依赖并构建 VitePress 项目
 - 自动备份旧版本,部署到 Web 目录
 - 支持版本回滚(`--rollback` 参数)
 
 **目录说明**:
-- **代码目录**: `/opt/wwwroot`(Git 仓库拉取位置)
-- **构建产物**: `/opt/wwwroot/docs/.vitepress/dist`
+- **代码目录**: `/opt/code`(Git 仓库拉取位置)
+- **构建产物**: `/opt/code/docs/.vitepress/dist`
 - **Web 目录**: `/opt/1panel/www/sites/sntip/index`
 
 **使用方式**:
@@ -1000,7 +1000,7 @@ bash deploy.sh --help
 set -eu
 
 # -------------------- 配置区 --------------------
-PROJECT_DIR="/opt/wwwroot"
+PROJECT_DIR="/opt/code"
 GIT_REPO="https://gitee.com/shub77/vitepress-tip.git"
 GIT_BRANCH="main"
 DIST_DIR="$PROJECT_DIR/docs/.vitepress/dist"
@@ -1227,7 +1227,7 @@ esac
 | 对比项 | 方案一: 流水线 + 定时脚本 | 方案二: 手动应急部署 |
 |--------|--------------------------|----------------------|
 | **使用场景** | 日常自动部署 | 流水线失败时的应急方案 |
-| **构建位置** | Gitee Go 云服务器 | 本地服务器 `/opt/wwwroot` |
+| **构建位置** | Gitee Go 云服务器 | 本地服务器 `/opt/code` |
 | **触发方式** | 代码推送自动触发 + 定时任务 | 手动执行 `bash deploy.sh` |
 | **服务器压力** | 低(只接收制品压缩包) | 高(需要安装依赖和构建) |
 | **部署速度** | 快(3分钟内自动检测部署) | 较慢(需完整构建流程) |
@@ -1255,7 +1255,7 @@ esac
 
 3. **首次部署**:
    - 推荐使用方案一(流水线)
-   - 如服务器配置足够(4核8G以上),可使用方案二
+   - 如服务器配置足够(4核8G以上),或应急可使用方案二
 
 ## 🔍 常见问题
 

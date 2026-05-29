@@ -11,7 +11,7 @@
 set -eu
 
 # -------------------- 配置区 --------------------
-PROJECT_DIR="/opt/wwwroot"
+PROJECT_DIR="/opt/code"
 GIT_REPO="https://gitee.com/shub77/vitepress-tip.git"
 GIT_BRANCH="main"
 DIST_DIR="$PROJECT_DIR/docs/.vitepress/dist"
@@ -197,8 +197,8 @@ cleanup_old_backups() {
 full_deploy() {
     echo ""
     echo "╔══════════════════════════════════════════════╗"
-    echo "║     知行笔记 VitePress 应急部署脚本          ║"
-    echo "║     (Gitee Go 流水线失败时的备用方案)        ║"
+    echo "║     知行笔记 VitePress 应急部署脚本           ║"
+    echo "║     (Gitee Go 流水线失败时的备用方案)         ║"
     echo "╚══════════════════════════════════════════════╝"
     echo ""
     
@@ -232,7 +232,7 @@ full_deploy() {
 rollback_deploy() {
     echo ""
     echo "╔══════════════════════════════════════════════╗"
-    echo "║     回滚到上一版本                           ║"
+    echo "║     回滚到上一版本                            ║"
     echo "╚══════════════════════════════════════════════╝"
     echo ""
     
@@ -288,8 +288,8 @@ case "${1:-}" in
         echo "  --help         显示此帮助"
         echo ""
         echo "部署流程:"
-        echo "  1. 拉取代码到 /opt/wwwroot 并执行 git pull"
-        echo "  2. 在 /opt/wwwroot 安装依赖并构建 VitePress"
+        echo "  1. 拉取代码到 /opt/code 并执行 git pull"
+        echo "  2. 在 /opt/code 安装依赖并构建 VitePress"
         echo "  3. 备份当前 Web 目录（保留最近 5 个）"
         echo "  4. 清空 /opt/1panel/www/sites/sntip/index"
         echo "  5. 复制 dist 目录所有文件到 Web 目录"
@@ -300,7 +300,7 @@ case "${1:-}" in
         echo ""
         echo "配置说明:"
         echo "  编辑脚本中的以下配置项:"
-        echo "  PROJECT_DIR  - 代码目录 (默认: /opt/wwwroot)"
+        echo "  PROJECT_DIR  - 代码目录 (默认: /opt/code)"
         echo "  GIT_REPO     - Git 仓库地址"
         echo "  WEB_DIR      - Web 访问目录 (默认: /opt/1panel/www/sites/sntip/index)"
         ;;
