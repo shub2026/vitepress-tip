@@ -102,6 +102,14 @@ export default withMermaid(
           ]
         },
         {
+          text: 'Linux 学习',
+          collapsed: false,
+          items: [
+            { text: 'Ubuntu 文件系统架构与挂载详解', link: '/linux/ubuntu-filesystem-architecture' },
+            { text: 'Ubuntu 日常使用说明', link: '/linux/ubuntu-daily-usage' },
+          ]
+        },
+        {
           text: '其他',
           collapsed: true,
           items: [
