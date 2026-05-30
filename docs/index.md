@@ -6,7 +6,7 @@ hero:
   text: '知行合一 止于至善'
   tagline: '使用VitePress构建的极简风格网站，初次使用，从零开始'
   image:
-    src: /images/img-icon.svg
+    src: /img-icon.svg
     alt: 项目 Logo 占位符
   actions:
     - theme: brand
