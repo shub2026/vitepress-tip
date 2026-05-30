@@ -26,11 +26,11 @@ graph TB
 2. **自动解压脚本**: `deploy-web-v2.sh` 定时检测并解压制品到 Web 目录
 3. **应急部署脚本**: `deploy.sh` 用于流水线失败时手动在服务器构建
 
-**设计原因**:
+::: info 设计原因
 - 轻量应用服务器(2核2G)直接在流水线构建常失败
 - 分离制品推送与实际部署,降低流水线复杂度
 - 定时脚本实现智能对比,只在文件变动时部署
-
+:::
 ---
 
 ## 🚀 方案一: Gitee Go 流水线 + 定时解压(主方案)
@@ -146,10 +146,10 @@ stages:
 - 自动备份旧版本（保留最近 5 个备份，正则匹配防误删）
 - 规范化权限设置（目录 755、文件 644）
 
-**目录说明**:
-- **源文件**: `~/gitee_go/deploy/output.tar.gz`(流水线推送)
-- **目标目录**: `/opt/1panel/www/sites/sntip/index`(Web 访问目录)
-- **临时目录**: `/tmp/deploy_cs.XXXXXX`(使用 mktemp 创建，执行后自动清理)
+> [!NOTE] 目录说明
+>- **源文件**: `~/gitee_go/deploy/output.tar.gz`(流水线推送)
+>- **目标目录**: `/opt/1panel/www/sites/sntip/index`(Web 访问目录)
+>- **临时目录**: `/tmp/deploy_cs.XXXXXX`(使用 mktemp 创建，执行后自动清理)
 
 **关键优化记录**:
 - ✅ **BOM 字符修复**: 确保文件使用 UTF-8 无 BOM 编码，shebang 正确识别
@@ -969,10 +969,10 @@ crontab -e
 - 自动备份旧版本,部署到 Web 目录
 - 支持版本回滚(`--rollback` 参数)
 
-**目录说明**:
-- **代码目录**: `/opt/code`(Git 仓库拉取位置)
-- **构建产物**: `/opt/code/docs/.vitepress/dist`
-- **Web 目录**: `/opt/1panel/www/sites/sntip/index`
+> [!NOTE] 目录说明
+> - **代码目录**: `/opt/code`(Git 仓库拉取位置)
+> - **构建产物**: `/opt/code/docs/.vitepress/dist`
+> - **Web 目录**: `/opt/1panel/www/sites/sntip/index`
 
 **使用方式**:
 
