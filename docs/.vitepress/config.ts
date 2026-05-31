@@ -87,7 +87,7 @@ export default withMermaid(
           ]
         },
         {
-          text: 'AI提示词指南',
+          text: 'AI应用指南',
           collapsed: false,
           items: [
             { text: '📖 提示词说明', link: '/AI_about/ai-index' },
