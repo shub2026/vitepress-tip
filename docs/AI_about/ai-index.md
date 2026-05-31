@@ -1,11 +1,11 @@
 # 主流AI大模型提示词最佳实践指南
 
-> 全面整理 OpenAI、Claude、Gemini、Llama、Mistral、DeepSeek、千问、智谱AI 等主流AI大模型的提示词技巧与实用模板
+> 全面整理 OpenAI、Claude、Gemini、Llama、Mistral、DeepSeek、千问、GLM、Kimi、MiniMax、Hy3、ERNIE 等主流AI大模型的提示词技巧与实用模板
 
 > 📊 **模型选型参考**：如需了解各模型性能对比与选型建议，请查看 [国产大模型选择指南](./国产大模型选择指南)
 
 [![Documentation](https://img.shields.io/badge/文档-完整-green)](https://gitee.com/shub77/vitepress-tip)
-[![Models](https://img.shields.io/badge/模型-8大主流-blue)](https://gitee.com/shub77/vitepress-tip)
+[![Models](https://img.shields.io/badge/模型-12大主流-blue)](https://gitee.com/shub77/vitepress-tip)
 [![Language](https://img.shields.io/badge/语言-中文-brightgreen)](https://gitee.com/shub77/vitepress-tip)
 [![Status](https://img.shields.io/badge/状态-持续更新-yellow)](https://gitee.com/shub77/vitepress-tip)
 
@@ -17,7 +17,7 @@
 
 ### 核心特点
 
-- ✅ **全面覆盖**：涵盖8大主流AI模型系列（含国产模型）
+- ✅ **全面覆盖**：涵盖12大主流AI模型系列（含7大国产模型）
 - ✅ **场景丰富**：包含写作、代码、图像、数据分析、推理等主流使用场景
 - ✅ **实用性强**：每个场景提供多个详细的中文提示词示例
 - ✅ **参数指导**：提供各场景下的最佳配置参数建议
@@ -37,20 +37,26 @@
 | **Google Gemini**    | Gemini 1.5 Pro, Flash           | [查看指南](./google-gemini-prompts.md)    | 多模态、超长上下文、研究摘要     |
 | **Meta Llama**       | Llama 3, Llama 2                | [查看指南](./meta-llama-prompts.md)       | 开源免费、本地部署、可定制       |
 | **Mistral AI**       | Mistral 7B, Mixtral 8x7B        | [查看指南](./mistral-prompts.md)          | 代码生成、JSON输出、高效推理     |
-| **DeepSeek**         | DeepSeek-V2, DeepSeek-R1        | [查看指南](./deepseek-prompts.md)         | 强大推理能力、代码生成、数学能力 |
-| **千问(Qwen)**       | Qwen-Max, Qwen-Plus, Qwen-Turbo | [查看指南](./qwen-prompts.md)             | 中文能力强、长上下文、多模态     |
-| **智谱AI GLM**       | GLM-4, ChatGLM                  | [查看指南](./glm-prompts.md)              | 中文优化、多模态支持、开源免费   |
+| **DeepSeek**         | DeepSeek V4-Pro, V4-Flash       | [查看指南](./deepseek-prompts.md)         | 国产综合最强、编码第一、推理顶尖 |
+| **千问(Qwen)**       | Qwen3.6-35B-A3B, Qwen3-235B     | [查看指南](./qwen-prompts.md)             | 开源生态标杆、本地部署、编程视觉 |
+| **智谱AI GLM**       | GLM-5.1, GLM-5v-Turbo           | [查看指南](./glm-prompts.md)              | 中文理解最强、企业级服务、多模态 |
+| **Kimi (月之暗面)**   | Kimi K2.6, K2.5                 | [查看指南](./kimi-prompts.md)             | 长文本之王、Agent国产最强        |
+| **MiniMax**          | MiniMax M2.7, M2.5              | [查看指南](./minimax-prompts.md)          | 创意写作、极致性价比              |
+| **腾讯混元 Hy3**     | Hy3 preview                     | [查看指南](./hy3-prompts.md)              | 快慢思考融合、Agent稳定、开源    |
+| **百度文心 ERNIE**   | ERNIE 5.1                       | [查看指南](./ernie-prompts.md)            | Agent突出、搜索国内第一、创作强   |
 
 ### 按使用场景查看
 
 | 使用场景     | 推荐模型                            | 快速链接                          |
 | ------------ | ----------------------------------- | --------------------------------- |
-| **写作任务** | Claude > GPT-4 > Gemini             | [写作提示词技巧](#写作任务提示词) |
-| **代码开发** | GPT-4 > Claude > DeepSeek > Mistral | [代码提示词技巧](#代码开发提示词) |
-| **图像生成** | DALL-E > Gemini                     | [图像提示词技巧](#图像生成提示词) |
-| **数据分析** | GPT-4 > Gemini > Claude             | [数据分析提示词](#数据分析提示词) |
-| **推理任务** | GPT-4 > DeepSeek-R1 > Claude        | [推理提示词技巧](#推理任务提示词) |
-| **中文任务** | Qwen > GLM > DeepSeek               | [国产模型优势](#国产模型特点)     |
+| **写作任务** | Claude > MiniMax > ERNIE > GPT-4    | [写作提示词技巧](#写作任务提示词) |
+| **代码开发** | DeepSeek V4-Pro > GPT-4 > Claude    | [代码提示词技巧](#代码开发提示词) |
+| **图像生成** | DALL-E > Gemini > GLM-5v-Turbo     | [图像提示词技巧](#图像生成提示词) |
+| **数据分析** | GPT-4 > Gemini > Hy3 > Claude       | [数据分析提示词](#数据分析提示词) |
+| **推理任务** | DeepSeek V4-Pro > Hy3 > ERNIE       | [推理提示词技巧](#推理任务提示词) |
+| **长文档处理** | Kimi K2.6 > DeepSeek V4-Pro > GLM-5.1 | [国产模型优势](#国产模型特点)   |
+| **Agent/工具** | Kimi K2.6 > ERNIE 5.1 > Hy3 > GLM-5.1 | [国产模型优势](#国产模型特点)   |
+| **中文任务** | GLM-5.1 > Qwen3.6 > ERNIE > DeepSeek | [国产模型优势](#国产模型特点)     |
 
 ---
 
@@ -60,34 +66,78 @@
 
 **核心优势**：
 
-- ✅ 推理能力强：DeepSeek-R1在数学和逻辑推理上达到顶尖水平
-- ✅ 代码生成优秀：DeepSeek-Coder系列在代码任务上表现出色
-- ✅ 开源免费：可商用，可本地部署
-- ✅ 中文能力强：对中文理解和生成优化
+- ✅ 国产综合最强：DS V4-Pro 综合评分 87，编码 89.8，均为国产第一
+- ✅ 超长上下文：1M tokens 原生支持
+- ✅ 混合注意力架构：1M 上下文 FLOPs 仅 V3 的 27%
+- ✅ MIT 完全开源：1.6T 参数全球最大开源权重
 
-**推荐场景**：数学问题、逻辑推理、代码生成、算法实现
+**推荐场景**：代码生成、数学推理、长文档分析、技术问答
 
 ### 千问(Qwen)（阿里巴巴）
 
 **核心优势**：
 
-- ✅ 中文能力强：针对中文优化，理解和生成质量高
-- ✅ 长上下文：Qwen-Plus/Turbo支持128K tokens
-- ✅ 多模态支持：Qwen-VL支持图像理解
-- ✅ 开源免费：Qwen开源版本可商用
+- ✅ 开源生态标杆：Apache 2.0，8B~397B 全系列覆盖
+- ✅ MoE 架构高效：Qwen3.6-35B-A3B 仅 30B 激活，21GB 即可本地运行
+- ✅ 多模态支持：Qwen-VL 支持图像理解
+- ✅ 编程能力突出：编码评分 85
 
-**推荐场景**：中文写作、长文档分析、图文混合任务
+**推荐场景**：本地部署、中文编程、图文混合任务
 
 ### 智谱AI GLM（清华系）
 
 **核心优势**：
 
-- ✅ 中文能力强：针对中文优化
-- ✅ 长上下文：GLM-4支持128K tokens
-- ✅ 多模态支持：GLM-4V支持图像理解
-- ✅ 开源免费：ChatGLM系列可商用
+- ✅ 中文理解国产最强：中文评分 93 分
+- ✅ 百万级超长上下文：GLM-5.1 支持 1M+ tokens
+- ✅ 全面均衡：MMLU 90 / 中文 93 / Agent 88，无明显短板
+- ✅ 企业级服务：智谱为「全球大模型第一股」
 
-**推荐场景**：中文对话、图文分析、本地部署
+**推荐场景**：企业应用、中文对话、多模态分析、通用任务
+
+### Kimi（月之暗面）
+
+**核心优势**：
+
+- ✅ 长文本国产第一：长文理解评分 95，百万级上下文稳定可用
+- ✅ Agent 能力最强：Agent 评分 92，国产最高
+- ✅ 文件上传分析：支持 PDF/Word/Excel/PPT 等多格式文件直接分析
+- ✅ 联网搜索：支持实时信息检索
+
+**推荐场景**：长文档分析、Agent 编排、代码审查、研究报告
+
+### MiniMax
+
+**核心优势**：
+
+- ✅ 创意写作国产最强：创意写作评分 88
+- ✅ 极致性价比：API 价格 ¥1/¥4，不到其他旗舰 1/4
+- ✅ 百万级上下文：M2.7 支持 1M tokens
+- ✅ 推理速度快：仅 45B 激活参数
+
+**推荐场景**：内容创作、营销文案、大规模批量调用、预算敏感场景
+
+### 腾讯混元 Hy3
+
+**核心优势**：
+
+- ✅ 快慢思考融合：直觉思维 + 深度推理按需切换
+- ✅ Agent 稳定可靠：在 CodeBuddy 内验证，可驱动 495 步复杂流程
+- ✅ 极致性价比：输入 ¥1.2 / 输出 ¥4.0
+- ✅ 推理能力强：清华大学数学博士资格考国内最高分
+
+**推荐场景**：复杂推理、Agent 工作流、企业内部集成、技术问答
+
+### 百度文心 ERNIE
+
+**核心优势**：
+
+- ✅ Agent 能力突出：τ³-bench 超越 DeepSeek V4-Pro
+- ✅ 搜索国内第一：Arena 搜索榜全球第 4 / 国内第 1
+- ✅ 创作能力卓越：意图洞察-内容创作闭环
+- ✅ 极致效率：仅用 6% 的预训练成本
+
+**推荐场景**：搜索增强问答、智能体任务、中文创作、内容优化
 
 ---
 
@@ -258,20 +308,20 @@
 
 ### DeepSeek 系列
 
-**核心优势**：推理能力强、代码生成优秀、中文支持好
+**核心优势**：国产综合最强（87分）、编码第一（89.8分）、百万级上下文
 
 **提示词技巧**：
 
-- 使用正确的聊天模板格式
-- 提供详细指令（DeepSeek指令遵循能力中等）
-- 少样本提示效果显著
-- DeepSeek-R1擅长数学和逻辑推理
+- 使用简单的聊天模板格式（User/Assistant）
+- 默认开启思维链（Thinking Mode），无需额外提示
+- 提供详细指令和示例效果最佳
+- V4-Pro 适合编码和推理，V4-Flash 适合日常对话
 
 **配置建议**：
 
 - 推理任务：temperature=0.2, top_p=0.9
 - 代码生成：temperature=0.3-0.5
-- 使用DeepSeek-Coder进行代码任务
+- 长文本分析：利用 1M 上下文优势
 
 📖 **详细指南**：[DeepSeek 提示词最佳实践](./deepseek-prompts.md)
 
@@ -279,20 +329,20 @@
 
 ### 千问(Qwen) 系列
 
-**核心优势**：中文能力强、长上下文、多模态支持
+**核心优势**：开源生态标杆、MoE 高效架构、本地部署友好
 
 **提示词技巧**：
 
 - 使用系统消息（System Message）设定角色
-- 提供详细指令（千问指令遵循能力中等）
+- 提供详细指令，Qwen3.6 指令遵循能力显著提升
 - 少样本提示效果显著
-- 中文任务表现优异
+- Qwen3.6-35B-A3B 适合本地部署，Qwen3-235B 适合云端高精度
 
 **配置建议**：
 
 - 中文任务：temperature=0.3-0.5
-- 长文档分析：使用Qwen-Plus/Turbo（128K上下文）
-- 代码生成：使用Qwen2.5-Coder
+- 本地部署：使用 Qwen3.6-35B-A3B（21GB 量化）
+- 代码生成：使用 Qwen3.6 系列
 
 📖 **详细指南**：[千问(Qwen) 提示词最佳实践](./qwen-prompts.md)
 
@@ -300,22 +350,106 @@
 
 ### 智谱AI GLM 系列
 
-**核心优势**：中文优化、多模态、开源免费
+**核心优势**：中文理解国产最强（93分）、全面均衡、企业级服务成熟
 
 **提示词技巧**：
 
 - 使用系统消息设定角色和行为
-- 提供详细指令（GLM指令遵循能力中等）
-- 少样本提示效果显著
-- GLM-4V支持图像理解
+- 提供详细指令，GLM-5.1 指令遵循能力显著提升
+- 长文本任务充分发挥 1M+ 上下文优势
+- GLM-5v-Turbo 支持图像理解
 
 **配置建议**：
 
 - 中文任务：temperature=0.3-0.5
-- 图像分析：使用GLM-4V
-- 本地部署：使用ChatGLM3-6B
+- 企业应用：使用 GLM-5.1
+- 多模态任务：使用 GLM-5v-Turbo
 
 📖 **详细指南**：[智谱AI GLM 提示词最佳实践](./glm-prompts.md)
+
+---
+
+### Kimi 系列
+
+**核心优势**：长文本国产第一（95分）、Agent 国产最强（92分）
+
+**提示词技巧**：
+
+- 利用文件上传功能分析 PDF/Word/Excel/PPT 等多格式文档
+- 超长文档（数百页）一次性处理，充分发挥 1M 上下文优势
+- 复杂 Agent 任务逐步编排，工具调用能力强
+- 支持联网搜索获取最新信息
+
+**配置建议**：
+
+- 长文档分析：temperature=0.2-0.4
+- Agent 任务：temperature=0.3-0.5
+- 代码审查：temperature=0.2
+
+📖 **详细指南**：[Kimi 提示词最佳实践](./kimi-prompts.md)
+
+---
+
+### MiniMax 系列
+
+**核心优势**：创意写作国产最强（88分）、极致性价比（¥1/¥4）
+
+**提示词技巧**：
+
+- 创意写作和文案生成效果最佳，适合需要文采的任务
+- 高 temperature（0.7-0.9）激发创意
+- 利用超低价格进行大规模批量内容生成
+- 百万级上下文可处理长篇内容
+
+**配置建议**：
+
+- 创意写作：temperature=0.7-0.9
+- 营销文案：temperature=0.6-0.8
+- 批量生成：利用价格优势实现规模效应
+
+📖 **详细指南**：[MiniMax 提示词最佳实践](./minimax-prompts.md)
+
+---
+
+### 腾讯混元 Hy3 系列
+
+**核心优势**：快慢思考融合、Agent 稳定可靠、极致性价比
+
+**提示词技巧**：
+
+- 复杂推理任务可先直觉判断再深度验证
+- Agent 工作流稳定，支持数百步的复杂编排
+- 多步拆解问题，逐步推进效果最佳
+- 256K 上下文适合中等长度文档处理
+
+**配置建议**：
+
+- 复杂推理：temperature=0.1-0.3
+- Agent 任务：temperature=0.2-0.4
+- 技术写作：temperature=0.3-0.5
+
+📖 **详细指南**：[Hy3 提示词最佳实践](./hy3-prompts.md)
+
+---
+
+### 百度文心 ERNIE 系列
+
+**核心优势**：Agent 能力突出、搜索国内第一（1223分）、创作能力强
+
+**提示词技巧**：
+
+- 搜索增强任务效果最佳，可获取最新实时信息
+- Agent 任务复杂编排，τ³-bench 超越 DeepSeek V4-Pro
+- 中文创作和内容优化表现优秀
+- 意图洞察-内容创作闭环，适合品牌营销场景
+
+**配置建议**：
+
+- 搜索问答：temperature=0.2-0.4
+- Agent 任务：temperature=0.3-0.5
+- 创意写作：temperature=0.7-0.9
+
+📖 **详细指南**：[ERNIE 提示词最佳实践](./ernie-prompts.md)
 
 ---
 
@@ -410,39 +544,39 @@
 
 | 场景     | 推荐模型              | 关键技巧          | 参数配置            |
 | -------- | --------------------- | ----------------- | ------------------- |
-| 博客文章 | Claude > Qwen > GPT-4 | 提供详细大纲要求  | temperature=0.7     |
-| 学术论文 | GPT-4 > GLM           | 要求引用来源      | temperature=0.3     |
-| 商业文案 | GPT-4 > Qwen          | 明确目标受众      | temperature=0.8     |
-| 创意故事 | Claude > GPT-4        | 角色扮演+情节要求 | temperature=0.9     |
-| 中文写作 | Qwen > GLM > DeepSeek | 明确中文表达风格  | temperature=0.6-0.8 |
+| 博客文章 | Claude > MiniMax > GPT-4 | 提供详细大纲要求  | temperature=0.7     |
+| 学术论文 | DeepSeek V4-Pro > GPT-4 > GLM | 要求引用来源      | temperature=0.3     |
+| 商业文案 | ERNIE > GPT-4 > MiniMax | 明确目标受众      | temperature=0.8     |
+| 创意故事 | MiniMax > Claude > GPT-4 | 角色扮演+情节要求 | temperature=0.9     |
+| 中文写作 | GLM-5.1 > Qwen3.6 > ERNIE | 明确中文表达风格  | temperature=0.6-0.8 |
 
 ### 代码开发
 
 | 场景     | 推荐模型                   | 关键技巧               | 参数配置        |
 | -------- | -------------------------- | ---------------------- | --------------- |
-| 代码生成 | GPT-4 > DeepSeek > Mistral | 提供详细需求和示例     | temperature=0.2 |
-| 代码审查 | Claude > GPT-4             | 明确审查维度           | temperature=0.3 |
-| Bug修复  | GPT-4 > DeepSeek           | 提供错误信息和代码片段 | temperature=0.1 |
+| 代码生成 | DeepSeek V4-Pro > GPT-4 > Mistral | 提供详细需求和示例     | temperature=0.2 |
+| 代码审查 | Claude > GPT-4 > Kimi      | 明确审查维度           | temperature=0.3 |
+| Bug修复  | DeepSeek V4-Pro > GPT-4    | 提供错误信息和代码片段 | temperature=0.1 |
 | 代码翻译 | Mistral > DeepSeek         | 明确源语言和目标语言   | temperature=0.3 |
-| 算法实现 | DeepSeek-R1 > GPT-4        | 要求逐步推理           | temperature=0.2 |
+| 算法实现 | DeepSeek V4-Pro > Hy3      | 要求逐步推理           | temperature=0.2 |
 
 ### 图像生成
 
-| 场景       | 推荐模型         | 关键技巧                 | 参数配置 |
-| ---------- | ---------------- | ------------------------ | -------- |
-| 写实图像   | DALL-E 3         | 详细描述光照、材质、构图 | -        |
-| 艺术插画   | DALL-E 3         | 明确艺术风格和色彩方案   | -        |
-| 图像编辑   | Gemini           | 提供原图和修改要求       | -        |
-| 中文提示词 | Qwen-VL > Gemini | 用中文描述图像需求       | -        |
+| 场景       | 推荐模型              | 关键技巧                 | 参数配置 |
+| ---------- | --------------------- | ------------------------ | -------- |
+| 写实图像   | DALL-E 3              | 详细描述光照、材质、构图 | -        |
+| 艺术插画   | DALL-E 3              | 明确艺术风格和色彩方案   | -        |
+| 图像编辑   | Gemini                | 提供原图和修改要求       | -        |
+| 中文提示词 | GLM-5v-Turbo > Gemini | 用中文描述图像需求       | -        |
 
 ### 数据分析
 
-| 场景         | 推荐模型       | 关键技巧         | 参数配置        |
-| ------------ | -------------- | ---------------- | --------------- |
-| 数据解读     | GPT-4 > Gemini | 要求结构化输出   | temperature=0.4 |
-| 可视化建议   | Gemini > GPT-4 | 推荐图表类型     | temperature=0.5 |
-| 业务洞察     | GPT-4 > Qwen   | 基于数据给出建议 | temperature=0.3 |
-| 中文数据分析 | Qwen > GLM     | 中文报告和洞察   | temperature=0.4 |
+| 场景         | 推荐模型                 | 关键技巧         | 参数配置        |
+| ------------ | ------------------------ | ---------------- | --------------- |
+| 数据解读     | GPT-4 > Hy3 > Gemini     | 要求结构化输出   | temperature=0.4 |
+| 可视化建议   | Gemini > GPT-4 > Hy3     | 推荐图表类型     | temperature=0.5 |
+| 业务洞察     | GPT-4 > ERNIE > Hy3      | 基于数据给出建议 | temperature=0.3 |
+| 中文数据分析 | GLM-5.1 > Qwen3.6 > ERNIE | 中文报告和洞察   | temperature=0.4 |
 
 ---
 
@@ -488,11 +622,16 @@
 
 **选择建议**：
 
-1. **中文任务**：优先选择Qwen或GLM
-2. **数学推理**：优先选择DeepSeek-R1
-3. **代码生成**：优先选择DeepSeek-Coder
-4. **本地部署**：可选择ChatGLM3-6B或Qwen2.5-7B
-5. **多模态任务**：可选择Qwen-VL或GLM-4V
+1. **中文任务**：优先选择 GLM-5.1 或 Qwen3.6
+2. **数学推理**：优先选择 DeepSeek V4-Pro 或 Hy3
+3. **代码生成**：优先选择 DeepSeek V4-Pro
+4. **长文档处理**：优先选择 Kimi K2.6
+5. **Agent 任务**：优先选择 Kimi K2.6 或 ERNIE 5.1
+6. **创意写作**：优先选择 MiniMax M2.7 或 ERNIE 5.1
+7. **搜索增强**：优先选择 ERNIE 5.1
+8. **本地部署**：可选择 Qwen3.6-35B-A3B 或 DeepSeek V4-Flash
+9. **高性价比**：优先选择 MiniMax M2.7 或 DeepSeek V4-Flash
+10. **多模态任务**：可选择 GLM-5v-Turbo 或 Hy3 preview
 
 ---
 
@@ -523,6 +662,22 @@
 6. **智谱AI 开放平台文档**  
    https://open.bigmodel.cn/dev/api  
    智谱AI的官方API文档。
+
+7. **月之暗面 Moonshot AI 开放平台**  
+   https://platform.moonshot.cn/docs  
+   Kimi的官方API文档。
+
+8. **MiniMax 开放平台**  
+   https://platform.minimax.chat/documentation  
+   MiniMax的官方API文档。
+
+9. **腾讯混元大模型文档**  
+   https://cloud.tencent.com/product/hunyuan  
+   腾讯混元的云产品文档。
+
+10. **百度千帆大模型平台**  
+    https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html  
+    百度文心ERNIE的API文档。
 
 ### 社区资源
 
@@ -556,10 +711,10 @@
 
 ## 📝 更新日志
 
-- **2026-05-18**：初始版本发布，完成8大主流模型提示词指南
-- **2026-05-18**：新增国产模型（DeepSeek、千问、智谱AI GLM）
-- 包含GPT-4o/GPT-4/Claude 3.5/Gemini 1.5/DeepSeek-V2/Qwen-Max/GLM-4的详细提示词技巧
-- 涵盖写作、代码、图像、数据分析、推理5大场景
+- **2026-05-31**：重构索引页，新增 Kimi / MiniMax / Hy3 / ERNIE 四大国产模型
+- **2026-05-31**：更新 DeepSeek→V4 / Qwen→Qwen3.6 / GLM→GLM-5.1 模型版本
+- **2026-05-18**：初始版本发布，完成基础8大主流模型提示词指南
+- 涵盖写作、代码、图像、数据分析、推理等场景
 - 提供丰富的实用示例和可复用模板
 
 ---
@@ -580,6 +735,6 @@
 
 ---
 
-**最后更新时间**：2026年5月18日  
+**最后更新时间**：2026年5月31日  
 **作者**：AI Engineering Team  
-**版本**：v2.0（新增国产模型）
+**版本**：v3.0（重构为12大模型，更新至最新版本）
