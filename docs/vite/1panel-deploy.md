@@ -11,7 +11,7 @@
 通过SSH连接到你的服务器（可以直接使用1Panel自带的终端，或通过ssh 账号@公网IP连接）。以CentOS/RedHat系统为例，执行以下命令安装基础环境：
 
 ```sh
- bashyum install git  # 安装git用于克隆代码
+yum install git  # 安装git用于克隆代码
  yum install nodejs   # 安装Node.js环境
  yum install npm      # 安装npm包管理器
 ```

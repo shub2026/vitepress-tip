@@ -92,20 +92,30 @@ export default withMermaid(
           items: [
             { text: '📖 提示词说明', link: '/AI_about/ai-index' },
             { text: '📊 国产大模型选择指南', link: '/AI_about/国产大模型选择指南' },
-            { text: '— 国际模型 —', link: '' },
-            { text: 'OpenAI GPT', link: '/AI_about/openai-gpt-prompts' },
-            { text: 'Anthropic Claude', link: '/AI_about/anthropic-claude-prompts' },
-            { text: 'Google Gemini', link: '/AI_about/google-gemini-prompts' },
-            { text: 'Meta Llama', link: '/AI_about/meta-llama-prompts' },
-            { text: 'Mistral AI', link: '/AI_about/mistral-prompts' },
-            { text: '— 国产模型 —', link: '' },
-            { text: 'DeepSeek', link: '/AI_about/deepseek-prompts' },
-            { text: '千问(Qwen)', link: '/AI_about/qwen-prompts' },
-            { text: '智谱AI GLM', link: '/AI_about/glm-prompts' },
-            { text: 'Kimi (月之暗面)', link: '/AI_about/kimi-prompts' },
-            { text: 'MiniMax', link: '/AI_about/minimax-prompts' },
-            { text: '腾讯混元 Hy3', link: '/AI_about/hy3-prompts' },
-            { text: '百度文心 ERNIE', link: '/AI_about/ernie-prompts' },
+            {
+              text: '🌐 国际模型',
+              collapsed: true,
+              items: [
+                { text: 'OpenAI GPT', link: '/AI_about/openai-gpt-prompts' },
+                { text: 'Anthropic Claude', link: '/AI_about/anthropic-claude-prompts' },
+                { text: 'Google Gemini', link: '/AI_about/google-gemini-prompts' },
+                { text: 'Meta Llama', link: '/AI_about/meta-llama-prompts' },
+                { text: 'Mistral AI', link: '/AI_about/mistral-prompts' },
+              ]
+            },
+            {
+              text: '🇨🇳 国产模型',
+              collapsed: true,
+              items: [
+                { text: 'DeepSeek', link: '/AI_about/deepseek-prompts' },
+                { text: '千问(Qwen)', link: '/AI_about/qwen-prompts' },
+                { text: '智谱AI GLM', link: '/AI_about/glm-prompts' },
+                { text: 'Kimi (月之暗面)', link: '/AI_about/kimi-prompts' },
+                { text: 'MiniMax', link: '/AI_about/minimax-prompts' },
+                { text: '腾讯混元 Hy3', link: '/AI_about/hy3-prompts' },
+                { text: '百度文心 ERNIE', link: '/AI_about/ernie-prompts' },
+              ]
+            },
           ]
         },
         {

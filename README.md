@@ -57,7 +57,7 @@ vitepress-tip/
 │   │           ├── blockquote.css  # 引用块样式
 │   │           └── custom-block.css# 提示容器样式（7 种类型）
 │   ├── vite/                   # 构建指南文章
-│   ├── AI_about/               # AI 提示词指南
+│   ├── AI_about/               # AI 应用指南
 │   ├── other/                  # 其他文章
 │   ├── public/                 # 静态资源（图片、图标）
 │   ├── bookmarks.md            # 书签页
@@ -77,22 +77,20 @@ vitepress-tip/
 | 目录 | 用途 |
 |---|---|
 | `docs/vite/` | 构建指南 |
-| `docs/AI_about/` | AI 提示词 |
+| `docs/AI_about/` | AI 应用指南 |
 | `docs/other/` | 其他内容 |
 
 ## 部署
 
-### 自动部署（GitHub Actions）
+### 自动部署（Gitee Go）
 
-推送 `main` 分支自动触发：构建 → 部署到 GitHub Pages。
+推送 `main` 分支自动触发 VitePress 构建 → 通过 WebHook 部署到服务器。
 
-流水线配置：`.github/workflows/deploy.yml`
+流水线配置：`.workflow/main-gitee.yml`
 
 ```
-构建(Node 20) → 打包 dist → 部署到 GitHub Pages
+构建(Node 25.4) → git pull 检测更新 → 构建 dist → WebHook 触发部署脚本
 ```
-
-> 注：如需使用 Gitee Go 流水线，请在 Gitee 仓库中配置 `.workflow/main-pip.yml`
 
 ### 手动构建
 
