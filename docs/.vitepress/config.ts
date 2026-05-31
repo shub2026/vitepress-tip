@@ -91,6 +91,7 @@ export default withMermaid(
           collapsed: false,
           items: [
             { text: '提示词说明', link: '/AI_about/ai-index' },
+            { text: '国产大模型选择指南', link: '/AI_about/国产大模型选择指南' },
             { text: 'OpenAI GPT', link: '/AI_about/openai-gpt-prompts' },
             { text: 'Anthropic Claude', link: '/AI_about/anthropic-claude-prompts' },
             { text: 'Google Gemini', link: '/AI_about/google-gemini-prompts' },
