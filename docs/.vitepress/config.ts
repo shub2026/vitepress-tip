@@ -97,18 +97,43 @@ export default withMermaid(
           ]
         },
         {
-          text: 'AI提示词指南',
+          text: 'AI应用指南',
           collapsed: false,
           items: [
-            { text: '提示词说明', link: '/AI_about/ai-index' },
-            { text: 'OpenAI GPT', link: '/AI_about/openai-gpt-prompts' },
-            { text: 'Anthropic Claude', link: '/AI_about/anthropic-claude-prompts' },
-            { text: 'Google Gemini', link: '/AI_about/google-gemini-prompts' },
-            { text: 'Meta Llama', link: '/AI_about/meta-llama-prompts' },
-            { text: 'Mistral AI', link: '/AI_about/mistral-prompts' },
-            { text: 'DeepSeek', link: '/AI_about/deepseek-prompts' },
-            { text: '千问(Qwen)', link: '/AI_about/qwen-prompts' },
-            { text: '智谱AI GLM', link: '/AI_about/glm-prompts' },
+            { text: '📖 提示词说明', link: '/AI_about/ai-index' },
+            { text: '📊 国产大模型选择指南', link: '/AI_about/国产大模型选择指南' },
+            {
+              text: '🌐 国际模型',
+              collapsed: true,
+              items: [
+                { text: 'OpenAI GPT', link: '/AI_about/openai-gpt-prompts' },
+                { text: 'Anthropic Claude', link: '/AI_about/anthropic-claude-prompts' },
+                { text: 'Google Gemini', link: '/AI_about/google-gemini-prompts' },
+                { text: 'Meta Llama', link: '/AI_about/meta-llama-prompts' },
+                { text: 'Mistral AI', link: '/AI_about/mistral-prompts' },
+              ]
+            },
+            {
+              text: '🇨🇳 国产模型',
+              collapsed: true,
+              items: [
+                { text: 'DeepSeek', link: '/AI_about/deepseek-prompts' },
+                { text: '千问(Qwen)', link: '/AI_about/qwen-prompts' },
+                { text: '智谱AI GLM', link: '/AI_about/glm-prompts' },
+                { text: 'Kimi (月之暗面)', link: '/AI_about/kimi-prompts' },
+                { text: 'MiniMax', link: '/AI_about/minimax-prompts' },
+                { text: '腾讯混元 Hy3', link: '/AI_about/hy3-prompts' },
+                { text: '百度文心 ERNIE', link: '/AI_about/ernie-prompts' },
+              ]
+            },
+          ]
+        },
+        {
+          text: 'Linux 学习',
+          collapsed: false,
+          items: [
+            { text: 'Ubuntu 文件系统架构与挂载详解', link: '/linux/ubuntu-filesystem-architecture' },
+            { text: 'Ubuntu 日常使用说明', link: '/linux/ubuntu-daily-usage' },
           ]
         },
         {
@@ -122,6 +147,7 @@ export default withMermaid(
             { text: '证件照灯光部署方案', link: '/other/id-photo-lighting' },
             { text: 'Lightroom处理流程与技巧', link: '/other/lightroom-workflow-and-tips' },
             { text: 'Lightroom预设使用指南', link: '/other/lightroom-preset-guide' },
+            { text: 'WPS删除右键新建菜单', link: '/other/wps-del' },
             { text: '知行书签', link: '/bookmarks' },
           ]
         },
