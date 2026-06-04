@@ -15,7 +15,7 @@ jobs:
 
       # 2. 安装 Node.js 并配置缓存
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 18
           cache: 'npm' # 如果使用 pnpm 或 yarn，请相应修改

@@ -141,7 +141,7 @@ vitepress-tip/
 
 ### 自动部署流程
 
-推送 `main` 分支到 Gitee → Gitee Go 自动触发构建 → 构建完成后通过 WebHook 通知 `ss.sntip.cn` → PHP 接收请求并调用 `deploy-web-v2.sh` → 执行部署（含锁机制、制品校验、回滚）。
+推送 `main` 分支到 Gitee → Gitee Go 自动触发构建 → 服务器自动定时执行 `deploy-web-v2.sh` → 执行部署（含锁机制、制品校验、回滚）。
 
 - **流水线配置**：`.workflow/main-gitee.yml`
 - **部署脚本**：`deploy-web-v2.sh`（778 行，含锁/校验/回滚/计时）
