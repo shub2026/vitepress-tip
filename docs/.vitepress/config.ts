@@ -33,6 +33,16 @@ export default withMermaid(
     },
     themeConfig: {
       logo: '/logo.svg',
+      darkModeSwitchLabel: '主题',
+      lightModeSwitchTitle: '切换到浅色模式',
+      darkModeSwitchTitle: '切换到深色模式',
+      sidebarMenuLabel: '菜单',
+      returnToTopLabel: '回到顶部',
+      skipToContentLabel: '跳转到内容',
+      docFooter: {
+        prev: '上一页',
+        next: '下一页',
+      },
       search: {
         provider: 'local',
         options: {
