@@ -153,7 +153,7 @@ export default withMermaid(
         },
       ],
       socialLinks: [
-        { icon: 'gitee', link: 'https://gitee.com/shub77/vitepress-tip' }
+        { icon: 'github', link: 'https://github.com/shub2026/vitepress-tip.git' }
       ],
       footer: {
         message: '© 2026 知行笔记 Sntip.cn',
