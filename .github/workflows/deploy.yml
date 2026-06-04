@@ -1,56 +1,38 @@
-name: Deploy to GitHub Pages
+name: Deploy to My Server
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
+    branches: [main] # 当向 main 分支推送代码时触发
+  workflow_dispatch: # 允许手动触发
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      # 1. 拉取代码
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Setup Node.js
+      # 2. 安装 Node.js 并配置缓存
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 18
+          cache: 'npm' # 如果使用 pnpm 或 yarn，请相应修改
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
+      # 3. 安装依赖并构建
       - name: Install dependencies
-        run: npm ci
-
-      - name: Build with VitePress
+        run: npm install
+      - name: Build VitePress
         run: npm run docs:build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      # 4. 通过 SSH 部署到服务器
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
         with:
-          path: docs/.vitepress/dist
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
-    name: Deploy
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-rlgoDzvc -i --delete" # 同步参数，--delete 会删除服务器上多余的旧文件
+          SOURCE: "docs/.vitepress/dist/" # VitePress 构建产物路径
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: root # 替换为你的服务器实际用户名
+          TARGET: "/opt/1panel/www/sites/sntip/index/" # 替换为你服务器上存放网站的绝对路径
