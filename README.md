@@ -30,7 +30,7 @@
 
 ```sh
 # 克隆项目
-git clone https://gitee.com/shub77/vitepress-tip.git
+git clone https://GitHub.com/shub2026/vitepress-tip.git
 cd vitepress-tip
 
 # 安装依赖
@@ -139,6 +139,7 @@ vitepress-tip/
                                     └──────────────────┘
 ```
 
+
 ### 自动部署流程
 
 推送 `main` 分支到 Gitee → Gitee Go 自动触发构建 → 服务器自动定时执行 `deploy-web-v2.sh` → 执行部署（含锁机制、制品校验、回滚）。
@@ -146,6 +147,8 @@ vitepress-tip/
 - **流水线配置**：`.workflow/main-gitee.yml`
 - **部署脚本**：`deploy-web-v2.sh`（778 行，含锁/校验/回滚/计时）
 - **服务器管理**：1Panel
+
+**以上部署已弃用，改为GitHub Actions自动化部署**
 
 ### 手动构建
 
