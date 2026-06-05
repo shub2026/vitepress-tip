@@ -26,8 +26,7 @@ const groups = [
     items: [
       { name: '爱达杂货铺', desc: '导航站', url: 'https://adzhp.cn', icon: 'https://my.sntip.cn/uploads/2026/5/22/7b3aeeae0fa6b97db335a6ddcbb97fae.ico' },
       { name: '图欧导航', desc: '资源导航', url: 'https://tuostudy.com', icon: 'https://my.sntip.cn/uploads/2026/5/22/2f6e8a28b090840fd7bf2d522f6ad3aa.png' },
-      { name: 'Mfsc123', desc: '素材导航', url: 'https://www.mfsc123.com', icon: 'https://my.sntip.cn/uploads/2026/5/26/dce4c6eb803f5a25842b33
-b5ae9fb54f.png
+      { name: 'Mfsc123', desc: '素材导航', url: 'https://www.mfsc123.com', icon: 'https://my.sntip.cn/uploads/2026/5/26/dce4c6eb803f5a25842b33b5ae9fb54f.png
 ' },
       { name: 'Sfeii', desc: '资源导航', url: 'https://www.sfeii.com', icon: 'https://my.sntip.cn/uploads/2026/5/22/eca96f9b82ad608dcef3867416a225ef.ico' },
       { name: 'up云搜', desc: '网盘搜索', url: 'https://www.upyunso.com', icon: 'https://my.sntip.cn/uploads/2026/5/24/743d38e68c57b1c4ba74fe03847215bb.ico' },
