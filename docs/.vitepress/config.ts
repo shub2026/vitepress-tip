@@ -71,6 +71,11 @@ export default withMermaid(
           timeStyle: 'medium' // 可选值full、long、medium、short
         },
       },
+      // 编辑链接配置
+      editLink: {
+        pattern: 'https://github.com/shub2026/vitepress-tip/edit/main/docs/:path',
+        text: '在 GitHub 上编辑此页面'
+      },
       outline: { 
       level: [2,3], // 显示h2-h3级标题
       // level: 'deep', // 显示2-6级标题
