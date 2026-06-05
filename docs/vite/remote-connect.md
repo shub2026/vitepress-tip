@@ -24,7 +24,7 @@ git remote -v
 git remote set-url origin <新的仓库URL>
 
 # 修改远程仓库地址（SSH Gitee）
-git remote set-url git@gitee.com:shub77/vitepress-tip.git
+git remote set-url origin git@github.com:shub2026/vitepress-tip.git
 
 # 再次查看确认
 git remote -v
@@ -93,7 +93,7 @@ git add .
 git commit -m "首次提交：上传项目文件"
 
 # 第4步关联远程仓库 使用SSH地址
-git remote add origin git@gitee.com:shub77/vitepress-tip.git
+git remote add origin git@github.com:shub2026/vitepress-tip.git
 
 # 第5步推送（配置SSH后无需密码）
 git push -u origin main
@@ -106,10 +106,10 @@ git push -u origin main
 
 ```sh
 # SSH方式
-git clone git@gitee.com:shub77/vitepress-tip.git
+git clone git@github.com:shub2026/vitepress-tip.git
 
 # HTTPS方式
-git clone https://gitee.com/shub77/vitepress-tip.git
+git clone https://github.com/shub2026/vitepress-tip.git
 ```
 
 ## 同步操作
