@@ -4,7 +4,7 @@ layout: home
 hero:
   name: '知行笔记'
   text: '知行合一 止于至善'
-  tagline: '使用VitePress构建的极简风格网站，初次使用，从零开始'
+  tagline: '知行合一 止于至善 - 知识分享与AI提示词指南'
   image:
     src: /img-icon.svg
     alt: 项目 Logo 占位符
@@ -30,5 +30,5 @@ features:
     details: 轻松掌握 Markdown 语法，体验主流创作文档，专注创作，创建精美的文档网站
     link: /vite/markdown-syntax
   - title: ⚡ 极速部署
-    details: 基于 VitePress 构建，结合 Github 自动化部署流程，享受极致的加载速度与自动化发布体验.推送测试V31
+    details: 基于 VitePress 构建，结合 GitHub Actions 自动化部署流程，享受极致的加载速度与自动化发布体验
 ---
