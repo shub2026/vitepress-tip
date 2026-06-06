@@ -7,14 +7,17 @@ export default withMermaid(
   defineConfig({
     vite: {
       build: {
-        chunkSizeWarningLimit: 1500,
-      }
+        chunkSizeWarningLimit: 800,
+      },
     },
     head: [
       ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/logo.svg' }],
       ['meta', { name: 'keywords', content: 'VitePress,文档,知识分享,知行笔记,教程' }],
       ['meta', { property: 'og:title', content: '知行笔记' }],
       ['meta', { property: 'og:description', content: '基于 VitePress 的极简风格知识分享平台' }],
+      ['meta', { property: 'og:type', content: 'website' }],
+      ['meta', { property: 'og:locale', content: 'zh_CN' }],
+      ['meta', { name: 'twitter:card', content: 'summary' }],
     ],
     base: '/',
     title: "知行笔记",
@@ -76,10 +79,9 @@ export default withMermaid(
         pattern: 'https://github.com/shub2026/vitepress-tip/edit/main/docs/:path',
         text: '在 GitHub 上编辑此页面'
       },
-      outline: { 
-      level: [2,3], // 显示h2-h3级标题
-      // level: 'deep', // 显示2-6级标题
-      label: '当前页大纲' // 文字显示
+      outline: {
+        level: [2, 3],
+        label: '当前页大纲',
       },
       nav: [
         { text: '首页', link: '/' },
@@ -159,7 +161,7 @@ export default withMermaid(
         },
       ],
       socialLinks: [
-        { icon: 'github', link: 'https://github.com/shub2026/vitepress-tip.git' }
+        { icon: 'github', link: 'https://github.com/shub2026/vitepress-tip' }
       ],
       footer: {
         message: '© 2026 知行笔记 Sntip.cn',
