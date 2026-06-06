@@ -42,10 +42,11 @@ cat ~/.ssh/id_ed25519.pub
 5. 保存
 
 :::tip 多台电脑命名建议
+
 - 公司台式机
 - 家用笔记本
 - MacBook Pro
-:::
+  :::
 
 ### 1.3 测试连接
 
@@ -79,12 +80,12 @@ git remote -v
 
 ### 3.2 常用 remote 命令
 
-| 操作 | 命令 |
-|------|------|
-| 查看关联 | `git remote -v` |
+| 操作     | 命令                                 |
+| -------- | ------------------------------------ |
+| 查看关联 | `git remote -v`                      |
 | 修改地址 | `git remote set-url origin <新地址>` |
-| 添加关联 | `git remote add origin <地址>` |
-| 删除关联 | `git remote remove origin` |
+| 添加关联 | `git remote add origin <地址>`       |
+| 删除关联 | `git remote remove origin`           |
 
 ### 3.3 配置 Git 用户信息
 
@@ -132,7 +133,7 @@ git commit -m "家中更新"
 git push origin main
 
 # 回到公司后
-git pull origin main   # 拉取家中提交的内容
+git pull origin main # 拉取家中提交的内容
 ```
 
 ### 场景 C：两端同时改了同一文件
@@ -154,17 +155,17 @@ git push origin main
 
 ```sh
 cd vitepress-tip
-git pull origin main        # 拉取最新
-npm run docs:dev            # 启动开发
+git pull origin main # 拉取最新
+npm run docs:dev     # 启动开发
 ```
 
 ### 工作结束
 
 ```sh
-npm run format              # 格式化
+npm run format # 格式化
 git add .
 git commit -m "本次修改说明"
-git push origin main        # 推送到 GitHub
+git push origin main # 推送到 GitHub
 ```
 
 ### 紧急情况
@@ -216,11 +217,11 @@ docs/.vitepress/cache/
 
 ### VS Code 推荐插件
 
-| 插件 | 用途 |
-|------|------|
-| Vue - Official | Vue/VitePress 语法支持 |
-| Prettier | 代码格式化 |
-| Markdown All in One | Markdown 编辑增强 |
+| 插件                | 用途                   |
+| ------------------- | ---------------------- |
+| Vue - Official      | Vue/VitePress 语法支持 |
+| Prettier            | 代码格式化             |
+| Markdown All in One | Markdown 编辑增强      |
 
 ---
 
@@ -232,7 +233,7 @@ docs/.vitepress/cache/
 # 先暂存本地修改
 git stash
 git pull origin main
-git stash pop   # 恢复本地修改
+git stash pop # 恢复本地修改
 ```
 
 ### Q: SSH 连接失败

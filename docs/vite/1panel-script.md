@@ -22,6 +22,7 @@
   :::
 
 ## 脚本代码
+
 简要脚本，只执行**拉取 → 构建**两个环节，减少其他干扰
 
 ```sh
@@ -65,10 +66,10 @@ fi
 
 echo "=== VitePress站点更新完成 ==="
 date
-
 ```
 
 ## 脚本代码【优化】
+
 常用脚本，设置5分钟自行执行脚本**拉取 → 检查更新 → 构建**
 
 ```sh
@@ -120,8 +121,8 @@ for NVM_TRY in "/root/.nvm" "$HOME/.nvm" "/usr/local/nvm"; do
 done
 
 # 查找 node/npm 绝对路径（兼容 nvm 和系统安装）
-NODE_BIN=$(command -v node 2>/dev/null)
-NPM_BIN=$(command -v npm 2>/dev/null)
+NODE_BIN=$(command -v node 2> /dev/null)
+NPM_BIN=$(command -v npm 2> /dev/null)
 
 # 如果 command -v 找不到，尝试常见系统路径
 if [ -z "$NODE_BIN" ]; then
@@ -164,6 +165,4 @@ fi
 
 echo "=== VitePress站点更新完成 ==="
 date
-
-
 ```

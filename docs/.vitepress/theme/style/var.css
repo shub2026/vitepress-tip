@@ -3,7 +3,7 @@
   --vp-c-brand-1: #18794e;
   --vp-c-brand-2: #299764;
   --vp-c-brand-3: #30a46c;
-  
+
   /* hero标题渐变色 */
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe, #41d1ff);
@@ -13,7 +13,7 @@
   --vp-c-brand-1: #3dd68c;
   --vp-c-brand-2: #30a46c;
   --vp-c-brand-3: #298459;
-  
+
   /* 暗色模式：更柔和的渐变色，避免亮度过高 */
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #a78bfa, #67e8f9);

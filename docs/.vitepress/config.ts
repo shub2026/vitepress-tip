@@ -1,6 +1,6 @@
-﻿import { defineConfig } from 'vitepress'
-import { withMermaid } from 'vitepress-plugin-mermaid'
-import { devDependencies } from '../../package.json'
+﻿import { defineConfig } from 'vitepress';
+import { withMermaid } from 'vitepress-plugin-mermaid';
+import { devDependencies } from '../../package.json';
 
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
@@ -20,18 +20,19 @@ export default withMermaid(
       ['meta', { name: 'twitter:card', content: 'summary' }],
     ],
     base: '/',
-    title: "知行笔记",
-    description: "基于 VitePress 的极简风格知识分享平台，知行合一，止于至善",
+    title: '知行笔记',
+    description: '基于 VitePress 的极简风格知识分享平台，知行合一，止于至善',
     lang: 'zh-CN',
     sitemap: {
-      hostname: 'https://sntip.cn'
+      hostname: 'https://sntip.cn',
     },
     mermaid: {
       // 参考 https://mermaid.js.org/config/theming.html
       // 插件自动跟随 VitePress 深浅模式切换 dark 主题
       theme: 'default',
       themeVariables: {
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif',
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif',
       },
     },
     themeConfig: {
@@ -52,7 +53,7 @@ export default withMermaid(
           translations: {
             button: {
               buttonText: '搜索',
-              buttonAriaLabel: '搜索文档'
+              buttonAriaLabel: '搜索文档',
             },
             modal: {
               noResultsText: '无法找到相关结果',
@@ -60,24 +61,24 @@ export default withMermaid(
               footer: {
                 selectText: '选择',
                 navigateText: '切换',
-                closeText: '关闭'
-              }
-            }
-          }
-        }
+                closeText: '关闭',
+              },
+            },
+          },
+        },
       },
       // 上次更新时间
       lastUpdated: {
         text: '最后更新于',
         formatOptions: {
           dateStyle: 'short', // 可选值full、long、medium、short
-          timeStyle: 'medium' // 可选值full、long、medium、short
+          timeStyle: 'medium', // 可选值full、long、medium、short
         },
       },
       // 编辑链接配置
       editLink: {
         pattern: 'https://github.com/shub2026/vitepress-tip/edit/main/docs/:path',
-        text: '在 GitHub 上编辑此页面'
+        text: '在 GitHub 上编辑此页面',
       },
       outline: {
         level: [2, 3],
@@ -86,8 +87,12 @@ export default withMermaid(
       nav: [
         { text: '首页', link: '/' },
         { text: '书签', link: 'https://my.sntip.cn' },
-              // vitepress版本号
-        { text: `VitePress ${ devDependencies.vitepress.replace('^','') }`, link: 'https://vitepress.dev/zh/', noIcon: true },
+        // VitePress 版本号
+        {
+          text: `VitePress ${devDependencies.vitepress.replace('^', '')}`,
+          link: 'https://vitepress.dev/zh/',
+          noIcon: true,
+        },
       ],
       sidebar: [
         {
@@ -102,7 +107,7 @@ export default withMermaid(
             { text: 'Gitee Go优化V2', link: '/vite/gitee-go-deploy-v2' },
             { text: 'GitHub Actions + SSH部署', link: '/vite/github-actions-ssh-deploy' },
             { text: 'Markdown语法', link: '/vite/markdown-syntax' },
-          ]
+          ],
         },
         {
           text: 'AI应用指南',
@@ -119,7 +124,7 @@ export default withMermaid(
                 { text: 'Google Gemini', link: '/AI_about/google-gemini-prompts' },
                 { text: 'Meta Llama', link: '/AI_about/meta-llama-prompts' },
                 { text: 'Mistral AI', link: '/AI_about/mistral-prompts' },
-              ]
+              ],
             },
             {
               text: '🇨🇳 国产模型',
@@ -132,17 +137,20 @@ export default withMermaid(
                 { text: 'MiniMax', link: '/AI_about/minimax-prompts' },
                 { text: '腾讯混元 Hy3', link: '/AI_about/hy3-prompts' },
                 { text: '百度文心 ERNIE', link: '/AI_about/ernie-prompts' },
-              ]
+              ],
             },
-          ]
+          ],
         },
         {
           text: 'Linux 学习',
           collapsed: false,
           items: [
-            { text: 'Ubuntu 文件系统架构与挂载详解', link: '/linux/ubuntu-filesystem-architecture' },
+            {
+              text: 'Ubuntu 文件系统架构与挂载详解',
+              link: '/linux/ubuntu-filesystem-architecture',
+            },
             { text: 'Ubuntu 日常使用说明', link: '/linux/ubuntu-daily-usage' },
-          ]
+          ],
         },
         {
           text: '其他',
@@ -156,20 +164,18 @@ export default withMermaid(
             { text: 'Lightroom处理流程与技巧', link: '/other/lightroom-workflow-and-tips' },
             { text: 'Lightroom预设使用指南', link: '/other/lightroom-preset-guide' },
             { text: 'WPS删除右键新建菜单', link: '/other/wps-del' },
-          ]
+          ],
         },
       ],
-      socialLinks: [
-        { icon: 'github', link: 'https://github.com/shub2026/vitepress-tip' }
-      ],
+      socialLinks: [{ icon: 'github', link: 'https://github.com/shub2026/vitepress-tip' }],
       footer: {
         message: '© 2026 知行笔记 Sntip.cn',
         copyright: `
           <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">滇ICP备2025076967号</a>
           &nbsp;|&nbsp;
           <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=53000002000001" target="_blank" rel="noopener">滇公网安备53000002000001号</a>
-        `
-      }
-    }
+        `,
+      },
+    },
   })
-)
+);

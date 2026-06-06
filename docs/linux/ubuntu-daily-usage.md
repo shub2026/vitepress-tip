@@ -31,24 +31,24 @@
 
 ## 1. 系统基本信息查看
 
-| 命令 | 说明 |
-|------|------|
-| `uname -a` | 查看内核版本及系统信息 |
-| `lsb_release -a` | 查看 Ubuntu 发行版详细信息 |
-| `cat /etc/os-release` | 查看操作系统发行版信息 |
-| `hostnamectl` | 查看主机名、系统架构、内核等 |
-| `uptime` | 查看系统运行时间和负载 |
-| `date` | 查看当前日期和时间 |
-| `timedatectl` | 查看/设置时区 |
-| `free -h` | 查看内存使用情况（人类可读格式） |
-| `df -h` | 查看磁盘分区使用情况 |
-| `du -sh <目录>` | 查看指定目录的磁盘占用大小 |
-| `lscpu` | 查看 CPU 信息 |
-| `lsblk` | 列出所有块设备（磁盘/分区） |
-| `lspci` | 列出 PCI 设备 |
-| `lsusb` | 列出 USB 设备 |
-| `dmidecode -t system` | 查看硬件信息（需 sudo） |
-| `top` / `htop` | 实时查看系统资源占用 |
+| 命令                  | 说明                             |
+| --------------------- | -------------------------------- |
+| `uname -a`            | 查看内核版本及系统信息           |
+| `lsb_release -a`      | 查看 Ubuntu 发行版详细信息       |
+| `cat /etc/os-release` | 查看操作系统发行版信息           |
+| `hostnamectl`         | 查看主机名、系统架构、内核等     |
+| `uptime`              | 查看系统运行时间和负载           |
+| `date`                | 查看当前日期和时间               |
+| `timedatectl`         | 查看/设置时区                    |
+| `free -h`             | 查看内存使用情况（人类可读格式） |
+| `df -h`               | 查看磁盘分区使用情况             |
+| `du -sh <目录>`       | 查看指定目录的磁盘占用大小       |
+| `lscpu`               | 查看 CPU 信息                    |
+| `lsblk`               | 列出所有块设备（磁盘/分区）      |
+| `lspci`               | 列出 PCI 设备                    |
+| `lsusb`               | 列出 USB 设备                    |
+| `dmidecode -t system` | 查看硬件信息（需 sudo）          |
+| `top` / `htop`        | 实时查看系统资源占用             |
 
 ### 示例
 
@@ -234,17 +234,17 @@ touch <文件名>
 
 ```bash
 # 复制
-cp source dest           # 复制文件
-cp -r source_dir/ dest/  # 递归复制目录
+cp source dest          # 复制文件
+cp -r source_dir/ dest/ # 递归复制目录
 
 # 移动 / 重命名
-mv old_name new_name     # 重命名
-mv file /path/to/dest/   # 移动文件
+mv old_name new_name   # 重命名
+mv file /path/to/dest/ # 移动文件
 
 # 删除
-rm file                  # 删除文件
-rm -r dir/               # 递归删除目录
-rm -rf dir/              # 强制递归删除（谨慎使用！）
+rm file     # 删除文件
+rm -r dir/  # 递归删除目录
+rm -rf dir/ # 强制递归删除（谨慎使用！）
 ```
 
 > ⚠️ **警告**：`rm -rf` 命令不可逆，使用前务必确认路径正确。
@@ -291,9 +291,9 @@ ln /path/to/target /path/to/link
 ls -l
 
 # 修改权限（数字方式）
-chmod 755 file      # rwxr-xr-x
-chmod 644 file      # rw-r--r--
-chmod +x script.sh  # 添加可执行权限
+chmod 755 file     # rwxr-xr-x
+chmod 644 file     # rw-r--r--
+chmod +x script.sh # 添加可执行权限
 
 # 修改所有者
 sudo chown user:group file
@@ -305,13 +305,13 @@ sudo chown -R user:group dir/
 
 **权限数字对照表**：
 
-| 数字 | 权限 | 说明 |
-|------|------|------|
-| 7 | rwx | 读取 + 写入 + 执行 |
-| 6 | rw- | 读取 + 写入 |
-| 5 | r-x | 读取 + 执行 |
-| 4 | r-- | 仅读取 |
-| 0 | --- | 无权限 |
+| 数字 | 权限 | 说明               |
+| ---- | ---- | ------------------ |
+| 7    | rwx  | 读取 + 写入 + 执行 |
+| 6    | rw-  | 读取 + 写入        |
+| 5    | r-x  | 读取 + 执行        |
+| 4    | r--  | 仅读取             |
+| 0    | ---  | 无权限             |
 
 ---
 
@@ -356,13 +356,13 @@ cat /var/log/auth.log | grep sudo
 
 ### 常用用户组
 
-| 组名 | 说明 |
-|------|------|
-| `sudo` | sudo 权限用户组 |
-| `docker` | Docker 使用权限 |
-| `www-data` | Web 服务器用户 |
-| `plugdev` | 可热插拔设备权限 |
-| `cdrom` | 光驱访问权限 |
+| 组名       | 说明             |
+| ---------- | ---------------- |
+| `sudo`     | sudo 权限用户组  |
+| `docker`   | Docker 使用权限  |
+| `www-data` | Web 服务器用户   |
+| `plugdev`  | 可热插拔设备权限 |
+| `cdrom`    | 光驱访问权限     |
 
 ---
 
@@ -412,7 +412,7 @@ df -hT
 
 # 查看指定目录大小
 du -sh /path/to/dir
-du -h --max-depth=1 /path/to/dir  # 查看子目录大小
+du -h --max-depth=1 /path/to/dir # 查看子目录大小
 ```
 
 ### 7.2 挂载与卸载
@@ -450,7 +450,7 @@ sudo mkfs.vfat /dev/sdXn
 ```bash
 # 查看 USB 设备
 lsusb
-dmesg | tail           # 查看最近的系统日志，确认设备识别
+dmesg | tail # 查看最近的系统日志，确认设备识别
 
 # 自动挂载的 USB 通常在 /media/<用户名>/ 下
 ```
@@ -471,16 +471,16 @@ ip a
 ip route
 
 # 查看网络连接
-ss -tuln                # 查看监听端口
-ss -tun                 # 查看所有连接
+ss -tuln # 查看监听端口
+ss -tun  # 查看所有连接
 
 # 查看 DNS 配置
 cat /etc/resolv.conf
-resolvectl status       # systemd-resolved 方式
+resolvectl status # systemd-resolved 方式
 
 # 查看无线网络
-iwconfig                # 传统方式
-nmcli device wifi list  # NetworkManager 方式
+iwconfig               # 传统方式
+nmcli device wifi list # NetworkManager 方式
 ```
 
 ### 8.2 网络诊断
@@ -500,7 +500,7 @@ dig example.com
 
 # 下载测试
 wget https://example.com
-curl -I https://example.com   # 仅查看响应头
+curl -I https://example.com # 仅查看响应头
 
 # 测试带宽
 sudo apt install speedtest-cli
@@ -594,31 +594,31 @@ journalctl -u <服务名> --since today  # 今天的日志
 
 ### 常用服务名称
 
-| 服务名 | 说明 |
-|--------|------|
-| `ssh` | SSH 远程登录服务 |
-| `nginx` | Nginx Web 服务器 |
-| `apache2` | Apache Web 服务器 |
-| `mysql` | MySQL 数据库 |
-| `docker` | Docker 容器服务 |
-| `cron` | 定时任务服务 |
-| `ufw` | 防火墙服务 |
-| `NetworkManager` | 网络管理器 |
-| `gdm3` | GNOME 显示管理器 |
+| 服务名           | 说明              |
+| ---------------- | ----------------- |
+| `ssh`            | SSH 远程登录服务  |
+| `nginx`          | Nginx Web 服务器  |
+| `apache2`        | Apache Web 服务器 |
+| `mysql`          | MySQL 数据库      |
+| `docker`         | Docker 容器服务   |
+| `cron`           | 定时任务服务      |
+| `ufw`            | 防火墙服务        |
+| `NetworkManager` | 网络管理器        |
+| `gdm3`           | GNOME 显示管理器  |
 
 ---
 
 ## 10. 压缩与解压
 
-| 格式 | 压缩命令 | 解压命令 |
-|------|----------|----------|
-| `.tar` | `tar cvf archive.tar files/` | `tar xvf archive.tar` |
-| `.tar.gz` / `.tgz` | `tar czvf archive.tar.gz files/` | `tar xzvf archive.tar.gz` |
-| `.tar.bz2` | `tar cjvf archive.tar.bz2 files/` | `tar xjvf archive.tar.bz2` |
-| `.tar.xz` | `tar cJvf archive.tar.xz files/` | `tar xJvf archive.tar.xz` |
-| `.zip` | `zip -r archive.zip files/` | `unzip archive.zip` |
-| `.rar` | `rar a archive.rar files/` | `unrar x archive.rar` |
-| `.7z` | `7z a archive.7z files/` | `7z x archive.7z` |
+| 格式               | 压缩命令                          | 解压命令                   |
+| ------------------ | --------------------------------- | -------------------------- |
+| `.tar`             | `tar cvf archive.tar files/`      | `tar xvf archive.tar`      |
+| `.tar.gz` / `.tgz` | `tar czvf archive.tar.gz files/`  | `tar xzvf archive.tar.gz`  |
+| `.tar.bz2`         | `tar cjvf archive.tar.bz2 files/` | `tar xjvf archive.tar.bz2` |
+| `.tar.xz`          | `tar cJvf archive.tar.xz files/`  | `tar xJvf archive.tar.xz`  |
+| `.zip`             | `zip -r archive.zip files/`       | `unzip archive.zip`        |
+| `.rar`             | `rar a archive.rar files/`        | `unrar x archive.rar`      |
+| `.7z`              | `7z a archive.7z files/`          | `7z x archive.7z`          |
 
 > **参数说明**：`c`=创建, `x`=解压, `v`=显示过程, `f`=指定文件名, `z`=gzip, `j`=bzip2, `J`=xz
 
@@ -629,11 +629,11 @@ journalctl -u <服务名> --since today  # 今天的日志
 ### 11.1 查看文件内容
 
 ```bash
-cat file.txt          # 输出全部内容
-less file.txt         # 分页查看（q 退出）
-head -n 20 file.txt   # 查看前 20 行
-tail -n 20 file.txt   # 查看后 20 行
-tail -f file.log      # 实时跟踪文件末尾（常用于查看日志）
+cat file.txt        # 输出全部内容
+less file.txt       # 分页查看（q 退出）
+head -n 20 file.txt # 查看前 20 行
+tail -n 20 file.txt # 查看后 20 行
+tail -f file.log    # 实时跟踪文件末尾（常用于查看日志）
 ```
 
 ### 11.2 搜索与过滤
@@ -641,10 +641,10 @@ tail -f file.log      # 实时跟踪文件末尾（常用于查看日志）
 ```bash
 # grep 搜索
 grep "关键词" file.txt
-grep -i "关键词" file.txt    # 忽略大小写
-grep -r "关键词" /path/      # 递归搜索目录
-grep -n "关键词" file.txt    # 显示行号
-grep -v "排除词" file.txt    # 反向匹配
+grep -i "关键词" file.txt # 忽略大小写
+grep -r "关键词" /path/   # 递归搜索目录
+grep -n "关键词" file.txt # 显示行号
+grep -v "排除词" file.txt # 反向匹配
 
 # 常用管道组合
 cat file.txt | grep "error" | sort | uniq -c
@@ -657,32 +657,32 @@ dmesg | grep -i usb
 ```bash
 # 排序
 sort file.txt
-sort -rn file.txt          # 按数字倒序
+sort -rn file.txt # 按数字倒序
 
 # 去重
-uniq                       # 需先排序
+uniq # 需先排序
 sort file.txt | uniq
-sort file.txt | uniq -c    # 统计重复次数
+sort file.txt | uniq -c # 统计重复次数
 
 # 列/字段提取
-cut -d',' -f1,3 file.csv   # 以逗号分隔，提取第1和第3列
-awk '{print $1, $3}' file  # 打印第1和第3列
+cut -d',' -f1,3 file.csv  # 以逗号分隔，提取第1和第3列
+awk '{print $1, $3}' file # 打印第1和第3列
 
 # 字数统计
-wc -l file.txt             # 行数
-wc -w file.txt             # 单词数
-wc -c file.txt             # 字符数
+wc -l file.txt # 行数
+wc -w file.txt # 单词数
+wc -c file.txt # 字符数
 
 # 文本替换
-sed 's/旧/新/g' file.txt   # 替换所有匹配
-sed -i 's/旧/新/g' file.txt  # 直接修改文件
+sed 's/旧/新/g' file.txt    # 替换所有匹配
+sed -i 's/旧/新/g' file.txt # 直接修改文件
 ```
 
 ### 11.4 编辑器
 
 ```bash
-nano file.txt     # 新手友好，Ctrl+O 保存，Ctrl+X 退出
-vim file.txt      # 高效编辑器，按 i 进入编辑模式，Esc 后 :wq 保存退出
+nano file.txt # 新手友好，Ctrl+O 保存，Ctrl+X 退出
+vim file.txt  # 高效编辑器，按 i 进入编辑模式，Esc 后 :wq 保存退出
 ```
 
 ---
@@ -691,36 +691,36 @@ vim file.txt      # 高效编辑器，按 i 进入编辑模式，Esc 后 :wq 保
 
 ### 光标移动
 
-| 快捷键 | 说明 |
-|--------|------|
-| `Ctrl + A` | 移到行首 |
-| `Ctrl + E` | 移到行尾 |
+| 快捷键     | 说明         |
+| ---------- | ------------ |
+| `Ctrl + A` | 移到行首     |
+| `Ctrl + E` | 移到行尾     |
 | `Ctrl + B` | 左移一个字符 |
 | `Ctrl + F` | 右移一个字符 |
-| `Alt + B` | 左移一个单词 |
-| `Alt + F` | 右移一个单词 |
+| `Alt + B`  | 左移一个单词 |
+| `Alt + F`  | 右移一个单词 |
 
 ### 编辑操作
 
-| 快捷键 | 说明 |
-|--------|------|
+| 快捷键     | 说明                 |
+| ---------- | -------------------- |
 | `Ctrl + U` | 删除光标前的所有内容 |
 | `Ctrl + K` | 删除光标后的所有内容 |
 | `Ctrl + W` | 删除光标前的一个单词 |
-| `Ctrl + L` | 清屏（等同 clear） |
-| `Ctrl + _` | 撤销上一次操作 |
-| `Ctrl + T` | 交换光标前两个字符 |
+| `Ctrl + L` | 清屏（等同 clear）   |
+| `Ctrl + _` | 撤销上一次操作       |
+| `Ctrl + T` | 交换光标前两个字符   |
 
 ### 历史与控制
 
-| 快捷键 | 说明 |
-|--------|------|
-| `Ctrl + R` | 反向搜索历史命令 |
-| `Ctrl + C` | 中断当前命令 |
-| `Ctrl + D` | 退出当前 Shell |
-| `Ctrl + Z` | 暂停当前命令（fg 恢复） |
-| `↑` / `↓` | 浏览历史命令 |
-| `Tab` | 自动补全（按两次显示所有选项） |
+| 快捷键     | 说明                           |
+| ---------- | ------------------------------ |
+| `Ctrl + R` | 反向搜索历史命令               |
+| `Ctrl + C` | 中断当前命令                   |
+| `Ctrl + D` | 退出当前 Shell                 |
+| `Ctrl + Z` | 暂停当前命令（fg 恢复）        |
+| `↑` / `↓`  | 浏览历史命令                   |
+| `Tab`      | 自动补全（按两次显示所有选项） |
 
 ---
 
@@ -728,32 +728,32 @@ vim file.txt      # 高效编辑器，按 i 进入编辑模式，Esc 后 :wq 保
 
 ### 系统快捷键
 
-| 快捷键 | 说明 |
-|--------|------|
-| `Super` | 打开活动概览 |
-| `Super + L` | 锁定屏幕 |
-| `Super + D` | 显示桌面 |
-| `Super + A` | 打开应用程序列表 |
-| `Super + E` | 打开文件管理器 |
+| 快捷键                    | 说明                 |
+| ------------------------- | -------------------- |
+| `Super`                   | 打开活动概览         |
+| `Super + L`               | 锁定屏幕             |
+| `Super + D`               | 显示桌面             |
+| `Super + A`               | 打开应用程序列表     |
+| `Super + E`               | 打开文件管理器       |
 | `Super + S` / `Super + ↓` | 查看所有窗口（概览） |
-| `Super + ↑` | 切换工作区 |
-| `Ctrl + Alt + T` | 打开终端 |
-| `Ctrl + Alt + Del` | 注销 |
-| `Ctrl + Alt + L` | 锁定屏幕 |
-| `Print Screen` | 截取全屏 |
-| `Alt + Print Screen` | 截取当前窗口 |
-| `Shift + Print Screen` | 选区截图 |
+| `Super + ↑`               | 切换工作区           |
+| `Ctrl + Alt + T`          | 打开终端             |
+| `Ctrl + Alt + Del`        | 注销                 |
+| `Ctrl + Alt + L`          | 锁定屏幕             |
+| `Print Screen`            | 截取全屏             |
+| `Alt + Print Screen`      | 截取当前窗口         |
+| `Shift + Print Screen`    | 选区截图             |
 
 ### 窗口管理
 
-| 快捷键 | 说明 |
-|--------|------|
-| `Alt + Tab` | 切换窗口 |
-| `Alt + F4` | 关闭窗口 |
-| `Alt + F7` | 移动窗口 |
-| `Alt + F8` | 调整窗口大小 |
-| `Super + ←` / `→` | 窗口左/右半屏 |
-| `Super + ↑` / `↓` | 窗口最大化/还原 |
+| 快捷键                   | 说明                   |
+| ------------------------ | ---------------------- |
+| `Alt + Tab`              | 切换窗口               |
+| `Alt + F4`               | 关闭窗口               |
+| `Alt + F7`               | 移动窗口               |
+| `Alt + F8`               | 调整窗口大小           |
+| `Super + ←` / `→`        | 窗口左/右半屏          |
+| `Super + ↑` / `↓`        | 窗口最大化/还原        |
 | `Ctrl + Super + ↑/↓/←/→` | 将窗口移动到指定工作区 |
 
 ---
@@ -788,13 +788,13 @@ deb http://mirrors.aliyun.com/ubuntu/ noble-security main restricted universe mu
 
 **常用国内镜像**：
 
-| 镜像站 | 地址 |
-|--------|------|
-| 阿里云 | `mirrors.aliyun.com` |
+| 镜像站   | 地址                           |
+| -------- | ------------------------------ |
+| 阿里云   | `mirrors.aliyun.com`           |
 | 清华大学 | `mirrors.tuna.tsinghua.edu.cn` |
-| 中科大 | `mirrors.ustc.edu.cn` |
-| 华为云 | `mirrors.huaweicloud.com` |
-| 网易 | `mirrors.163.com` |
+| 中科大   | `mirrors.ustc.edu.cn`          |
+| 华为云   | `mirrors.huaweicloud.com`      |
+| 网易     | `mirrors.163.com`              |
 
 ```bash
 # 更换后执行
@@ -925,7 +925,7 @@ sudo apt install openjdk-21-jdk
 
 # Docker
 sudo apt install docker.io
-sudo usermod -aG docker $USER   # 免 sudo 使用 docker
+sudo usermod -aG docker $USER # 免 sudo 使用 docker
 
 # VS Code
 sudo snap install code --classic
@@ -953,9 +953,9 @@ sudo apt install vim nano
 sudo apt install flameshot
 
 # 终端增强
-sudo apt install terminator    # 多标签终端
-sudo apt install zsh           # Zsh Shell
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"  # Oh My Zsh
+sudo apt install terminator                                                          # 多标签终端
+sudo apt install zsh                                                                 # Zsh Shell
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" # Oh My Zsh
 ```
 
 ### 多媒体
@@ -1049,7 +1049,7 @@ sudo systemctl restart NetworkManager
 # 检查 DNS
 resolvectl status
 ping 8.8.8.8    # 测试 IP 连通性
-ping google.com  # 测试 DNS 解析
+ping google.com # 测试 DNS 解析
 
 # 重置网络配置
 sudo nmcli networking off && sudo nmcli networking on
@@ -1102,18 +1102,18 @@ source ~/.bashrc
 
 ### 20.2 命令行效率工具
 
-| 工具 | 安装 | 说明 |
-|------|------|------|
-| `htop` | `sudo apt install htop` | 交互式进程监控 |
-| `ncdu` | `sudo apt install ncdu` | 交互式磁盘使用分析 |
-| `tldr` | `sudo apt install tldr` | 简化版 man 手册 |
-| `bat` | `sudo apt install bat` | 带语法高亮的 cat |
-| `fzf` | `sudo apt install fzf` | 模糊搜索工具 |
-| `tree` | `sudo apt install tree` | 目录树形显示 |
-| `jq` | `sudo apt install jq` | JSON 处理工具 |
-| `ncdu` | `sudo apt install ncdu` | 磁盘使用分析 |
-| `neofetch` | `sudo apt install neofetch` | 系统信息展示 |
-| `zoxide` | `sudo apt install zoxide` | 智能目录跳转 |
+| 工具       | 安装                        | 说明               |
+| ---------- | --------------------------- | ------------------ |
+| `htop`     | `sudo apt install htop`     | 交互式进程监控     |
+| `ncdu`     | `sudo apt install ncdu`     | 交互式磁盘使用分析 |
+| `tldr`     | `sudo apt install tldr`     | 简化版 man 手册    |
+| `bat`      | `sudo apt install bat`      | 带语法高亮的 cat   |
+| `fzf`      | `sudo apt install fzf`      | 模糊搜索工具       |
+| `tree`     | `sudo apt install tree`     | 目录树形显示       |
+| `jq`       | `sudo apt install jq`       | JSON 处理工具      |
+| `ncdu`     | `sudo apt install ncdu`     | 磁盘使用分析       |
+| `neofetch` | `sudo apt install neofetch` | 系统信息展示       |
+| `zoxide`   | `sudo apt install zoxide`   | 智能目录跳转       |
 
 ### 20.3 使用 `tldr` 替代 man
 
@@ -1126,8 +1126,8 @@ tldr systemctl
 ### 20.4 使用 `tree` 查看目录结构
 
 ```bash
-tree -L 2 /path/to/dir    # 显示 2 层深度
-tree -a                   # 包含隐藏文件
+tree -L 2 /path/to/dir # 显示 2 层深度
+tree -a                # 包含隐藏文件
 ```
 
 ### 20.5 快速创建 Python 虚拟环境
@@ -1142,23 +1142,23 @@ deactivate
 ### 20.6 使用 `history` 管理命令历史
 
 ```bash
-history                  # 查看历史命令
-history | grep "关键词"   # 搜索历史
-!!                       # 执行上一条命令
-sudo !!                  # 以 sudo 执行上一条命令
-!n                       # 执行第 n 条历史命令
+history              # 查看历史命令
+history | grep "关键词" # 搜索历史
+!!                   # 执行上一条命令
+sudo !!              # 以 sudo 执行上一条命令
+!n                   # 执行第 n 条历史命令
 ```
 
 ---
 
 ## 附录：Ubuntu 版本代号参考
 
-| 版本 | 代号 | LTS |
-|------|------|-----|
-| 24.04 | Noble Numbat | ✅ |
-| 22.04 | Jammy Jellyfish | ✅ |
-| 20.04 | Focal Fossa | ✅ |
-| 18.04 | Bionic Beaver | ✅ |
+| 版本  | 代号            | LTS |
+| ----- | --------------- | --- |
+| 24.04 | Noble Numbat    | ✅  |
+| 22.04 | Jammy Jellyfish | ✅  |
+| 20.04 | Focal Fossa     | ✅  |
+| 18.04 | Bionic Beaver   | ✅  |
 
 ---
 

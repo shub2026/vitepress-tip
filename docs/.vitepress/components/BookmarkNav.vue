@@ -1,12 +1,7 @@
 <template>
   <div class="bookmark-nav">
     <div class="search-bar">
-      <input
-        v-model="keyword"
-        type="text"
-        placeholder="搜索书签..."
-        class="search-input"
-      />
+      <input v-model="keyword" type="text" placeholder="搜索书签..." class="search-input" />
     </div>
     <div v-for="group in filteredGroups" :key="group.title" class="nav-group">
       <h3 class="group-title">{{ group.title }}</h3>
@@ -30,41 +25,39 @@
         </a>
       </div>
     </div>
-    <div v-if="!filteredGroups.length" class="no-result">
-      没有匹配的书签
-    </div>
+    <div v-if="!filteredGroups.length" class="no-result">没有匹配的书签</div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue';
 
-const keyword = ref('')
+const keyword = ref('');
 
 const onIconError = (e) => {
-  e.target.style.display = 'none'
-  const fallback = e.target.parentElement.querySelector('.icon-fallback')
-  if (fallback) fallback.style.display = 'flex'
-}
+  e.target.style.display = 'none';
+  const fallback = e.target.parentElement.querySelector('.icon-fallback');
+  if (fallback) fallback.style.display = 'flex';
+};
 
 const props = defineProps({
-  groups: { type: Array, required: true }
-})
+  groups: { type: Array, required: true },
+});
 
 const filteredGroups = computed(() => {
-  if (!keyword.value.trim()) return props.groups
-  const kw = keyword.value.toLowerCase()
+  if (!keyword.value.trim()) return props.groups;
+  const kw = keyword.value.toLowerCase();
   return props.groups
-    .map(group => ({
+    .map((group) => ({
       ...group,
       items: group.items.filter(
-        item =>
+        (item) =>
           item.name.toLowerCase().includes(kw) ||
           (item.desc && item.desc.toLowerCase().includes(kw))
-      )
+      ),
     }))
-    .filter(group => group.items.length > 0)
-})
+    .filter((group) => group.items.length > 0);
+});
 </script>
 
 <style scoped>
@@ -120,7 +113,7 @@ const filteredGroups = computed(() => {
 }
 .nav-card:hover {
   border-color: var(--vp-c-brand-1);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   transform: translateY(-1px);
 }
 .card-icon {

@@ -26,20 +26,21 @@
 **FHS（Filesystem Hierarchy Standard，文件系统层次结构标准）** 是 Linux 系统中目录结构的规范标准，定义了各目录的用途和内容。
 
 **核心理念**：
+
 - **一切皆文件**：Linux 将所有资源（设备、进程、网络连接等）都抽象为文件
 - **单一根目录**：整个文件系统从根目录 `/` 开始，形成统一的树形结构
 - **目录职责明确**：每个目录有特定的用途，便于管理和维护
 
 ### 1.2 与 Windows 的对比
 
-| 特性 | Linux | Windows |
-|------|-------|---------|
-| 根目录 | 单一根目录 `/` | 多个盘符 `C:\` `D:\` 等 |
-| 设备访问 | `/dev/sda1` 等设备文件 | 盘符直接访问 |
-| 挂载概念 | 设备需挂载到目录才能访问 | 盘符自动分配 |
-| 路径分隔符 | `/` | `\` |
-| 配置文件位置 | `/etc/` | 注册表 + 各目录 |
-| 用户数据位置 | `/home/` | `C:\Users\` |
+| 特性         | Linux                    | Windows                 |
+| ------------ | ------------------------ | ----------------------- |
+| 根目录       | 单一根目录 `/`           | 多个盘符 `C:\` `D:\` 等 |
+| 设备访问     | `/dev/sda1` 等设备文件   | 盘符直接访问            |
+| 挂载概念     | 设备需挂载到目录才能访问 | 盘符自动分配            |
+| 路径分隔符   | `/`                      | `\`                     |
+| 配置文件位置 | `/etc/`                  | 注册表 + 各目录         |
+| 用户数据位置 | `/home/`                 | `C:\Users\`             |
 
 ### 1.3 Linux 文件系统树形结构示意
 
@@ -79,125 +80,125 @@
 
 ### 2.1 核心系统目录
 
-| 目录 | 说明 | 示例内容 |
-|------|------|----------|
-| `/` | 根目录，整个文件系统的起点 | — |
-| `/bin` | 基础用户命令，所有用户可用，系统启动必需 | `ls`, `cp`, `mv`, `cat`, `bash` |
-| `/sbin` | 系统管理命令，通常需要 root 权限 | `fdisk`, `fsck`, `init`, `reboot` |
-| `/lib` | 系统共享库，`/bin` 和 `/sbin` 命令依赖的库 | `*.so` 动态链接库 |
-| `/lib64` | 64 位系统库文件 | 64 位共享库 |
+| 目录     | 说明                                       | 示例内容                          |
+| -------- | ------------------------------------------ | --------------------------------- |
+| `/`      | 根目录，整个文件系统的起点                 | —                                 |
+| `/bin`   | 基础用户命令，所有用户可用，系统启动必需   | `ls`, `cp`, `mv`, `cat`, `bash`   |
+| `/sbin`  | 系统管理命令，通常需要 root 权限           | `fdisk`, `fsck`, `init`, `reboot` |
+| `/lib`   | 系统共享库，`/bin` 和 `/sbin` 命令依赖的库 | `*.so` 动态链接库                 |
+| `/lib64` | 64 位系统库文件                            | 64 位共享库                       |
 
 > **注意**：现代 Ubuntu 中，`/bin`、`/sbin`、`/lib` 通常是指向 `/usr/bin`、`/usr/sbin`、`/usr/lib` 的符号链接（合并到 usr）。
 
 ### 2.2 启动与内核目录
 
-| 目录 | 说明 |
-|------|------|
-| `/boot` | 启动加载器文件和内核镜像 |
-| `/boot/vmlinuz-*` | Linux 内核文件 |
-| `/boot/initrd.img-*` | 初始 RAM 磁盘镜像 |
-| `/boot/grub/` | GRUB 引导加载器配置 |
+| 目录                 | 说明                     |
+| -------------------- | ------------------------ |
+| `/boot`              | 启动加载器文件和内核镜像 |
+| `/boot/vmlinuz-*`    | Linux 内核文件           |
+| `/boot/initrd.img-*` | 初始 RAM 磁盘镜像        |
+| `/boot/grub/`        | GRUB 引导加载器配置      |
 
 ### 2.3 设备与虚拟文件系统
 
-| 目录 | 说明 | 特点 |
-|------|------|------|
-| `/dev` | 设备文件目录 | 每个设备对应一个文件 |
-| `/dev/null` | 空设备，丢弃所有写入 | 无限接收，读取为空 |
-| `/dev/zero` | 零设备 | 读取时返回无限个 `\0` |
-| `/dev/random` | 随机数设备 | 阻塞式随机数 |
-| `/dev/urandom` | 非阻塞随机数设备 | 非阻塞式 |
-| `/dev/stdin` | 标准输入 | — |
-| `/dev/stdout` | 标准输出 | — |
-| `/dev/stderr` | 标准错误输出 | — |
-| `/dev/sda` | 第一块 SCSI/SATA 硬盘 | 整个磁盘 |
-| `/dev/sda1` | 第一块硬盘的第一个分区 | 分区设备 |
-| `/dev/tty` | 终端设备 | — |
+| 目录           | 说明                   | 特点                  |
+| -------------- | ---------------------- | --------------------- |
+| `/dev`         | 设备文件目录           | 每个设备对应一个文件  |
+| `/dev/null`    | 空设备，丢弃所有写入   | 无限接收，读取为空    |
+| `/dev/zero`    | 零设备                 | 读取时返回无限个 `\0` |
+| `/dev/random`  | 随机数设备             | 阻塞式随机数          |
+| `/dev/urandom` | 非阻塞随机数设备       | 非阻塞式              |
+| `/dev/stdin`   | 标准输入               | —                     |
+| `/dev/stdout`  | 标准输出               | —                     |
+| `/dev/stderr`  | 标准错误输出           | —                     |
+| `/dev/sda`     | 第一块 SCSI/SATA 硬盘  | 整个磁盘              |
+| `/dev/sda1`    | 第一块硬盘的第一个分区 | 分区设备              |
+| `/dev/tty`     | 终端设备               | —                     |
 
-| 目录 | 说明 | 特点 |
-|------|------|------|
-| `/proc` | 进程信息虚拟文件系统 | 不占用磁盘空间 |
-| `/proc/cpuinfo` | CPU 信息 | `cat /proc/cpuinfo` |
-| `/proc/meminfo` | 内存信息 | `cat /proc/meminfo` |
-| `/proc/[pid]/` | 指定进程的信息目录 | — |
-| `/proc/version` | 内核版本信息 | — |
+| 目录            | 说明                 | 特点                |
+| --------------- | -------------------- | ------------------- |
+| `/proc`         | 进程信息虚拟文件系统 | 不占用磁盘空间      |
+| `/proc/cpuinfo` | CPU 信息             | `cat /proc/cpuinfo` |
+| `/proc/meminfo` | 内存信息             | `cat /proc/meminfo` |
+| `/proc/[pid]/`  | 指定进程的信息目录   | —                   |
+| `/proc/version` | 内核版本信息         | —                   |
 
-| 目录 | 说明 | 特点 |
-|------|------|------|
-| `/sys` | 系统设备信息虚拟文件系统 | 内核对象模型 |
-| `/sys/class/` | 设备分类信息 | — |
-| `/sys/block/` | 块设备信息 | — |
+| 目录          | 说明                     | 特点         |
+| ------------- | ------------------------ | ------------ |
+| `/sys`        | 系统设备信息虚拟文件系统 | 内核对象模型 |
+| `/sys/class/` | 设备分类信息             | —            |
+| `/sys/block/` | 块设备信息               | —            |
 
 ### 2.4 配置目录
 
-| 目录 | 说明 |
-|------|------|
-| `/etc` | 系统配置文件目录（纯文本配置） |
-| `/etc/passwd` | 用户账户信息 |
-| `/etc/shadow` | 用户密码（加密） |
-| `/etc/group` | 用户组信息 |
-| `/etc/hosts` | 本地主机名解析 |
-| `/etc/fstab` | 文件系统挂载配置 |
-| `/etc/hostname` | 主机名 |
-| `/etc/network/` | 网络配置（旧版） |
-| `/etc/netplan/` | 网络配置（Ubuntu 新版） |
-| `/etc/ssh/` | SSH 配置 |
-| `/etc/apt/` | APT 包管理配置 |
-| `/etc/systemd/` | systemd 服务配置 |
+| 目录            | 说明                           |
+| --------------- | ------------------------------ |
+| `/etc`          | 系统配置文件目录（纯文本配置） |
+| `/etc/passwd`   | 用户账户信息                   |
+| `/etc/shadow`   | 用户密码（加密）               |
+| `/etc/group`    | 用户组信息                     |
+| `/etc/hosts`    | 本地主机名解析                 |
+| `/etc/fstab`    | 文件系统挂载配置               |
+| `/etc/hostname` | 主机名                         |
+| `/etc/network/` | 网络配置（旧版）               |
+| `/etc/netplan/` | 网络配置（Ubuntu 新版）        |
+| `/etc/ssh/`     | SSH 配置                       |
+| `/etc/apt/`     | APT 包管理配置                 |
+| `/etc/systemd/` | systemd 服务配置               |
 
 ### 2.5 用户数据目录
 
-| 目录 | 说明 |
-|------|------|
-| `/home` | 普通用户主目录的父目录 |
-| `/home/username/` | 指定用户的主目录 |
-| `/home/username/Documents/` | 用户文档（XDG 标准） |
-| `/home/username/Downloads/` | 下载目录 |
-| `/home/username/.config/` | 用户应用配置 |
-| `/home/username/.local/` | 用户本地数据 |
-| `/root` | root 用户的主目录 |
+| 目录                        | 说明                   |
+| --------------------------- | ---------------------- |
+| `/home`                     | 普通用户主目录的父目录 |
+| `/home/username/`           | 指定用户的主目录       |
+| `/home/username/Documents/` | 用户文档（XDG 标准）   |
+| `/home/username/Downloads/` | 下载目录               |
+| `/home/username/.config/`   | 用户应用配置           |
+| `/home/username/.local/`    | 用户本地数据           |
+| `/root`                     | root 用户的主目录      |
 
 ### 2.6 挂载点目录
 
-| 目录 | 说明 |
-|------|------|
-| `/mnt` | 临时挂载点，管理员手动挂载使用 |
-| `/media` | 可移动设备自动挂载点（U盘、光盘等） |
-| `/media/username/设备名/` | 用户插入设备后自动挂载的位置 |
+| 目录                      | 说明                                |
+| ------------------------- | ----------------------------------- |
+| `/mnt`                    | 临时挂载点，管理员手动挂载使用      |
+| `/media`                  | 可移动设备自动挂载点（U盘、光盘等） |
+| `/media/username/设备名/` | 用户插入设备后自动挂载的位置        |
 
 ### 2.7 程序与数据目录
 
-| 目录 | 说明 |
-|------|------|
-| `/usr` | Unix System Resources，用户程序和数据 |
-| `/usr/bin/` | 用户命令（非系统启动必需） |
-| `/usr/sbin/` | 非必需的系统管理命令 |
-| `/usr/lib/` | 程序库文件 |
-| `/usr/local/` | 本地编译安装的软件 |
-| `/usr/share/` | 架构无关的共享数据 |
-| `/usr/share/doc/` | 软件文档 |
-| `/usr/share/man/` | man 手册页 |
+| 目录              | 说明                                  |
+| ----------------- | ------------------------------------- |
+| `/usr`            | Unix System Resources，用户程序和数据 |
+| `/usr/bin/`       | 用户命令（非系统启动必需）            |
+| `/usr/sbin/`      | 非必需的系统管理命令                  |
+| `/usr/lib/`       | 程序库文件                            |
+| `/usr/local/`     | 本地编译安装的软件                    |
+| `/usr/share/`     | 架构无关的共享数据                    |
+| `/usr/share/doc/` | 软件文档                              |
+| `/usr/share/man/` | man 手册页                            |
 
-| 目录 | 说明 |
-|------|------|
-| `/opt` | 第三方大型软件安装目录 |
+| 目录                  | 说明                      |
+| --------------------- | ------------------------- |
+| `/opt`                | 第三方大型软件安装目录    |
 | `/opt/google/chrome/` | Chrome 浏览器安装位置示例 |
 
-| 目录 | 说明 |
-|------|------|
-| `/var` | 可变数据目录，系统运行时产生的数据 |
-| `/var/log/` | 系统和应用日志 |
-| `/var/cache/` | 应用缓存数据 |
-| `/var/lib/` | 应用状态数据 |
-| `/var/spool/` | 队列数据（打印、邮件等） |
-| `/var/tmp/` | 临时文件（重启保留） |
+| 目录          | 说明                               |
+| ------------- | ---------------------------------- |
+| `/var`        | 可变数据目录，系统运行时产生的数据 |
+| `/var/log/`   | 系统和应用日志                     |
+| `/var/cache/` | 应用缓存数据                       |
+| `/var/lib/`   | 应用状态数据                       |
+| `/var/spool/` | 队列数据（打印、邮件等）           |
+| `/var/tmp/`   | 临时文件（重启保留）               |
 
 ### 2.8 临时目录
 
-| 目录 | 说明 | 特点 |
-|------|------|------|
-| `/tmp` | 临时文件目录 | 所有用户可写，重启清空 |
-| `/var/tmp` | 临时文件目录 | 重启保留 |
+| 目录       | 说明         | 特点                   |
+| ---------- | ------------ | ---------------------- |
+| `/tmp`     | 临时文件目录 | 所有用户可写，重启清空 |
+| `/var/tmp` | 临时文件目录 | 重启保留               |
 
 ---
 
@@ -208,6 +209,7 @@
 **挂载（Mount）** 是将存储设备（硬盘分区、U盘、网络存储等）连接到 Linux 文件系统树中的某个目录，使其内容可被访问的过程。
 
 **核心要点**：
+
 - Linux 不使用盘符（如 C:、D:），而是将设备挂载到目录
 - 挂载点（Mount Point）是一个普通目录
 - 挂载后，访问该目录就是访问设备中的内容
@@ -230,10 +232,12 @@
 ```
 
 **挂载前**：
+
 - `/dev/sdb1` 设备存在，但无法直接读取文件
 - `/mnt/usb` 是空目录
 
 **挂载后**：
+
 - 访问 `/mnt/usb` 就是访问 U 盘中的文件
 - `/mnt/usb` 中原有的内容被隐藏（直到卸载）
 
@@ -246,11 +250,11 @@
 
 ### 3.4 挂载点选择原则
 
-| 挂载点目录 | 用途 | 说明 |
-|------------|------|------|
-| `/mnt/` | 临时手动挂载 | 管理员临时挂载设备使用 |
+| 挂载点目录                | 用途               | 说明                       |
+| ------------------------- | ------------------ | -------------------------- |
+| `/mnt/`                   | 临时手动挂载       | 管理员临时挂载设备使用     |
 | `/media/username/设备名/` | 可移动设备自动挂载 | 系统自动管理，用户无需手动 |
-| 自定义目录 | 特定用途挂载 | 如 `/data/`、`/backup/` |
+| 自定义目录                | 特定用途挂载       | 如 `/data/`、`/backup/`    |
 
 ---
 
@@ -272,8 +276,8 @@ findmnt
 findmnt /mnt/usb
 
 # 查看设备挂载情况
-lsblk -f    # 显示文件系统类型
-df -hT      # 查看已挂载设备的使用情况
+lsblk -f # 显示文件系统类型
+df -hT   # 查看已挂载设备的使用情况
 ```
 
 ### 4.2 基本挂载命令
@@ -320,8 +324,8 @@ sudo umount /mnt/usb
 sudo umount /dev/sdb1
 
 # 强制卸载（设备忙时使用，谨慎！）
-sudo umount -l /mnt/usb    # 懒卸载，等引用释放后卸载
-sudo umount -f /mnt/usb    # 强制卸载（NFS 等）
+sudo umount -l /mnt/usb # 懒卸载，等引用释放后卸载
+sudo umount -f /mnt/usb # 强制卸载（NFS 等）
 ```
 
 ### 4.5 查看设备是否被占用
@@ -593,14 +597,14 @@ cat /etc/fstab
 <设备>    <挂载点>    <文件系统类型>    <挂载选项>    <dump>    <pass>
 ```
 
-| 字段 | 说明 |
-|------|------|
-| 设备 | 设备路径、UUID 或 LABEL |
-| 挂载点 | 挂载目录路径 |
-| 文件系统类型 | ext4、ntfs、vfat、nfs 等 |
-| 挂载选项 | `defaults`、`rw`、`ro`、`noatime` 等 |
-| dump | dump 备份工具标志（0=不备份） |
-| pass | fsck 检查顺序（0=不检查，1=根分区，2=其他分区） |
+| 字段         | 说明                                            |
+| ------------ | ----------------------------------------------- |
+| 设备         | 设备路径、UUID 或 LABEL                         |
+| 挂载点       | 挂载目录路径                                    |
+| 文件系统类型 | ext4、ntfs、vfat、nfs 等                        |
+| 挂载选项     | `defaults`、`rw`、`ro`、`noatime` 等            |
+| dump         | dump 备份工具标志（0=不备份）                   |
+| pass         | fsck 检查顺序（0=不检查，1=根分区，2=其他分区） |
 
 ### 8.2 使用 UUID 挂载（推荐）
 
@@ -620,47 +624,47 @@ lsblk -f
 # /etc/fstab 示例
 
 # 根分区
-UUID=xxxx-xxxx-xxxx-xxxx  /        ext4    defaults,noatime    0    1
+UUID=xxxx-xxxx-xxxx-xxxx / ext4 defaults,noatime 0 1
 
 # home 分区
-UUID=yyyy-yyyy-yyyy-yyyy  /home    ext4    defaults,noatime    0    2
+UUID=yyyy-yyyy-yyyy-yyyy /home ext4 defaults,noatime 0 2
 
 # 数据分区
-UUID=zzzz-zzzz-zzzz-zzzz  /data    ext4    defaults,noatime    0    2
+UUID=zzzz-zzzz-zzzz-zzzz /data ext4 defaults,noatime 0 2
 
 # NTFS 分区
-UUID=nnnn-nnnn-nnnn-nnnn  /mnt/win  ntfs-3g  defaults,uid=1000,gid=1000  0  0
+UUID=nnnn-nnnn-nnnn-nnnn /mnt/win ntfs-3g defaults,uid=1000,gid=1000 0 0
 
 # FAT32 分区
-UUID=ffff-ffff-ffff-ffff  /mnt/usb  vfat    defaults,uid=1000,gid=1000,iocharset=utf8  0  0
+UUID=ffff-ffff-ffff-ffff /mnt/usb vfat defaults,uid=1000,gid=1000,iocharset=utf8 0 0
 
 # NFS 共享
-192.168.1.100:/shared  /mnt/nfs  nfs  defaults  0  0
+192.168.1.100:/shared /mnt/nfs nfs defaults 0 0
 
 # SMB/CIFS 共享
-//192.168.1.100/share  /mnt/smb  cifs  credentials=/home/user/.smbcreds,uid=1000,gid=1000  0  0
+//192.168.1.100/share /mnt/smb cifs credentials=/home/user/.smbcreds,uid=1000,gid=1000 0 0
 
 # swap 分区
-UUID=ssss-ssss-ssss-ssss  none     swap    sw    0    0
+UUID=ssss-ssss-ssss-ssss none swap sw 0 0
 ```
 
 ### 8.3 常用挂载选项详解
 
-| 选项 | 说明 |
-|------|------|
-| `defaults` | 默认选项：`rw,suid,dev,exec,auto,nouser,async` |
-| `rw` / `ro` | 读写 / 只读 |
-| `noatime` | 不更新访问时间，提高性能 |
-| `nodiratime` | 不更新目录访问时间 |
-| `sync` / `async` | 同步 / 异步 I/O |
-| `user` | 允许普通用户挂载 |
-| `users` | 允许任何用户挂载和卸载 |
-| `nofail` | 设备不存在时不报错（可移动设备） |
-| `x-systemd.automount` | 按需自动挂载（访问时才挂载） |
-| `x-systemd.idle-timeout=10min` | 空闲 10 分钟后自动卸载 |
-| `uid=1000,gid=1000` | 指定所有者（FAT/NTFS） |
-| `umask=022` | 设置默认权限掩码 |
-| `iocharset=utf8` | 设置字符编码 |
+| 选项                           | 说明                                           |
+| ------------------------------ | ---------------------------------------------- |
+| `defaults`                     | 默认选项：`rw,suid,dev,exec,auto,nouser,async` |
+| `rw` / `ro`                    | 读写 / 只读                                    |
+| `noatime`                      | 不更新访问时间，提高性能                       |
+| `nodiratime`                   | 不更新目录访问时间                             |
+| `sync` / `async`               | 同步 / 异步 I/O                                |
+| `user`                         | 允许普通用户挂载                               |
+| `users`                        | 允许任何用户挂载和卸载                         |
+| `nofail`                       | 设备不存在时不报错（可移动设备）               |
+| `x-systemd.automount`          | 按需自动挂载（访问时才挂载）                   |
+| `x-systemd.idle-timeout=10min` | 空闲 10 分钟后自动卸载                         |
+| `uid=1000,gid=1000`            | 指定所有者（FAT/NTFS）                         |
+| `umask=022`                    | 设置默认权限掩码                               |
+| `iocharset=utf8`               | 设置字符编码                                   |
 
 ### 8.4 添加自动挂载步骤
 
@@ -676,7 +680,7 @@ sudo mkdir -p /data
 sudo nano /etc/fstab
 
 # 添加一行：
-UUID=a1b2c3d4-xxxx-xxxx-xxxx-xxxxxxxxxxxx  /data  ext4  defaults,noatime  0  2
+UUID=a1b2c3d4-xxxx-xxxx-xxxx-xxxxxxxxxxxx /data ext4 defaults,noatime 0 2
 
 # 4. 测试挂载（不会报错才安全！）
 sudo mount -a
@@ -691,7 +695,7 @@ df -h | grep /data
 
 ```bash
 # /etc/fstab
-UUID=xxxx-xxxx  /mnt/external  ext4  nofail,x-systemd.automount,x-systemd.idle-timeout=10min  0  0
+UUID=xxxx-xxxx /mnt/external ext4 nofail,x-systemd.automount,x-systemd.idle-timeout=10min 0 0
 ```
 
 - `nofail`：设备不存在时系统正常启动
@@ -717,7 +721,7 @@ sudo systemd-mount --create --owner user /dev/sdb1 /mnt/usb
 ```bash
 # 查看块设备
 lsblk
-lsblk -f          # 显示文件系统类型
+lsblk -f # 显示文件系统类型
 lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT
 
 # 查看设备 UUID 和类型
@@ -732,7 +736,7 @@ sudo parted -l
 sudo file -s /dev/sdb1
 
 # 查看设备标签
-e2label /dev/sdb1           # ext 文件系统
+e2label /dev/sdb1 # ext 文件系统
 sudo blkid -o value -s LABEL /dev/sdb1
 ```
 
@@ -745,9 +749,9 @@ mount | column -t
 
 # 使用 findmnt（推荐）
 findmnt
-findmnt -A                   # 树形显示所有
-findmnt /mnt/usb             # 查看特定挂载点
-findmnt -n -o SOURCE,TARGET  # 仅显示源和目标
+findmnt -A                  # 树形显示所有
+findmnt /mnt/usb            # 查看特定挂载点
+findmnt -n -o SOURCE,TARGET # 仅显示源和目标
 
 # 查看挂载选项
 findmnt -n -o OPTIONS /mnt/usb
@@ -824,6 +828,7 @@ sudo mkfs.exfat /dev/sdb1
 **问题**：`mount: /mnt/usb: unknown filesystem type 'ntfs'`
 
 **解决**：
+
 ```bash
 sudo apt install ntfs-3g
 sudo mount -t ntfs-3g /dev/sdb1 /mnt/usb
@@ -832,6 +837,7 @@ sudo mount -t ntfs-3g /dev/sdb1 /mnt/usb
 **问题**：`mount: /mnt/usb: mount point does not exist`
 
 **解决**：
+
 ```bash
 sudo mkdir -p /mnt/usb
 ```
@@ -839,6 +845,7 @@ sudo mkdir -p /mnt/usb
 **问题**：`mount: /mnt/usb: device is busy`
 
 **解决**：
+
 ```bash
 # 查看占用进程
 lsof /mnt/usb
@@ -856,6 +863,7 @@ sudo umount -l /mnt/usb
 **原因**：Windows 快速启动或休眠导致分区被锁定。
 
 **解决**：
+
 ```bash
 # 方法1：Windows 中完全关机（Shift + 关机）
 
@@ -870,6 +878,7 @@ sudo mount -t ntfs-3g /dev/sdb1 /mnt/win
 ### 10.3 fstab 配置错误导致无法启动
 
 **解决**：
+
 1. 启动时进入恢复模式（Recovery Mode）
 2. 选择 `root` 进入 root shell
 3. 重新挂载根分区为读写：
@@ -887,17 +896,19 @@ sudo mount -t ntfs-3g /dev/sdb1 /mnt/win
 ### 10.4 中文文件名乱码
 
 **解决**：
+
 ```bash
 # FAT32 挂载时指定编码
 sudo mount -t vfat -o iocharset=utf8 /dev/sdb1 /mnt/usb
 
 # 在 fstab 中：
-UUID=xxxx  /mnt/usb  vfat  defaults,iocharset=utf8,uid=1000,gid=1000  0  0
+UUID=xxxx /mnt/usb vfat defaults,iocharset=utf8,uid=1000,gid=1000 0 0
 ```
 
 ### 10.5 U 盘无法识别
 
 **排查步骤**：
+
 ```bash
 # 1. 查看内核日志
 dmesg | tail
@@ -916,6 +927,7 @@ lspci | grep USB
 ### 10.6 NFS 挂载超时
 
 **解决**：
+
 ```bash
 # 检查网络连通性
 ping nfs-server
@@ -933,6 +945,7 @@ sudo mount -t nfs -o timeo=10,soft,intr nfs-server:/share /mnt/nfs
 ### 10.7 SMB/CIFS 挂载失败
 
 **解决**：
+
 ```bash
 # 检查 SMB 协议版本
 sudo mount -t cifs //server/share /mnt/smb \
@@ -949,32 +962,32 @@ sudo mount -t cifs //server/share /mnt/smb -o username=user -vvv
 
 ## 附录：常用文件系统对比
 
-| 文件系统 | 适用场景 | 最大文件大小 | 最大分区大小 | Linux 原生支持 |
-|----------|----------|--------------|--------------|----------------|
-| ext4 | Linux 系统分区 | 16TB | 1EB | ✅ |
-| XFS | 大文件、高并发 | 8EB | 8EB | ✅ |
-| Btrfs | 快照、压缩、校验 | 16EB | 16EB | ✅ |
-| NTFS | Windows 兼容 | 16TB | 256TB | 需要 ntfs-3g |
-| FAT32 | U 盘、跨平台 | 4GB | 2TB | ✅ |
-| exFAT | 大文件 U 盘 | 16EB | 64ZB | 需要 exfat-fuse |
+| 文件系统 | 适用场景         | 最大文件大小 | 最大分区大小 | Linux 原生支持  |
+| -------- | ---------------- | ------------ | ------------ | --------------- |
+| ext4     | Linux 系统分区   | 16TB         | 1EB          | ✅              |
+| XFS      | 大文件、高并发   | 8EB          | 8EB          | ✅              |
+| Btrfs    | 快照、压缩、校验 | 16EB         | 16EB         | ✅              |
+| NTFS     | Windows 兼容     | 16TB         | 256TB        | 需要 ntfs-3g    |
+| FAT32    | U 盘、跨平台     | 4GB          | 2TB          | ✅              |
+| exFAT    | 大文件 U 盘      | 16EB         | 64ZB         | 需要 exfat-fuse |
 
 ---
 
 ## 附录：挂载命令速查表
 
-| 操作 | 命令 |
-|------|------|
-| 查看设备 | `lsblk -f` |
-| 查看挂载 | `findmnt` 或 `mount` |
-| 挂载设备 | `sudo mount /dev/sdb1 /mnt/usb` |
-| 卸载设备 | `sudo umount /mnt/usb` |
-| 查看占用 | `lsof /mnt/usb` |
-| 重新挂载 | `sudo mount -o remount,rw /mnt/usb` |
-| 查看 UUID | `sudo blkid` |
-| 测试 fstab | `sudo mount -a` |
-| 挂载 ISO | `sudo mount -o loop file.iso /mnt/iso` |
-| 挂载 NFS | `sudo mount -t nfs server:/share /mnt/nfs` |
-| 挂载 SMB | `sudo mount -t cifs //server/share /mnt/smb -o user=xxx` |
+| 操作       | 命令                                                     |
+| ---------- | -------------------------------------------------------- |
+| 查看设备   | `lsblk -f`                                               |
+| 查看挂载   | `findmnt` 或 `mount`                                     |
+| 挂载设备   | `sudo mount /dev/sdb1 /mnt/usb`                          |
+| 卸载设备   | `sudo umount /mnt/usb`                                   |
+| 查看占用   | `lsof /mnt/usb`                                          |
+| 重新挂载   | `sudo mount -o remount,rw /mnt/usb`                      |
+| 查看 UUID  | `sudo blkid`                                             |
+| 测试 fstab | `sudo mount -a`                                          |
+| 挂载 ISO   | `sudo mount -o loop file.iso /mnt/iso`                   |
+| 挂载 NFS   | `sudo mount -t nfs server:/share /mnt/nfs`               |
+| 挂载 SMB   | `sudo mount -t cifs //server/share /mnt/smb -o user=xxx` |
 
 ---
 

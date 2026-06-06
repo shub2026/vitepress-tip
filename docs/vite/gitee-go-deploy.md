@@ -39,10 +39,10 @@
                   └──────────────┘
 ```
 
-| 路径 | 触发方式 | 适用场景 | 配置文件 |
-|------|---------|---------|---------|
-| **Gitee Go 流水线**（主线） | 推送 `main` 自动触发 | 日常发布，零人工介入 | `.workflow/main-pipeline.yml` |
-| **deploy.sh**（备用） | SSH 手动 / 定时任务 / Webhook | 故障修复、预检查、离线构建 | `deploy.sh`（服务器上） |
+| 路径                        | 触发方式                      | 适用场景                   | 配置文件                      |
+| --------------------------- | ----------------------------- | -------------------------- | ----------------------------- |
+| **Gitee Go 流水线**（主线） | 推送 `main` 自动触发          | 日常发布，零人工介入       | `.workflow/main-pipeline.yml` |
+| **deploy.sh**（备用）       | SSH 手动 / 定时任务 / Webhook | 故障修复、预检查、离线构建 | `deploy.sh`（服务器上）       |
 
 ---
 
@@ -84,12 +84,12 @@ steps:
 
 **四个步骤做了什么：**
 
-| 步骤 | 执行内容 |
-|------|---------|
-| `build@nodejs` | `npm ci` → `npm run docs:build` → `tar -czf output.tar.gz` |
-| `publish@general_artifacts` | 制品上传到 Gitee 仓库，留存可追溯 |
-| `publish@release_artifacts` | 生成带版本号的 Release，方便回滚 |
-| `deploy@agent` | 下载最新制品 → 清空 `/opt/wwwroot` → 解压 → `chmod 755` |
+| 步骤                        | 执行内容                                                   |
+| --------------------------- | ---------------------------------------------------------- |
+| `build@nodejs`              | `npm ci` → `npm run docs:build` → `tar -czf output.tar.gz` |
+| `publish@general_artifacts` | 制品上传到 Gitee 仓库，留存可追溯                          |
+| `publish@release_artifacts` | 生成带版本号的 Release，方便回滚                           |
+| `deploy@agent`              | 下载最新制品 → 清空 `/opt/wwwroot` → 解压 → `chmod 755`    |
 
 ### 2.4 修改主机组 ID
 
@@ -99,7 +99,7 @@ steps:
 # 需要改这一处
 - step: deploy@agent
   hostGroupID:
-    ID: my-server    # ← 改为你在 Gitee Go 后台看到的主机组 ID
+    ID: my-server # ← 改为你在 Gitee Go 后台看到的主机组 ID
 ```
 
 > **不需要**配置 Webhook——Gitee Go 流水线已经是全自动的，`deploy@agent` 步骤直接把制品推到服务器。
@@ -119,8 +119,8 @@ steps:
 ### 3.1 环境要求
 
 ```sh
-node --version   # 需要 >= 18（Gitee Go 流水线构建不需要，但 deploy.sh 需要）
-git --version    # 需要已安装
+node --version # 需要 >= 18（Gitee Go 流水线构建不需要，但 deploy.sh 需要）
+git --version  # 需要已安装
 ```
 
 如果没有 Node.js，用 nvm 安装：
@@ -156,9 +156,9 @@ mkdir -p /opt/wwwroot
 1. **网站 → 创建网站 → 静态网站**
 2. 配置：
 
-| 配置项 | 值 |
-|--------|-----|
-| 主域名 | 你的域名 |
+| 配置项 | 值             |
+| ------ | -------------- |
+| 主域名 | 你的域名       |
 | 根目录 | `/opt/wwwroot` |
 
 3. **设置 → 伪静态**，填入 SPA 路由规则：
@@ -196,11 +196,11 @@ server {
 
 ### 5.2 三种模式
 
-| 命令 | 做什么 | 什么时候用 |
-|------|--------|-----------|
-| `bash deploy.sh` | 完整部署：拉取 → 构建 → 覆盖 `/opt/wwwroot`，旧版自动备份 | 流水线挂了手动救急 |
-| `bash deploy.sh --pull` | 只拉取 + 构建，不动 `/opt/wwwroot` | 推送前本地验证是否能编译通过 |
-| `bash deploy.sh --quick` | 直接解压 Gitee Go 已下载的制品到 `/opt/wwwroot` | 制品已到服务器但解压失败，补刀 |
+| 命令                     | 做什么                                                    | 什么时候用                     |
+| ------------------------ | --------------------------------------------------------- | ------------------------------ |
+| `bash deploy.sh`         | 完整部署：拉取 → 构建 → 覆盖 `/opt/wwwroot`，旧版自动备份 | 流水线挂了手动救急             |
+| `bash deploy.sh --pull`  | 只拉取 + 构建，不动 `/opt/wwwroot`                        | 推送前本地验证是否能编译通过   |
+| `bash deploy.sh --quick` | 直接解压 Gitee Go 已下载的制品到 `/opt/wwwroot`           | 制品已到服务器但解压失败，补刀 |
 
 ### 5.3 每次部署自动备份
 
@@ -226,11 +226,11 @@ server {
 
 **1. Gitee 端：管理 → WebHooks → 添加**
 
-| 字段 | 值 |
-|------|-----|
-| URL | `http://你的服务器IP:9000/hook` |
-| 密码 | 自定义（如 `abc123`） |
-| 事件 | Push |
+| 字段 | 值                              |
+| ---- | ------------------------------- |
+| URL  | `http://你的服务器IP:9000/hook` |
+| 密码 | 自定义（如 `abc123`）           |
+| 事件 | Push                            |
 
 **2. 服务器端：用 Node.js 起一个极简 Webhook 服务**
 
@@ -240,18 +240,23 @@ const http = require('http');
 const { exec } = require('child_process');
 const SECRET = 'abc123'; // 和 Gitee Webhook 密码一致
 
-http.createServer((req, res) => {
-  if (req.method === 'POST' && req.url === '/hook') {
-    const token = req.headers['x-gitee-token'] || '';
-    if (token !== SECRET) { res.writeHead(403); return res.end('Forbidden'); }
+http
+  .createServer((req, res) => {
+    if (req.method === 'POST' && req.url === '/hook') {
+      const token = req.headers['x-gitee-token'] || '';
+      if (token !== SECRET) {
+        res.writeHead(403);
+        return res.end('Forbidden');
+      }
 
-    exec('nohup bash /opt/vitepress-tip/deploy.sh > /tmp/deploy.log 2>&1 &');
-    res.end('OK');
-  } else {
-    res.writeHead(404);
-    res.end('Not Found');
-  }
-}).listen(9000, () => console.log('Webhook listening on :9000'));
+      exec('nohup bash /opt/vitepress-tip/deploy.sh > /tmp/deploy.log 2>&1 &');
+      res.end('OK');
+    } else {
+      res.writeHead(404);
+      res.end('Not Found');
+    }
+  })
+  .listen(9000, () => console.log('Webhook listening on :9000'));
 ```
 
 ```sh

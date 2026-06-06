@@ -6,11 +6,11 @@
 
 ## 环境要求
 
-| 依赖 | 版本要求 | 检查命令 |
-|------|----------|----------|
-| Node.js | >= 18 | `node -v` |
-| npm | 随 Node.js 自带 | `npm -v` |
-| Git | 任意版本 | `git --version` |
+| 依赖    | 版本要求        | 检查命令        |
+| ------- | --------------- | --------------- |
+| Node.js | >= 18           | `node -v`       |
+| npm     | 随 Node.js 自带 | `npm -v`        |
+| Git     | 任意版本        | `git --version` |
 
 ---
 
@@ -32,13 +32,13 @@ npm install
 
 首次执行会安装以下核心依赖：
 
-| 包 | 版本 | 用途 |
-|---|------|------|
-| `vitepress` | ^1.6.4 | 静态站点生成器 |
-| `vue` | ^3.5.30 | 组件框架 |
-| `mermaid` | ^11.13.0 | 图表渲染 |
-| `vitepress-plugin-mermaid` | ^2.0.17 | Mermaid 集成插件 |
-| `prettier` | ^3.3.0 | 代码格式化 |
+| 包                         | 版本     | 用途             |
+| -------------------------- | -------- | ---------------- |
+| `vitepress`                | ^1.6.4   | 静态站点生成器   |
+| `vue`                      | ^3.5.30  | 组件框架         |
+| `mermaid`                  | ^11.13.0 | 图表渲染         |
+| `vitepress-plugin-mermaid` | ^2.0.17  | Mermaid 集成插件 |
+| `prettier`                 | ^3.3.0   | 代码格式化       |
 
 ---
 
@@ -55,10 +55,10 @@ npm run docs:build
 npm run docs:preview
 ```
 
-| 命令 | 说明 | 端口 |
-|------|------|------|
-| `npm run docs:dev` | 开发模式，文件修改即时生效 | 5173 |
-| `npm run docs:build` | 生产构建，输出静态文件 | — |
+| 命令                   | 说明                       | 端口 |
+| ---------------------- | -------------------------- | ---- |
+| `npm run docs:dev`     | 开发模式，文件修改即时生效 | 5173 |
+| `npm run docs:build`   | 生产构建，输出静态文件     | —    |
 | `npm run docs:preview` | 预览构建产物，模拟生产环境 | 4173 |
 
 ---
@@ -76,11 +76,11 @@ npm run type-check
 npm run clean
 ```
 
-| 命令 | 说明 |
-|------|------|
-| `npm run format` | 使用 Prettier 格式化 `docs/` 下所有 `.md` `.ts` `.css` |
-| `npm run type-check` | 基于 `tsconfig.json` 检查类型错误 |
-| `npm run clean` | 删除 `dist` 和 `cache` 目录 |
+| 命令                 | 说明                                                   |
+| -------------------- | ------------------------------------------------------ |
+| `npm run format`     | 使用 Prettier 格式化 `docs/` 下所有 `.md` `.ts` `.css` |
+| `npm run type-check` | 基于 `tsconfig.json` 检查类型错误                      |
+| `npm run clean`      | 删除 `dist` 和 `cache` 目录                            |
 
 ---
 

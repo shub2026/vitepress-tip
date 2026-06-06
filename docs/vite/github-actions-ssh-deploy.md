@@ -29,6 +29,7 @@ ssh-keygen -t rsa -b 4096 -C "github-actions@deploy"
 ```
 
 **交互提示说明：**
+
 - `Enter file in which to save the key`：输入保存路径，如 `/home/user/.ssh/github_actions`
 - `Enter passphrase`：**留空**（GitHub Actions 无法输入密码）
 - `Enter same passphrase again`：确认留空
@@ -86,10 +87,10 @@ ssh -i ~/.ssh/github_actions user@server_ip
 
 ### 2.2 添加以下 Secrets
 
-| Name | Value | 说明 |
-|------|-------|------|
-| `SSH_HOST` | `your_server_ip` | 服务器 IP 或域名 |
-| `SSH_PRIVATE_KEY` | 私钥内容 | `~/.ssh/github_actions` 的全部内容 |
+| Name              | Value            | 说明                               |
+| ----------------- | ---------------- | ---------------------------------- |
+| `SSH_HOST`        | `your_server_ip` | 服务器 IP 或域名                   |
+| `SSH_PRIVATE_KEY` | 私钥内容         | `~/.ssh/github_actions` 的全部内容 |
 
 ### 2.3 获取私钥内容
 
@@ -99,6 +100,7 @@ cat ~/.ssh/github_actions
 ```
 
 **注意：**
+
 - 私钥内容要原样复制，不要添加额外空格或换行
 - `-----BEGIN OPENSSH PRIVATE KEY-----` 和 `-----END OPENSSH PRIVATE KEY-----` 必须包含
 
@@ -155,14 +157,81 @@ jobs:
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "docs/.vitepress/dist/"
+          ARGS: '-rlgoDzvc -i --delete'
+          SOURCE: 'docs/.vitepress/dist/'
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: root
-          TARGET: "/opt/1panel/www/sites/sntip/index/"
+          TARGET: '/opt/1panel/www/sites/sntip/index/'
 ```
 
 > **说明**：本项目使用 `easingthemes/ssh-deploy` 直接通过 SSH 将构建产物（`dist/`）同步到服务器，无需在服务器上安装 Node.js 或保留源码。
+
+#### 本项目 `.github/workflows/deploy.yml` 优化配置v2
+
+```yaml
+name: Deploy to My Server
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# 防止并发部署导致服务器文件状态异常
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 拉取代码
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # 2. 安装 Node.js 并配置缓存
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      # 3. 安装依赖并构建
+      - name: Install dependencies
+        run: npm ci
+      - name: Build VitePress
+        run: npm run docs:build
+
+      # 4. 上传构建产物，供部署 job 使用
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: dist
+          path: docs/.vitepress/dist/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # 下载构建产物
+      - name: Download dist artifact
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: dist
+          path: dist/
+
+      # 部署到服务器
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@v6.0.3
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: '-rlgoDzvc -i --delete'
+          SOURCE: 'dist/'
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: root
+          TARGET: '/opt/1panel/www/sites/sntip/index/'
+```
 
 ## 步骤四：配置 VitePress 项目
 
@@ -210,6 +279,7 @@ git push origin main
 **错误信息：** `Permission denied (publickey)`
 
 **解决方法：**
+
 - 检查私钥格式是否完整（包含 BEGIN/END）
 - 确认公钥已正确添加到服务器的 `~/.ssh/authorized_keys`
 - 确认服务器 SSH 端口是否正确
@@ -220,6 +290,7 @@ git push origin main
 **错误信息：** `Permission denied`
 
 **解决方法：**
+
 ```bash
 # 在服务器上设置部署目录权限
 sudo chown -R $USER:$USER /opt/1panel/www/sites/sntip/index
@@ -230,17 +301,19 @@ chmod 755 /opt/1panel/www/sites/sntip/index
 
 **解决方法：**
 在 `actions/setup-node@v5` 中指定正确的 Node.js 版本：
+
 ```yaml
 with:
-  node-version: '22'  # 与本地开发版本一致
+  node-version: '22' # 与本地开发版本一致
 ```
 
 ### 问题 4：构建产物路径错误
 
 **解决方法：**
 确认 VitePress 构建输出目录：
+
 ```yaml
-path: docs/.vitepress/dist/  # 默认路径
+path: docs/.vitepress/dist/ # 默认路径
 # 或检查 vite.config.ts 中的 outDir 配置
 ```
 
@@ -254,6 +327,7 @@ path: docs/.vitepress/dist/  # 默认路径
 ## 总结
 
 通过以上配置，每次 `git push` 到 `main` 分支后，GitHub Actions 会自动：
+
 1. 检出代码
 2. 安装依赖（Node.js 22）
 3. 构建 VitePress 站点

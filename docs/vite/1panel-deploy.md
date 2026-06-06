@@ -11,9 +11,9 @@
 通过SSH连接到你的服务器（可以直接使用1Panel自带的终端，或通过ssh 账号@公网IP连接）。以CentOS/RedHat系统为例，执行以下命令安装基础环境：
 
 ```sh
-yum install git  # 安装git用于克隆代码
- yum install nodejs   # 安装Node.js环境
- yum install npm      # 安装npm包管理器
+yum install git    # 安装git用于克隆代码
+yum install nodejs # 安装Node.js环境
+yum install npm    # 安装npm包管理器
 ```
 
 对于Ubuntu/Debian系统，可将yum替换为apt。安装完成后，通过 npm -v 和 node -v 验证是否安装成功。(注：VitePress要求Node.js版本需18及以上，若源内版本过低，建议通过NodeSource或nvm安装新版Node)。
@@ -46,7 +46,7 @@ VitePress是一个静态站点生成器（SSG），部署上线需要先将Markd
 - 如果项目使用 pnpm，执行：
 
 ```sh
-bashpnpm install       # 安装项目依赖
+bashpnpm install    # 安装项目依赖
 pnpm run docs:build # 执行构建命令
 ```
 
