@@ -89,10 +89,7 @@ ssh -i ~/.ssh/github_actions user@server_ip
 | Name | Value | 说明 |
 |------|-------|------|
 | `SSH_HOST` | `your_server_ip` | 服务器 IP 或域名 |
-| `SSH_PORT` | `22` | SSH 端口（默认 22） |
-| `SSH_USER` | `root` | SSH 用户名 |
 | `SSH_PRIVATE_KEY` | 私钥内容 | `~/.ssh/github_actions` 的全部内容 |
-| `DEPLOY_PATH` | `/opt/1panel/www/sites/cs/index` | 服务器部署目录 |
 
 ### 2.3 获取私钥内容
 
@@ -116,11 +113,14 @@ mkdir -p .github/workflows
 touch .github/workflows/deploy.yml
 ```
 
-### 3.2 编写工作流配置
+### 3.2 本项目实际工作流配置
+
+以下是对齐本项目 `.github/workflows/deploy.yml` 的实际配置：
 
 ```yaml
-name: Deploy VitePress to Server
+name: Deploy to Server
 
+# 触发条件：推送到 main 分支，或手动触发
 on:
   push:
     branches: [main]
@@ -129,102 +129,40 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       # 1. 检出代码
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      # 2. 设置 Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      # 2. 设置 Node.js（版本与本地开发一致）
+      - name: Setup Node
+        uses: actions/setup-node@v5
         with:
-          node-version: '25.4.0'
+          node-version: 22
           cache: 'npm'
 
       # 3. 安装依赖
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       # 4. 构建 VitePress
       - name: Build VitePress
         run: npm run docs:build
 
-      # 5. 部署到服务器
+      # 5. 通过 SSH 部署到服务器（使用 ssh-deploy Action）
       - name: Deploy to Server
-        uses: appleboy/ssh-action@master
+        uses: easingthemes/ssh-deploy@main
         with:
-          host: ${{ secrets.SSH_HOST }}
-          port: ${{ secrets.SSH_PORT }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            # 备份当前版本
-            if [ -d "${{ secrets.DEPLOY_PATH }}" ]; then
-              cp -r ${{ secrets.DEPLOY_PATH }} ${{ secrets.DEPLOY_PATH }}.backup.$(date +%Y%m%d_%H%M%S)
-            fi
-            
-            # 清理旧文件（保留备份）
-            rm -rf ${{ secrets.DEPLOY_PATH }}/*
-            
-            # 从 Git 拉取最新代码并构建（如果服务器有源码）
-            # 或者直接通过 rsync 上传（见下方方案二）
-
-      # 方案二：使用 rsync 上传（推荐）
-      - name: Upload via rsync
-        uses: burnett01/rsync-deployments@7.0.1
-        with:
-          switches: -avzr --delete
-          path: docs/.vitepress/dist/
-          remote_path: ${{ secrets.DEPLOY_PATH }}
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_port: ${{ secrets.SSH_PORT }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: "docs/.vitepress/dist/"
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: root
+          TARGET: "/opt/1panel/www/sites/cs/index/"
 ```
 
-### 3.3 简化版配置（仅使用 rsync）
-
-如果你希望直接在服务器上构建，可以使用这个简化版：
-
-```yaml
-name: Deploy VitePress
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '25.4.0'
-
-      - name: Install & Build
-        run: |
-          npm ci
-          npm run docs:build
-
-      - name: Deploy to Server
-        uses: burnett01/rsync-deployments@7.0.1
-        with:
-          switches: -avzr --delete
-          path: docs/.vitepress/dist/
-          remote_path: /opt/1panel/www/sites/cs/index
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_port: ${{ secrets.SSH_PORT }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
-```
+> **说明**：本项目使用 `easingthemes/ssh-deploy` 直接通过 SSH 将构建产物（`dist/`）同步到服务器，无需在服务器上安装 Node.js 或保留源码。
 
 ## 步骤四：配置 VitePress 项目
 
@@ -291,10 +229,10 @@ chmod 755 /opt/1panel/www/sites/cs/index
 ### 问题 3：Node.js 版本不匹配
 
 **解决方法：**
-在 `actions/setup-node@v4` 中指定正确的 Node.js 版本：
+在 `actions/setup-node@v5` 中指定正确的 Node.js 版本：
 ```yaml
 with:
-  node-version: '25.4.0'  # 与本地开发版本一致
+  node-version: '22'  # 与本地开发版本一致
 ```
 
 ### 问题 4：构建产物路径错误
@@ -317,11 +255,11 @@ path: docs/.vitepress/dist/  # 默认路径
 
 通过以上配置，每次 `git push` 到 `main` 分支后，GitHub Actions 会自动：
 1. 检出代码
-2. 安装依赖
-3. 构建 VitePress
-4. 通过 SSH 上传到服务器
+2. 安装依赖（Node.js 22）
+3. 构建 VitePress 站点
+4. 通过 `easingthemes/ssh-deploy` 将 `dist/` 同步到服务器 `/opt/1panel/www/sites/cs/index/`
 
-实现真正的自动化部署，告别手动操作。
+构建和部署全部在 GitHub Actions 云端完成，服务器只需运行 Web 服务（如 Nginx/1Panel），无需安装 Node.js。
 
 ## 参考链接
 
