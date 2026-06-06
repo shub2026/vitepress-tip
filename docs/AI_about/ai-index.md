@@ -2,7 +2,7 @@
 
 > 全面整理 OpenAI、Claude、Gemini、Llama、Mistral、DeepSeek、千问、GLM、Kimi、MiniMax、Hy3、ERNIE 等主流AI大模型的提示词技巧与实用模板
 
-> 📊 **模型选型参考**：如需了解各模型性能对比与选型建议，请查看 [国产大模型选择指南](./国产大模型选择指南)
+> 📊 **模型选型参考**：如需了解各模型性能对比与选型建议，请查看 [国产大模型选择指南](./domestic-llm-guide)
 
 [![Documentation](https://img.shields.io/badge/文档-完整-green)](https://gitee.com/shub77/vitepress-tip)
 [![Models](https://img.shields.io/badge/模型-12大主流-blue)](https://gitee.com/shub77/vitepress-tip)
@@ -31,7 +31,7 @@
 
 | 模型系列             | 代表模型                        | 文档链接                                  | 特色能力                         |
 | -------------------- | ------------------------------- | ----------------------------------------- | -------------------------------- |
-| **选型参考**         | 全模型对比                      | [查看指南](./国产大模型选择指南)          | 性能评分、价格对比、场景推荐     |
+| **选型参考**         | 全模型对比                      | [查看指南](./domestic-llm-guide)          | 性能评分、价格对比、场景推荐     |
 | **OpenAI**           | GPT-4o, GPT-4, GPT-3.5, DALL-E  | [查看指南](./openai-gpt-prompts.md)       | 最强推理、图像生成、函数调用     |
 | **Anthropic Claude** | Claude 3.5 Sonnet, Opus, Haiku  | [查看指南](./anthropic-claude-prompts.md) | 长文本处理、安全对齐、角色扮演   |
 | **Google Gemini**    | Gemini 1.5 Pro, Flash           | [查看指南](./google-gemini-prompts.md)    | 多模态、超长上下文、研究摘要     |

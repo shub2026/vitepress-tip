@@ -107,7 +107,7 @@ export default withMermaid(
           collapsed: false,
           items: [
             { text: '📖 提示词说明', link: '/AI_about/ai-index' },
-            { text: '📊 国产大模型选择指南', link: '/AI_about/国产大模型选择指南' },
+            { text: '📊 国产大模型选择指南', link: '/AI_about/domestic-llm-guide' },
             {
               text: '🌐 国际模型',
               collapsed: true,

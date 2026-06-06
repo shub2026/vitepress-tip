@@ -1,4 +1,4 @@
-# 国产大模型选择指南（2026年5月）
+# Domestic LLM Selection Guide (2026-05)
 
 > 参考资料：各家厂商官方发布、BenchLM、CloudMinds、Artificial Analysis 等评测平台公开数据
 > 更新日期：2026-05-31
