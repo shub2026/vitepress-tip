@@ -101,7 +101,6 @@ export default withMermaid(
             { text: '基本构建', link: '/vite/basic-setup' },
             { text: '远程关联', link: '/vite/remote-connect' },
             { text: 'Git常用命令', link: '/vite/git-commands' },
-            { text: '1Panel部署', link: '/vite/1panel-deploy' },
             { text: '1Panel脚本', link: '/vite/1panel-script' },
             { text: 'Gitee Go流水线', link: '/vite/gitee-go-deploy' },
             { text: 'Gitee Go优化V2', link: '/vite/gitee-go-deploy-v2' },
