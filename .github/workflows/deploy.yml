@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
-          node-version: 18
+          node-version: 22
           cache: 'npm' # 如果使用 pnpm 或 yarn，请相应修改
 
       # 3. 安装依赖并构建
