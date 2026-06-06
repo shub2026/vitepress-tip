@@ -166,7 +166,7 @@ jobs:
 
 > **说明**：本项目使用 `easingthemes/ssh-deploy` 直接通过 SSH 将构建产物（`dist/`）同步到服务器，无需在服务器上安装 Node.js 或保留源码。
 
-#### 本项目 `.github/workflows/deploy.yml` 优化配置v2
+### 3.3本项目工作流优化配置v2
 
 ```yaml
 name: Deploy to My Server
