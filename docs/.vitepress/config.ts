@@ -156,7 +156,6 @@ export default withMermaid(
             { text: 'Lightroom处理流程与技巧', link: '/other/lightroom-workflow-and-tips' },
             { text: 'Lightroom预设使用指南', link: '/other/lightroom-preset-guide' },
             { text: 'WPS删除右键新建菜单', link: '/other/wps-del' },
-            { text: '知行书签', link: '/bookmarks' },
           ]
         },
       ],

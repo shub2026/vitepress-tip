@@ -81,7 +81,6 @@ vitepress-tip/
 │   ├── linux/                     # Linux 学习笔记
 │   ├── other/                     # 其他内容（证件照、Lightroom 等）
 │   ├── public/                    # 静态资源（logo、图标）
-│   ├── bookmarks.md               # 书签导航页
 │   └── index.md                   # 首页
 ├── .workflow/                     # Gitee Go CI/CD 流水线
 │   └── main-gitee.yml             #   Gitee Go 构建配置
