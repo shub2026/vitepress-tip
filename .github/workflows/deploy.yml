@@ -2,37 +2,65 @@ name: Deploy to My Server
 
 on:
   push:
-    branches: [main] # 当向 main 分支推送代码时触发
-  workflow_dispatch: # 允许手动触发
+    branches: [main]
+  workflow_dispatch:
+
+# 防止并发部署导致服务器文件状态异常
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       # 1. 拉取代码
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # 2. 安装 Node.js 并配置缓存
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: 'npm' # 如果使用 pnpm 或 yarn，请相应修改
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
 
       # 3. 安装依赖并构建
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Build VitePress
         run: npm run docs:build
 
-      # 4. 通过 SSH 部署到服务器
+      # 4. 上传构建产物，供部署 job 使用
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: docs/.vitepress/dist/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      # 下载构建产物
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      # 部署到服务器
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
+        uses: easingthemes/ssh-deploy@v4.1.10
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-rlgoDzvc -i --delete" # 同步参数，--delete 会删除服务器上多余的旧文件
-          SOURCE: "docs/.vitepress/dist/" # VitePress 构建产物路径
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: "dist/"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: root # 替换为你的服务器实际用户名
-          TARGET: "/opt/1panel/www/sites/sntip/index/" # 替换为你服务器上存放网站的绝对路径
+          REMOTE_USER: root
+          TARGET: "/opt/1panel/www/sites/sntip/index/"

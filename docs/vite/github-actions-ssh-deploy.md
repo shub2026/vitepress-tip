@@ -159,7 +159,7 @@ jobs:
           SOURCE: "docs/.vitepress/dist/"
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: root
-          TARGET: "/opt/1panel/www/sites/cs/index/"
+          TARGET: "/opt/1panel/www/sites/sntip/index/"
 ```
 
 > **说明**：本项目使用 `easingthemes/ssh-deploy` 直接通过 SSH 将构建产物（`dist/`）同步到服务器，无需在服务器上安装 Node.js 或保留源码。
@@ -222,8 +222,8 @@ git push origin main
 **解决方法：**
 ```bash
 # 在服务器上设置部署目录权限
-sudo chown -R $USER:$USER /opt/1panel/www/sites/cs/index
-chmod 755 /opt/1panel/www/sites/cs/index
+sudo chown -R $USER:$USER /opt/1panel/www/sites/sntip/index
+chmod 755 /opt/1panel/www/sites/sntip/index
 ```
 
 ### 问题 3：Node.js 版本不匹配
@@ -257,7 +257,7 @@ path: docs/.vitepress/dist/  # 默认路径
 1. 检出代码
 2. 安装依赖（Node.js 22）
 3. 构建 VitePress 站点
-4. 通过 `easingthemes/ssh-deploy` 将 `dist/` 同步到服务器 `/opt/1panel/www/sites/cs/index/`
+4. 通过 `easingthemes/ssh-deploy` 将 `dist/` 同步到服务器 `/opt/1panel/www/sites/sntip/index/`
 
 构建和部署全部在 GitHub Actions 云端完成，服务器只需运行 Web 服务（如 Nginx/1Panel），无需安装 Node.js。
 
