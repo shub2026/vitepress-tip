@@ -13,8 +13,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       # 1. 拉取代码
       - name: Checkout
@@ -36,7 +34,7 @@ jobs:
 
       # 4. 上传构建产物，供部署 job 使用
       - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: dist
           path: docs/.vitepress/dist/
@@ -44,19 +42,17 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       # 下载构建产物
       - name: Download dist artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8.0.1
         with:
           name: dist
           path: dist/
 
       # 部署到服务器
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@v4.1.10
+        uses: easingthemes/ssh-deploy@v6.0.3
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i --delete"
