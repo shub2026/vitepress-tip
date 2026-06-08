@@ -70,6 +70,11 @@ npm install
 
 ## 三、查看与修改远程仓库
 
+**添加并关联远程仓库**
+使用` git remote add `命令将本地仓库与你在 GitHub、GitLab 或 Gitee 等平台上创建的远程仓库关联起来
+```sh
+git remote add origin git@github.com:shub2026/vitepress-tip.git
+```
 ### 3.1 查看当前关联
 
 ```sh
