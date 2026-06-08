@@ -1,4 +1,4 @@
-﻿import { defineConfig } from 'vitepress';
+import { defineConfig } from 'vitepress';
 import { withMermaid } from 'vitepress-plugin-mermaid';
 import { devDependencies } from '../../package.json';
 
