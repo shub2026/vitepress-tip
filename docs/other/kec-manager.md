@@ -147,9 +147,9 @@ cd client && npm run dev    # 前端页面: http://localhost:5173
 ```
 
 启动成功后访问：
-- **前端界面**: http://localhost:5173
-- **后端 API**: http://localhost:3000
-- **健康检查**: http://localhost:3000/api/health
+- **前端界面**: `http://localhost:5173`
+- **后端 API**: `http://localhost:3000`
+- **健康检查**: `http://localhost:3000/api/health`
 
 ---
 
