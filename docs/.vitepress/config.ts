@@ -142,9 +142,16 @@ export default withMermaid(
         },
         {
           text: 'KEC平台',
-          collapsed: true,
+          collapsed: false,
           items: [
             { text: '平台说明', link: '/other/kec-manager' },
+            { text: '权限管理设计方案', link: '/other/kec-manager/auth-design' },
+            { text: '详细实施方案', link: '/other/kec-manager/plan' },
+            { text: '项目深度分析', link: '/other/kec-manager/project-analysis' },
+            { text: '学期计算逻辑', link: '/other/kec-manager/semester-calculation' },
+            { text: '班级状态修复', link: '/other/kec-manager/class-status-fix' },
+            { text: '子系统分析', link: '/other/kec-manager/subsystem-analysis' },
+            { text: '系统重置功能', link: '/other/kec-manager/system-reset-feature' },
           ],
         },
         {
