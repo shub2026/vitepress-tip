@@ -96,7 +96,22 @@ export default withMermaid(
       ],
       sidebar: [
         {
+          text: 'KEC平台',
+          collapsed: false,
+          items: [
+            { text: '平台说明', link: '/kec/kec-manager' },
+            { text: '权限管理设计方案', link: '/kec/auth-design' },
+            { text: '详细实施方案', link: '/kec/plan' },
+            { text: '项目深度分析', link: '/kec/project-analysis' },
+            { text: '学期计算逻辑', link: '/kec/semester-calculation' },
+            { text: '班级状态修复', link: '/kec/class-status-fix' },
+            { text: '子系统分析', link: '/kec/subsystem-analysis' },
+            { text: '系统重置功能', link: '/kec/system-reset-feature' },
+          ],
+        },
+        {
           text: '构建指南',
+          collapsed: true,
           items: [
             { text: '基本构建指令', link: '/vite/basic-setup' },
             { text: '远程同步关联', link: '/vite/remote-connect' },
@@ -106,52 +121,6 @@ export default withMermaid(
             { text: 'Gitee Go优化V2', link: '/vite/gitee-go-deploy-v2' },
             { text: 'GitHub Actions + SSH部署', link: '/vite/github-actions-ssh-deploy' },
             { text: 'Markdown语法', link: '/vite/markdown-syntax' },
-          ],
-        },
-        {
-          text: 'AI应用指南',
-          collapsed: false,
-          items: [
-            { text: '📖 提示词说明', link: '/AI_about/ai-index' },
-            { text: '📊 国产大模型选择指南', link: '/AI_about/domestic-llm-guide' },
-            {
-              text: '🌐 国际模型',
-              collapsed: true,
-              items: [
-                { text: 'OpenAI GPT', link: '/AI_about/openai-gpt-prompts' },
-                { text: 'Anthropic Claude', link: '/AI_about/anthropic-claude-prompts' },
-                { text: 'Google Gemini', link: '/AI_about/google-gemini-prompts' },
-                { text: 'Meta Llama', link: '/AI_about/meta-llama-prompts' },
-                { text: 'Mistral AI', link: '/AI_about/mistral-prompts' },
-              ],
-            },
-            {
-              text: '🇨🇳 国产模型',
-              collapsed: true,
-              items: [
-                { text: 'DeepSeek', link: '/AI_about/deepseek-prompts' },
-                { text: '千问(Qwen)', link: '/AI_about/qwen-prompts' },
-                { text: '智谱AI GLM', link: '/AI_about/glm-prompts' },
-                { text: 'Kimi (月之暗面)', link: '/AI_about/kimi-prompts' },
-                { text: 'MiniMax', link: '/AI_about/minimax-prompts' },
-                { text: '腾讯混元 Hy3', link: '/AI_about/hy3-prompts' },
-                { text: '百度文心 ERNIE', link: '/AI_about/ernie-prompts' },
-              ],
-            },
-          ],
-        },
-        {
-          text: 'KEC平台',
-          collapsed: false,
-          items: [
-            { text: '平台说明', link: '/other/kec-manager' },
-            { text: '权限管理设计方案', link: '/other/kec-manager/auth-design' },
-            { text: '详细实施方案', link: '/other/kec-manager/plan' },
-            { text: '项目深度分析', link: '/other/kec-manager/project-analysis' },
-            { text: '学期计算逻辑', link: '/other/kec-manager/semester-calculation' },
-            { text: '班级状态修复', link: '/other/kec-manager/class-status-fix' },
-            { text: '子系统分析', link: '/other/kec-manager/subsystem-analysis' },
-            { text: '系统重置功能', link: '/other/kec-manager/system-reset-feature' },
           ],
         },
         {
