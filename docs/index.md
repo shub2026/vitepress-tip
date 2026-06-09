@@ -16,8 +16,8 @@ hero:
       text: 📄 AI应用指南
       link: /AI_about/ai-index
     - theme: alt
-      text: 🔖 书签
-      link: https://my.sntip.cn
+      text: 🔖 KEC平台
+      link: /kec/kec-manager
 
 features:
   - title: 📖 网站构建笔记
