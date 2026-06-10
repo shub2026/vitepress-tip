@@ -100,9 +100,12 @@ export default withMermaid(
           collapsed: false,
           items: [
             { text: '平台说明', link: '/kec/kec-manager' },
+            { text: 'KEC 说明文档', link: '/kec/kec-readme' },
+            { text: '初始化流程', link: '/kec/初始化流程' },
             { text: '权限管理设计方案', link: '/kec/auth-design' },
             { text: '详细实施方案', link: '/kec/plan' },
             { text: '项目深度分析', link: '/kec/project-analysis' },
+            { text: '代码审计报告', link: '/kec/code-audit-report' },
             { text: '学期计算逻辑', link: '/kec/semester-calculation' },
             { text: '班级状态修复', link: '/kec/class-status-fix' },
             { text: '子系统分析', link: '/kec/subsystem-analysis' },
