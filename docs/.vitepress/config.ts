@@ -107,6 +107,7 @@ export default withMermaid(
             { text: '班级状态修复', link: '/kec/class-status-fix' },
             { text: '子系统分析', link: '/kec/subsystem-analysis' },
             { text: '系统重置功能', link: '/kec/system-reset-feature' },
+            { text: '教材查询性能优化', link: '/kec/textbook-query-optimization' },
           ],
         },
         {
