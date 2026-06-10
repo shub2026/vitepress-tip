@@ -161,9 +161,9 @@ npm run dev:client    # 前端页面: http://localhost:5173
 
 | 地址 | 说明 |
 |------|------|
-| http://localhost:5173 | 前端界面 |
-| http://localhost:3000 | 后端 API |
-| http://localhost:3000/api/health | 健康检查 |
+| `http://localhost:5173` | 前端界面 |
+| `http://localhost:3000` | 后端 API |
+| `http://localhost:3000/api/health` | 健康检查 |
 
 ### 6. 导入基础数据
 
