@@ -99,19 +99,23 @@ export default withMermaid(
           text: 'KEC平台',
           collapsed: false,
           items: [
+            // 入门
             { text: '平台说明', link: '/kec/kec-manager' },
             { text: 'KEC 说明文档', link: '/kec/kec-readme' },
             { text: '1Panel 部署指南', link: '/kec/deploy-1panel' },
             { text: '初始化流程', link: '/kec/初始化流程' },
+            // 设计
             { text: '权限管理设计方案', link: '/kec/auth-design' },
             { text: '详细实施方案', link: '/kec/plan' },
             { text: '项目深度分析', link: '/kec/project-analysis' },
-            { text: '代码审计报告', link: '/kec/code-audit-report' },
+            // 专题
             { text: '学期计算逻辑', link: '/kec/semester-calculation' },
             { text: '班级状态修复', link: '/kec/class-status-fix' },
             { text: '子系统分析', link: '/kec/subsystem-analysis' },
             { text: '系统重置功能', link: '/kec/system-reset-feature' },
             { text: '教材查询性能优化', link: '/kec/textbook-query-optimization' },
+            // 质量保障
+            { text: '代码审计报告', link: '/kec/code-audit-report' },
             { text: '代码审计报告 V2', link: '/kec/code-audit-report-v2' },
             { text: '全功能测试报告', link: '/kec/test-report' },
           ],

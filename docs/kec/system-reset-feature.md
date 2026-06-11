@@ -3,6 +3,8 @@ title: KEC平台 - 系统设置与重置功能说明
 sidebar: false
 ---
 
+本文档反映的代码版本：2026-06-11
+
 # 系统设置 - 重置系统功能说明
 
 ## 功能概述#
@@ -148,34 +150,36 @@ sidebar: false
 
 **API端点：**
 
-| 端点 | 方法 | 功能 |
-|------|------|------|
-| `/api/settings/reset/majors` | POST | 清空专业（含班级依赖检查） |
-| `/api/settings/reset/colleges` | POST | 清空学院（含班级依赖检查） |
-| `/api/settings/reset/levels` | POST | 清空层次（含班级依赖检查） |
-| `/api/settings/reset/courses` | POST | 清空课程（级联清空培养方案） |
-| `/api/settings/reset/textbooks` | POST | 清空教材（级联清空培养方案） |
-| `/api/settings/reset/classes` | POST | 清空班级（独立操作） |
-| `/api/settings/reset/plans` | POST | 清空培养方案 |
-| `/api/settings/reset/settings` | POST | 清空系统设置 |
+| 端点 | 方法 | 功能 | 权限 |
+|------|------|------|------|
+| `/api/settings/reset/basic` | POST | 一键清空基础数据（含培养方案） | super_admin |
+| `/api/settings/reset/majors` | POST | 清空专业（含班级依赖检查） | super_admin |
+| `/api/settings/reset/colleges` | POST | 清空学院（含班级依赖检查） | super_admin |
+| `/api/settings/reset/levels` | POST | 清空层次（含班级依赖检查） | super_admin |
+| `/api/settings/reset/courses` | POST | 清空课程（级联清空培养方案） | super_admin |
+| `/api/settings/reset/textbooks` | POST | 清空教材（级联清空培养方案） | super_admin |
+| `/api/settings/reset/classes` | POST | 清空班级（独立操作） | super_admin |
+| `/api/settings/reset/plans` | POST | 清空培养方案 | super_admin |
+| `/api/settings/reset/settings` | POST | 重置系统（清空所有业务数据，保留用户账号） | super_admin |
+| `/api/settings/reset/audit-logs` | POST | 清空操作日志 | super_admin |
 
 **智能级联逻辑示例：**
 
 ```javascript
-// 清空专业 - 检查班级依赖
-router.post('/reset/majors', async (req, res, next) => {
+// 清空专业 - 检查班级依赖，需要super_admin权限
+router.post('/reset/majors', authMiddleware, roleMiddleware('super_admin'), async (req, res, next) => {
   try {
-    const classCount = await prisma.class.count();
+    const classCount = await prisma.classes.count();
     if (classCount > 0) {
       return fail(res, '系统中存在班级数据，请先清空班级后再清空专业');
     }
     
     // 级联清空培养方案相关数据
-    await prisma.planTextbook.deleteMany();
-    await prisma.planCourseSemester.deleteMany();
-    await prisma.planCourse.deleteMany();
-    await prisma.trainingPlan.deleteMany();
-    await prisma.major.deleteMany();
+    await prisma.plan_textbooks.deleteMany();
+    await prisma.plan_course_semesters.deleteMany();
+    await prisma.plan_courses.deleteMany();
+    await prisma.training_plans.deleteMany();
+    await prisma.majors.deleteMany();
     
     success(res, null, '专业数据已清空（已级联清空相关的培养方案）');
   } catch (e) { 
@@ -183,6 +187,24 @@ router.post('/reset/majors', async (req, res, next) => {
   }
 });
 ```
+
+### /reset/settings 端点说明
+
+`POST /api/settings/reset/settings` 用于一键重置整个系统，其行为如下：
+
+- **清空范围**：清空所有业务数据（基础数据、培养方案、班级、操作日志、系统设置）
+- **保留数据**：不清空 `users` 表，保留所有用户账号（包括超级管理员）
+- **执行顺序**：按依赖关系从顶向下清空
+  1. 审计日志 (audit_logs)
+  2. 班级 (classes)
+  3. 培养方案教材 (plan_textbooks)
+  4. 培养方案学期 (plan_course_semesters)
+  5. 培养方案课程 (plan_courses)
+  6. 培养方案 (training_plans)
+  7. 基础数据（教材、课程、专业、学院、层次）
+  8. 系统设置 (system_settings)
+- **权限要求**：需要 super_admin 权限
+- **使用场景**：需要将系统恢复到初始状态但保留用户账号时使用
 
 ## 数据完整性保障#
 

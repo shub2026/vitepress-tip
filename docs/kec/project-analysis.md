@@ -3,6 +3,8 @@ title: KEC平台 - 项目深度分析报告
 sidebar: false
 ---
 
+> 本文档反映的代码版本：2026-06-11
+
 # KEC课程管理平台 - 项目深度分析报告
 
 ## 一、项目概述
@@ -148,7 +150,17 @@ kec-manager/
 │   ├── plan.md               # 详细实施方案文档
 │   ├── class-status-fix.md   # 班级状态修复文档
 │   ├── semester-calculation.md  # 学期计算文档
-│   └── system-reset-feature.md  # 系统重置功能文档
+│   ├── system-reset-feature.md  # 系统重置功能文档
+│   ├── code-audit-report.md     # 代码审计报告
+│   ├── code-audit-report-v2.md  # 代码审计报告 v2
+│   ├── subsystem-analysis.md    # 子系统分析
+│   ├── textbook-query-optimization.md  # 教材查询性能优化方案
+│   ├── test-report.md           # 测试报告
+│   ├── deploy-1panel.md         # 1Panel 部署文档
+│   ├── auth-design.md           # 权限设计文档
+│   ├── kec-manager.md           # KEC Manager 文档
+│   ├── kec-readme.md            # KEC README
+│   └── 初始化流程.md            # 初始化流程
 │
 └── package.json              # 根目录脚本（concurrently启动前后端）
 ```
@@ -365,16 +377,18 @@ service.interceptors.response.use(
 - `id`: 唯一标识
 - `name`: 方案名称
 - `major_id`: 专业ID（外键→majors，可选）
+- `college_id`: 学院ID（外键→colleges，可选）
 - `training_level_id`: 培养层次ID（外键→training_levels，可选）
 - `version`: 版本号
 - `description`: 方案描述
 
-**关联规则**：专业和层次**二选一**，不能同时选择
+**关联规则**：专业、学院、层次**三选一**，三者只能选其一
 
 **方案匹配优先级**：
 1. **班级自定义方案**（`custom_plan_id`）：最高优先级，明确指定
-2. **按专业匹配的方案**（`major_id`）：次优先级，同专业班级默认使用
-3. **按培养层次匹配的方案**（`training_level_id`）：最后优先级，同层次班级默认使用
+2. **按专业匹配的方案**（`major_id`）：同专业班级默认使用
+3. **按学院匹配的方案**（`college_id`）：同学院班级默认使用
+4. **按培养层次匹配的方案**（`training_level_id`）：同层次班级默认使用
 
 **匹配逻辑伪代码**：
 ```javascript
@@ -388,6 +402,12 @@ function getPlanForClass(classData) {
   if (classData.major_id) {
     const planByMajor = findPlanByMajor(classData.major_id)
     if (planByMajor) return planByMajor
+  }
+
+  // 然后按学院匹配
+  if (classData.college_id) {
+    const planByCollege = findPlanByCollege(classData.college_id)
+    if (planByCollege) return planByCollege
   }
 
   // 最后按层次匹配

@@ -3,6 +3,8 @@ title: KEC平台 - 权限管理系统设计方案
 sidebar: false
 ---
 
+本文档反映的代码版本：2026-06-11
+
 # 权限管理系统设计方案
 
 ## 一、需求分析
@@ -18,15 +20,22 @@ sidebar: false
 
 #### 角色定义
 
-1. **管理员（Admin）**
+1. **超级管理员（Super Admin）**
+   - 系统的最高权限角色
+   - 可以管理系统设置（学期配置、数据重置等）
+   - 可以查看和管理审计日志
+   - 可以管理所有用户（包括管理员和访客）
+   - 拥有 admin 的所有权限
+
+2. **管理员（Admin）**
    - 可以登录系统
    - 设置和维护基础信息（专业、学院、培养层次、课程、教材）
    - 管理培养方案
    - 管理班级
-   - 系统设置（学期配置、数据重置等）
    - 查看所有页面
+   - 可以管理访客账号
 
-2. **访客（Viewer/Guest）**
+3. **访客（Viewer/Guest）**
    - 通过访客登录或免登录访问
    - 只能访问查询页面：
      - 当前学期开课查询
@@ -58,19 +67,19 @@ sidebar: false
 ```prisma
 // server/prisma/schema.prisma
 
-model User {
-  id            Int      @id @default(autoincrement())
-  username      String   @unique                        // 用户名（唯一）
-  password      String                                  // bcrypt加密后的密码
-  role          String   @default("viewer")             // 角色：admin | viewer
-  realName      String?                                 // 真实姓名
-  email         String?                                 // 邮箱
-  isActive      Boolean  @default(true)                 // 是否激活
-  lastLoginAt   DateTime?                               // 最后登录时间
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+model users {
+  id            Int         @id @default(autoincrement())
+  username      String      @unique                        // 用户名（唯一）
+  password      String                                     // bcryptjs加密后的密码
+  role          String      @default("viewer")             // 角色：super_admin | admin | viewer
+  real_name     String?                                    // 真实姓名
+  email         String?                                    // 邮箱
+  is_active     Boolean     @default(true)                 // 是否激活
+  last_login_at DateTime?                                  // 最后登录时间
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
 
-  auditLogs     AuditLog[]                              // 关联操作日志
+  audit_logs    audit_logs[]                               // 关联操作日志
 
   @@index([username])
   @@index([role])
@@ -80,22 +89,22 @@ model User {
 ### 2.2 操作日志表扩展
 
 ```prisma
-model AuditLog {
+model audit_logs {
   id          Int      @id @default(autoincrement())
   action      String
   module      String
-  operatorId  Int?                                    // 新增：操作人ID
-  operator    User?    @relation(fields: [operatorId], references: [id])
+  operator_id Int?                                    // 新增：操作人ID
+  operator    users?   @relation(fields: [operator_id], references: [id])
   ip          String?
-  details     Json?
+  details     String?
   result      String
   message     String?
-  createdAt   DateTime @default(now())
+  created_at  DateTime @default(now())
 
   @@index([action])
   @@index([module])
-  @@index([operatorId])
-  @@index([createdAt(sort: Desc)])
+  @@index([operator_id])
+  @@index([created_at(sort: Desc)])
 }
 ```
 
@@ -104,50 +113,50 @@ model AuditLog {
 ```javascript
 // server/prisma/seed.js
 import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
 async function main() {
   // 检查是否已存在管理员
-  const adminExists = await prisma.user.findUnique({
+  const adminExists = await prisma.users.findUnique({
     where: { username: 'admin' }
   })
 
   if (!adminExists) {
-    // 创建默认管理员账号
+    // 创建默认超级管理员账号
     const hashedPassword = await bcrypt.hash('admin@123456', 10)
 
-    await prisma.user.create({
+    await prisma.users.create({
       data: {
         username: 'admin',
         password: hashedPassword,
-        role: 'admin',
-        realName: '系统管理员',
+        role: 'super_admin',
+        real_name: '系统管理员',
         email: 'admin@example.com'
       }
     })
 
-    console.log('默认管理员账号已创建：')
+    console.log('默认超级管理员账号已创建：')
     console.log('用户名: admin')
     console.log('密码: admin@123456')
     console.log('请及时修改密码！')
   }
 
   // 创建示例访客账号（可选）
-  const viewerExists = await prisma.user.findUnique({
+  const viewerExists = await prisma.users.findUnique({
     where: { username: 'guest' }
   })
 
   if (!viewerExists) {
     const hashedPassword = await bcrypt.hash('guest@123456', 10)
 
-    await prisma.user.create({
+    await prisma.users.create({
       data: {
         username: 'guest',
         password: hashedPassword,
         role: 'viewer',
-        realName: '访客',
+        real_name: '访客',
         email: 'guest@example.com'
       }
     })
@@ -217,7 +226,7 @@ export const authConfig = {
 ```javascript
 // server/src/services/auth.service.js
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { prisma } from '../lib/prisma.js'
 import { authConfig } from '../config/auth.config.js'
 
@@ -227,7 +236,7 @@ export class AuthService {
    */
   static async login(username, password) {
     // 1. 查找用户
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
       where: { username }
     })
 
@@ -242,7 +251,7 @@ export class AuthService {
     }
 
     // 3. 检查账号是否激活
-    if (!user.isActive) {
+    if (!user.is_active) {
       throw new Error('账号已被禁用')
     }
 
@@ -251,17 +260,17 @@ export class AuthService {
     const refreshToken = this.generateRefreshToken(user)
 
     // 5. 更新最后登录时间
-    await prisma.user.update({
+    await prisma.users.update({
       where: { id: user.id },
-      data: { lastLoginAt: new Date() }
+      data: { last_login_at: new Date() }
     })
 
     // 6. 记录登录日志
-    await prisma.auditLog.create({
+    await prisma.audit_logs.create({
       data: {
         action: 'login',
         module: 'auth',
-        operatorId: user.id,
+        operator_id: user.id,
         result: 'success',
         message: `${user.username} 登录系统`
       }
@@ -272,7 +281,7 @@ export class AuthService {
         id: user.id,
         username: user.username,
         role: user.role,
-        realName: user.realName,
+        real_name: user.real_name,
         email: user.email
       },
       token,
@@ -286,11 +295,11 @@ export class AuthService {
   static async refreshToken(refreshToken) {
     try {
       const decoded = jwt.verify(refreshToken, authConfig.jwtSecret)
-      const user = await prisma.user.findUnique({
+      const user = await prisma.users.findUnique({
         where: { id: decoded.id }
       })
 
-      if (!user || !user.isActive) {
+      if (!user || !user.is_active) {
         throw new Error('Refresh Token无效')
       }
 
@@ -345,7 +354,7 @@ export class AuthService {
    * 修改密码
    */
   static async changePassword(userId, oldPassword, newPassword) {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
       where: { id: userId }
     })
 
@@ -361,7 +370,7 @@ export class AuthService {
 
     // 更新密码
     const hashedPassword = await bcrypt.hash(newPassword, 10)
-    await prisma.user.update({
+    await prisma.users.update({
       where: { id: userId },
       data: { password: hashedPassword }
     })
@@ -381,16 +390,25 @@ import { AuthService } from '../services/auth.service.js'
  * 认证中间件 - 验证Token有效性
  */
 export function authMiddleware(req, res, next) {
-  const authHeader = req.headers.authorization
+  let token = null
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  // 优先从 Authorization 头获取
+  const authHeader = req.headers.authorization
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    token = authHeader.substring(7)
+  }
+  // 备选：从查询参数获取（用于 window.open 等场景）
+  else if (req.query.token) {
+    token = req.query.token
+  }
+
+  if (!token) {
     return res.status(401).json({
       success: false,
       message: '未授权，请先登录'
     })
   }
 
-  const token = authHeader.substring(7)
   const decoded = AuthService.verifyToken(token)
 
   if (!decoded) {
@@ -507,11 +525,11 @@ router.post('/refresh', async (req, res) => {
 router.post('/logout', authMiddleware, async (req, res) => {
   try {
     // 记录登出日志
-    await prisma.auditLog.create({
+    await prisma.audit_logs.create({
       data: {
         action: 'logout',
         module: 'auth',
-        operatorId: req.user.id,
+        operator_id: req.user.id,
         result: 'success',
         message: `${req.user.username} 登出系统`
       }
@@ -529,16 +547,16 @@ router.post('/logout', authMiddleware, async (req, res) => {
  */
 router.get('/me', authMiddleware, async (req, res) => {
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
       where: { id: req.user.id },
       select: {
         id: true,
         username: true,
         role: true,
-        realName: true,
+        real_name: true,
         email: true,
-        lastLoginAt: true,
-        createdAt: true
+        last_login_at: true,
+        created_at: true
       }
     })
 
@@ -581,6 +599,7 @@ export default router
 import express from 'express'
 import cors from 'cors'
 import authRoutes from './routes/auth.routes.js'
+import userRoutes from './routes/user.routes.js'
 import majorRoutes from './routes/major.routes.js'
 import collegeRoutes from './routes/college.routes.js'
 import trainingLevelRoutes from './routes/trainingLevel.routes.js'
@@ -615,27 +634,30 @@ app.use('/api/query', authMiddleware, queryRoutes)
 // 导出接口 - 所有登录用户可访问
 app.use('/api/export', authMiddleware, exportRoutes)
 
-// 基础数据管理 - 仅管理员可访问
-app.use('/api/majors', authMiddleware, roleMiddleware('admin'), majorRoutes)
-app.use('/api/colleges', authMiddleware, roleMiddleware('admin'), collegeRoutes)
-app.use('/api/training-levels', authMiddleware, roleMiddleware('admin'), trainingLevelRoutes)
-app.use('/api/courses', authMiddleware, roleMiddleware('admin'), courseRoutes)
-app.use('/api/textbooks', authMiddleware, roleMiddleware('admin'), textbookRoutes)
+// 用户管理 - admin和super_admin可访问（admin只能管理访客）
+app.use('/api/users', authMiddleware, roleMiddleware('admin', 'super_admin'), userRoutes)
 
-// 班级管理 - 仅管理员可访问
-app.use('/api/classes', authMiddleware, roleMiddleware('admin'), classRoutes)
+// 基础数据管理 - 所有登录用户可访问（只读），写操作权限在路由内部控制
+app.use('/api/majors', authMiddleware, majorRoutes)
+app.use('/api/colleges', authMiddleware, collegeRoutes)
+app.use('/api/training-levels', authMiddleware, trainingLevelRoutes)
+app.use('/api/courses', authMiddleware, courseRoutes)
+app.use('/api/textbooks', authMiddleware, textbookRoutes)
 
-// 培养方案管理 - 仅管理员可访问
-app.use('/api/plans', authMiddleware, roleMiddleware('admin'), planRoutes)
+// 班级管理 - 所有登录用户可访问（只读），写操作权限在路由内部控制
+app.use('/api/classes', authMiddleware, classRoutes)
 
-// 导入接口 - 仅管理员可访问
-app.use('/api/import', authMiddleware, roleMiddleware('admin'), importRoutes)
+// 培养方案管理 - 所有登录用户可访问（只读），写操作权限在路由内部控制
+app.use('/api/plans', authMiddleware, planRoutes)
 
-// 系统设置 - 仅管理员可访问
-app.use('/api/settings', authMiddleware, roleMiddleware('admin'), settingRoutes)
+// 导入接口 - admin和super_admin可访问
+app.use('/api/import', authMiddleware, roleMiddleware('admin', 'super_admin'), importRoutes)
 
-// 审计日志 - 仅管理员可访问
-app.use('/api/audit', authMiddleware, roleMiddleware('admin'), auditRoutes)
+// 系统设置 - GET公开访问（登录页需要），写操作需要super_admin权限
+app.use('/api/settings', settingRoutes)
+
+// 审计日志 - 仅超级管理员可访问
+app.use('/api/audit', authMiddleware, roleMiddleware('super_admin'), auditRoutes)
 
 // 错误处理中间件
 app.use(errorHandler)
@@ -665,11 +687,11 @@ export class AuditService {
     } = options
 
     try {
-      await prisma.auditLog.create({
+      await prisma.audit_logs.create({
         data: {
           action,
           module,
-          operatorId,
+          operator_id: operatorId,
           ip,
           details,
           result,
@@ -702,30 +724,30 @@ export class AuditService {
 
     if (action) where.action = action
     if (module) where.module = module
-    if (operatorId) where.operatorId = parseInt(operatorId)
+    if (operatorId) where.operator_id = parseInt(operatorId)
     if (startDate || endDate) {
-      where.createdAt = {}
-      if (startDate) where.createdAt.gte = new Date(startDate)
-      if (endDate) where.createdAt.lte = new Date(endDate)
+      where.created_at = {}
+      if (startDate) where.created_at.gte = new Date(startDate)
+      if (endDate) where.created_at.lte = new Date(endDate)
     }
 
     const [list, total] = await Promise.all([
-      prisma.auditLog.findMany({
+      prisma.audit_logs.findMany({
         where,
         skip,
         take,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { created_at: 'desc' },
         include: {
           operator: {
             select: {
               id: true,
               username: true,
-              realName: true
+              real_name: true
             }
           }
         }
       }),
-      prisma.auditLog.count({ where })
+      prisma.audit_logs.count({ where })
     ])
 
     return {
@@ -745,9 +767,9 @@ export class AuditService {
 // 示例：在创建班级时记录日志
 import { AuditService } from '../services/audit.service.js'
 
-router.post('/', authMiddleware, roleMiddleware('admin'), async (req, res) => {
+router.post('/', authMiddleware, roleMiddleware('admin', 'super_admin'), async (req, res) => {
   try {
-    const classData = await prisma.class.create({
+    const classData = await prisma.classes.create({
       data: req.body
     })
 
@@ -757,7 +779,7 @@ router.post('/', authMiddleware, roleMiddleware('admin'), async (req, res) => {
       module: 'class',
       operatorId: req.user.id,
       ip: req.ip,
-      details: { classId: classData.id, className: classData.name },
+      details: JSON.stringify({ classId: classData.id, className: classData.name }),
       message: `创建班级：${classData.name}`
     })
 
@@ -796,10 +818,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Getters
   const isLoggedIn = computed(() => !!token.value)
-  const isAdmin = computed(() => userInfo.value?.role === 'admin')
+  const isSuperAdmin = computed(() => userInfo.value?.role === 'super_admin')
+  const isAdmin = computed(() => userInfo.value?.role === 'admin' || userInfo.value?.role === 'super_admin')
   const isViewer = computed(() => userInfo.value?.role === 'viewer')
   const username = computed(() => userInfo.value?.username || '')
-  const realName = computed(() => userInfo.value?.realName || '')
+  const realName = computed(() => userInfo.value?.real_name || '')
 
   // Actions
   async function login(username, password) {
@@ -927,6 +950,7 @@ export const useAuthStore = defineStore('auth', () => {
     refreshToken,
     userInfo,
     isLoggedIn,
+    isSuperAdmin,
     isAdmin,
     isViewer,
     username,
@@ -1078,7 +1102,7 @@ export default service
 
 1. 更新 `schema.prisma`，添加 `User` 表和扩展 `AuditLog`
 2. 运行 `npx prisma migrate dev` 应用迁移
-3. 创建 `seed.js` 脚本，初始化管理员账号
+3. 创建 `seed.js` 脚本，初始化超级管理员账号
 4. 运行 `npx prisma db seed` 填充初始数据
 
 ### 5.2 第二阶段：后端开发（2-3天）
@@ -1122,7 +1146,7 @@ export default service
 
 ### 6.1 密码安全
 
-- 使用bcrypt加密，salt rounds设为10
+- 使用bcryptjs加密，salt rounds设为10
 - 密码长度至少8位
 - 建议定期更换密码
 - 不要使用常见密码

@@ -3,6 +3,8 @@ title: KEC平台 - 详细实施方案
 sidebar: false
 ---
 
+> 本文档反映的代码版本：2026-06-11
+
 # 课程管理系统 - 详细实施方案
 
 ## 一、项目背景与目标
@@ -68,7 +70,9 @@ SystemSetting(系统设置)
 |------|------|------|
 | id | Int (PK, auto) | 主键 |
 | name | String | 方案名称，如"2024级学前教育培养方案" |
-| major_id | Int (FK) | 关联专业类别 |
+| major_id | Int? (FK) | 关联专业类别（三选一：专业/学院/层次） |
+| college_id | Int? (FK) | 关联学院（三选一：专业/学院/层次） |
+| training_level_id | Int? (FK) | 关联培养层次（三选一：专业/学院/层次） |
 | version | String? | 版本号 |
 | description | String? | 描述 |
 | created_at | DateTime |  |
@@ -105,16 +109,29 @@ SystemSetting(系统设置)
 | created_at | DateTime |  |
 | updated_at | DateTime |  |
 
-#### `plan` - 培养方案中课程关联教材
+#### `plan_textbooks` - 培养方案中课程关联教材
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | Int (PK, auto) | 主键 |
+| semester_id | Int (FK) | 关联学期明细（plan_course_semesters） |
+| textbook_id | Int (FK) | 关联教材 |
+| is_required | Boolean | 是否必订（默认true） |
+| created_at | DateTime |  |
+
+#### `plan_course_semesters` - 方案课程学期明细（三层嵌套中间表）
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
 | id | Int (PK, auto) | 主键 |
 | plan_course_id | Int (FK) | 关联方案课程 |
-| textbook_id | Int (FK) | 关联教材 |
-| semester | Int | 使用学期（如第3学期用） |
-| is_required | Boolean | 是否必订（默认true） |
+| semester | Int | 学期序号（如1、2、3…） |
+| weekly_hours | Float | 该学期周课时 |
+| weeks_count | Int | 该学期周数（默认18） |
 | created_at | DateTime |  |
+| updated_at | DateTime |  |
+
+唯一约束：`(plan_course_id, semester)` — 每个方案课程在每个学期只有一条记录。
 
 #### `classes` - 班级（300个以内）
 
@@ -124,7 +141,9 @@ SystemSetting(系统设置)
 | name | String | 班级名称，如"2024级学前1班" |
 | enrollment_year | Int | 入学年份（如2024） |
 | duration_years | Int | 学制年数（如3） |
-| major_id | Int (FK) | 所属专业类别 |
+| major_id | Int? (FK) | 所属专业类别 |
+| college_id | Int? (FK) | 所属学院 |
+| training_level_id | Int? (FK) | 所属培养层次 |
 | student_count | Int | 班级人数 |
 | custom_plan_id | Int? (FK) | 特殊指定的培养方案（覆盖默认） |
 | status | Enum | active(在读) / graduated(已毕业) |
@@ -226,6 +245,8 @@ course-management/
 │   │   ├── app.js             # Express 应用入口
 │   │   ├── routes/            # 路由定义
 │   │   │   ├── major.routes.js
+│   │   │   ├── college.routes.js
+│   │   │   ├── trainingLevel.routes.js
 │   │   │   ├── course.routes.js
 │   │   │   ├── textbook.routes.js
 │   │   │   ├── class.routes.js
@@ -233,7 +254,9 @@ course-management/
 │   │   │   ├── query.routes.js
 │   │   │   ├── import.routes.js
 │   │   │   ├── export.routes.js
-│   │   │   └── settings.routes.js
+│   │   │   ├── settings.routes.js
+│   │   │   ├── audit.routes.js
+│   │   │   └── user.routes.js
 │   │   ├── controllers/       # 控制器
 │   │   ├── services/          # 业务逻辑
 │   │   │   ├── grade.service.js      # 年级推算
@@ -259,14 +282,18 @@ course-management/
 │   │   │   └── settings.js    # 系统设置store
 │   │   ├── api/               # API调用封装
 │   │   │   ├── major.js
+│   │   │   ├── college.js
+│   │   │   ├── trainingLevel.js
 │   │   │   ├── course.js
 │   │   │   ├── textbook.js
 │   │   │   ├── class.js
 │   │   │   ├── plan.js
 │   │   │   ├── query.js
+│   │   │   ├── audit.js
 │   │   │   └── settings.js
 │   │   ├── views/
 │   │   │   ├── Dashboard.vue          # 首页概览
+│   │   │   ├── Login.vue              # 登录页
 │   │   │   ├── major/
 │   │   │   │   └── MajorList.vue
 │   │   │   ├── course/
@@ -282,8 +309,11 @@ course-management/
 │   │   │   ├── query/
 │   │   │   │   ├── SemesterQuery.vue  # 当前学期开课查询
 │   │   │   │   └── TextbookQuery.vue  # 教材使用查询
-│   │   │   └── settings/
-│   │   │       └── SystemSettings.vue
+│   │   │   ├── settings/
+│   │   │   │   └── SystemSettings.vue
+│   │   │   └── system/
+│   │   │       ├── AuditLog.vue       # 操作日志
+│   │   │       └── UserManagement.vue # 用户管理
 │   │   ├── components/
 │   │   │   ├── Layout.vue             # 布局框架（侧栏+顶栏）
 │   │   │   ├── ImportDialog.vue       # 通用导入弹窗
