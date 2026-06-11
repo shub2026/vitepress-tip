@@ -112,6 +112,7 @@ export default withMermaid(
             { text: '系统重置功能', link: '/kec/system-reset-feature' },
             { text: '教材查询性能优化', link: '/kec/textbook-query-optimization' },
             { text: '代码审计报告 V2', link: '/kec/code-audit-report-v2' },
+            { text: '全功能测试报告', link: '/kec/test-report' },
           ],
         },
         {
