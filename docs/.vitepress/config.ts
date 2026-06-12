@@ -118,6 +118,7 @@ export default withMermaid(
             { text: '代码审计报告', link: '/kec/code-audit-report' },
             { text: '代码审计报告 V2', link: '/kec/code-audit-report-v2' },
             { text: '全面检查分析报告 V3', link: '/kec/code-audit-report-v3' },
+            { text: '全面检查分析报告 V4', link: '/kec/code-audit-report-v4' },
             { text: '全功能测试报告', link: '/kec/test-report' },
             { text: '开发进度说明', link: '/kec/development-progress' },
           ],
