@@ -1,15 +1,8 @@
----
-title: KEC平台 - 学期计算逻辑说明
----
-
 # 学期计算逻辑说明
-
-> 本文档反映的代码版本：2026-06-11
 
 ## 核心概念
 
 ### 全局学期配置
-
 - **存储格式**: `YYYY-YYYY-N` (起始学年-结束学年-学期序号)
 - **示例**: `2025-2026-2` 表示 2025-2026学年的第2学期
 - **语义**: 
@@ -17,7 +10,6 @@ title: KEC平台 - 学期计算逻辑说明
   - 学期序号2 = 春季学期（3月-7月）
 
 ### 班级相对学期
-
 每个班级根据入学年份不同，在全局同一时间点处于不同的相对学期。
 
 **计算公式**:
@@ -51,6 +43,39 @@ currentSemesterNum = (grade - 1) * 2 + semesterIndex
                           全局配置指向这里
                         2025-2026学年 第2学期
 ```
+
+## 代码位置
+
+### 后端计算
+- **文件**: `server/src/routes/query.routes.js`
+- **函数**: `calcClassSemester(cls, semesterInfo)`
+- **用途**: 开课查询、教材查询、数据导出
+
+### 前端计算
+- **文件**: `client/src/views/class/ClassList.vue`
+- **函数**: `calcGrade(cls)`
+- **用途**: 班级列表显示年级
+
+### 格式化显示
+- **后端**: `server/src/services/settings.service.js` - `formatSemesterLabel()`
+- **前端**: `client/src/stores/settings.js` - `formatSemesterLabel()`
+- **输出**: `2026年春季(第2学期)`
+
+## 有效性校验
+
+```javascript
+// 年级必须在有效范围内
+if (grade < 1 || grade > cls.durationYears) {
+  return null; // 未入学或已毕业
+}
+```
+
+**示例** (3年制班级):
+- 2025年入学: grade=1 ✓ 显示
+- 2024年入学: grade=2 ✓ 显示
+- 2023年入学: grade=3 ✓ 显示
+- 2022年入学: grade=4 ✗ 不显示（已毕业）
+- 2026年入学: grade=0 ✗ 不显示（未入学）
 
 ## 班级状态计算规则
 
@@ -103,7 +128,16 @@ status = grade <= durationYears ? 'active' : 'graduated'
 - 学生在整个最后一学年（包括两个学期）都保持"在校"状态
 - 毕业后自动切换为"已毕业"状态，无需手动操作
 
----
+### 代码实现位置
+
+**后端计算**:
+- 文件: `server/src/routes/class.routes.js`
+- 函数: `calculateClassStatus(enrollmentYear, durationYears, semesterInfo)`
+- 用途: 创建/更新班级时自动计算状态
+
+**导入计算**:
+- 文件: `server/src/routes/import.routes.js`
+- 用途: Excel批量导入班级时自动计算状态
 
 ## 培养方案课程匹配
 
@@ -124,7 +158,6 @@ const planCourses = plan.planCourses.filter(
 ## 常见误区
 
 ### 误区1: "所有班级都是第2学期"
-
 **错误理解**: 看到配置中的 `-2` 就认为所有班级都是第2学期
 
 **正确理解**: 
@@ -133,7 +166,6 @@ const planCourses = plan.planCourses.filter(
 - 不同年级的班级处于不同的相对学期
 
 ### 误区2: "学期序号应该从1连续递增"
-
 **错误理解**: 希望学期序号是 1,2,3,4... 连续递增
 
 **正确理解**: 

@@ -102,7 +102,9 @@ export default withMermaid(
             // 入门
             { text: '平台说明', link: '/kec/kec-manager' },
             { text: 'KEC 说明文档', link: '/kec/kec-readme' },
-            { text: '1Panel 部署指南', link: '/kec/deploy-1panel' },
+            { text: '登录指南', link: '/kec/login-guide' },
+            { text: '1Panel 部署指南 (PM2)', link: '/kec/deploy-1panel' },
+            { text: '1Panel Docker 部署', link: '/kec/1panel-docker-deploy' },
             { text: '初始化流程', link: '/kec/init-flow' },
             // 设计
             { text: '权限管理设计方案', link: '/kec/auth-design' },
@@ -114,6 +116,14 @@ export default withMermaid(
             { text: '子系统分析', link: '/kec/subsystem-analysis' },
             { text: '系统重置功能', link: '/kec/system-reset-feature' },
             { text: '教材查询性能优化', link: '/kec/textbook-query-optimization' },
+            // 运维部署
+            { text: '生产环境部署指南', link: '/kec/DEPLOYMENT_GUIDE' },
+            { text: '部署检查清单', link: '/kec/PRODUCTION_DEPLOYMENT' },
+            { text: '配置更新指南', link: '/kec/CONFIG_UPDATE_GUIDE' },
+            { text: '500 错误排障修复', link: '/kec/kec-500-error-fix' },
+            // 数据管理
+            { text: '种子数据使用指南', link: '/kec/seed-usage' },
+            { text: '变更日志', link: '/kec/changelog' },
             // 质量保障
             { text: '代码审计报告', link: '/kec/code-audit-report' },
             { text: '代码审计报告 V2', link: '/kec/code-audit-report-v2' },
