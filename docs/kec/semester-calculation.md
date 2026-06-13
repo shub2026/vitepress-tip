@@ -1,6 +1,5 @@
 ---
 title: KEC平台 - 学期计算逻辑说明
-sidebar: false
 ---
 
 # 学期计算逻辑说明

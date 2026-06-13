@@ -103,7 +103,7 @@ export default withMermaid(
             { text: '平台说明', link: '/kec/kec-manager' },
             { text: 'KEC 说明文档', link: '/kec/kec-readme' },
             { text: '1Panel 部署指南', link: '/kec/deploy-1panel' },
-            { text: '初始化流程', link: '/kec/初始化流程' },
+            { text: '初始化流程', link: '/kec/init-flow' },
             // 设计
             { text: '权限管理设计方案', link: '/kec/auth-design' },
             { text: '详细实施方案', link: '/kec/plan' },
