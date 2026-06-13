@@ -15,6 +15,9 @@ hero:
     - theme: alt
       text: GitHub
       link: https://github.com/shub2026/kec-manager
+    - theme: alt
+      text: KEC平台
+      link: https://kec.sntip.cn
 
 features:
   - title: 📋 基础数据管理

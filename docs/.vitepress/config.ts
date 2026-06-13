@@ -132,6 +132,7 @@ export default withMermaid(
             { text: '生产部署成熟度评估', link: '/kec/deploy-readiness-report' },
             { text: '全功能测试报告', link: '/kec/test-report' },
             { text: '开发进度说明', link: '/kec/development-progress' },
+            { text: '部署', link: '/kec/kec-01' },
           ],
         },
         {
@@ -171,7 +172,7 @@ export default withMermaid(
         },
         {
           text: 'Linux 学习',
-          collapsed: false,
+          collapsed: true,
           items: [
             {
               text: 'Ubuntu 文件系统架构与挂载详解',
