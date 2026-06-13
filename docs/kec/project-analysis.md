@@ -160,7 +160,7 @@ kec-manager/
 │   ├── auth-design.md           # 权限设计文档
 │   ├── kec-manager.md           # KEC Manager 文档
 │   ├── kec-readme.md            # KEC README
-│   └── 初始化流程.md            # 初始化流程
+│   └── init-flow.md            # 初始化流程
 │
 └── package.json              # 根目录脚本（concurrently启动前后端）
 ```
