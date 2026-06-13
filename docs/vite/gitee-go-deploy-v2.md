@@ -32,7 +32,7 @@ graph TB
 - 轻量应用服务器(2核2G)直接在流水线构建常失败
 - 分离制品推送与实际部署,降低流水线复杂度
 - 定时脚本实现智能对比,只在文件变动时部署
-  :::
+:::
 
 ---
 
@@ -44,7 +44,7 @@ graph TB
 
 **关键配置**:
 
-- **构建环境**: Gitee Go 云服务器(Node.js 25.4.0)
+- **构建环境**: Gitee Go 云服务器(Node.js 22.14.0)
 - **制品格式**: `output.tar.gz`(包含 `docs/.vitepress/dist` 全部内容)
 - **部署目标**: `~/gitee_go/deploy/output.tar.gz`
 - **触发条件**: main 分支自动触发
@@ -71,7 +71,7 @@ stages:
       - step: build@nodejs
         name: build-nodejs
         displayName: Node.js 构建
-        nodeVersion: 25.4.0
+        nodeVersion: 22.14.0
         commands:
           - npm config set registry https://registry.npmmirror.com
           - npm ci
@@ -1249,8 +1249,6 @@ case "${1:-}" in
     ;;
 esac
 ```
-
-## :::
 
 ## 📊 两种方案对比
 

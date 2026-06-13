@@ -12,7 +12,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   lang: 'zh-CN', //语言，可选 en-US
   title: "VitePress", //站点名
-  description: "我的vitpress文档教程",  //站点描述
+  description: "我的VitePress文档教程",  //站点描述
 })
 ```
 
@@ -30,7 +30,7 @@ export default defineConfig({
 export default defineConfig({
   lang: 'zh-CN',
   title: "VitePress",
-  description: "我的vitpress文档教程", //我的文字有下划线，请后期再查看 `组件 - 首页文字下划线`
+  description: "我的VitePress文档教程",
   titleTemplate: '另起标题会覆盖title', // [!code focus]
   // titleTemplate: ':title - 快速上手', //完全自定义标题，:title 不要动，改后面的
   // titleTemplate: false, //关闭标题
@@ -161,7 +161,7 @@ export default defineConfig({
   locales: {
     root: {
       label: '简体中文',
-      lang: 'Zh_CN',
+      lang: 'zh-CN',
     },
     en: {
       label: 'English',
@@ -225,7 +225,7 @@ export default defineConfig({
 
 ```
 
-按照目录新建public文件夹，并在 `doc\public` 中 放入logo
+按照目录新建public文件夹，并在 `docs/public` 中 放入logo
 
 然后在 `config.mts` 中配置
 
@@ -314,7 +314,7 @@ export default defineConfig({
 })
 ```
 
-若想要下拉式菜单导航，就需要加一个 `iteams`
+若想要下拉式菜单导航，就需要加一个 `items`
 
 ```ts{4-16}
 export default defineConfig({
@@ -338,7 +338,7 @@ export default defineConfig({
 })
 ```
 
-给下拉菜单赋予分组标题，就要再次嵌套 `iteams`
+给下拉菜单赋予分组标题，就要再次嵌套 `items`
 
 ```ts{4-38}
 export default defineConfig({
@@ -675,8 +675,7 @@ export default defineConfig({
         ],
       },
     ],
-    },
-
+  },
 })
 ```
 
@@ -946,7 +945,7 @@ export default defineConfig({
     carbonAds: { // [!code focus]
       code: 'your-carbon-code', // [!code focus]
       placement: 'your-carbon-placement', // [!code focus]
-    }， // [!code focus]
+    }, // [!code focus]
   }, // [!code focus]
 
 })

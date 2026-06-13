@@ -49,14 +49,14 @@
 
 | 使用场景       | 推荐模型                              | 快速链接                          |
 | -------------- | ------------------------------------- | --------------------------------- |
-| **写作任务**   | Claude > MiniMax > ERNIE > GPT-4      | [写作提示词技巧](#写作任务提示词) |
-| **代码开发**   | DeepSeek V4-Pro > GPT-4 > Claude      | [代码提示词技巧](#代码开发提示词) |
-| **图像生成**   | DALL-E > Gemini > GLM-5v-Turbo        | [图像提示词技巧](#图像生成提示词) |
-| **数据分析**   | GPT-4 > Gemini > Hy3 > Claude         | [数据分析提示词](#数据分析提示词) |
-| **推理任务**   | DeepSeek V4-Pro > Hy3 > ERNIE         | [推理提示词技巧](#推理任务提示词) |
-| **长文档处理** | Kimi K2.6 > DeepSeek V4-Pro > GLM-5.1 | [国产模型优势](#国产模型特点)     |
-| **Agent/工具** | Kimi K2.6 > ERNIE 5.1 > Hy3 > GLM-5.1 | [国产模型优势](#国产模型特点)     |
-| **中文任务**   | GLM-5.1 > Qwen3.6 > ERNIE > DeepSeek  | [国产模型优势](#国产模型特点)     |
+| **写作任务**   | Claude > MiniMax > ERNIE > GPT-4      | [写作提示词技巧](#写作任务) |
+| **代码开发**   | DeepSeek V4-Pro > GPT-4 > Claude      | [代码提示词技巧](#代码开发) |
+| **图像生成**   | DALL-E > Gemini > GLM-5v-Turbo        | [图像提示词技巧](#图像生成) |
+| **数据分析**   | GPT-4 > Gemini > Hy3 > Claude         | [数据分析提示词](#数据分析) |
+| **推理任务**   | DeepSeek V4-Pro > Hy3 > ERNIE         | [推理提示词技巧](#-使用场景最佳实践) |
+| **长文档处理** | Kimi K2.6 > DeepSeek V4-Pro > GLM-5.1 | [国产模型优势](#-国产模型特点)     |
+| **Agent/工具** | Kimi K2.6 > ERNIE 5.1 > Hy3 > GLM-5.1 | [国产模型优势](#-国产模型特点)     |
+| **中文任务**   | GLM-5.1 > Qwen3.6 > ERNIE > DeepSeek  | [国产模型优势](#-国产模型特点)     |
 
 ---
 
@@ -689,7 +689,7 @@
    https://github.com/f/awesome-chatgpt-prompts  
    丰富的ChatGPT提示词示例，涵盖各种角色和场景。
 
-3. **Hugging Face Transformers Documentation**  
+3. **LangChain Documentation**  
    https://python.langchain.com/  
    如果需要在应用中集成AI API，LangChain是非常好的框架。
 

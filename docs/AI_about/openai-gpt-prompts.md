@@ -1716,7 +1716,7 @@ response = openai.ChatCompletion.create(
 
 ## 任务描述
 
-[详细描述需要实现的功 volcani能或解决的问题]
+[详细描述需要实现的功能或解决的问题]
 
 ## 具体需求
 

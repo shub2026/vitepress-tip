@@ -338,5 +338,5 @@ path: docs/.vitepress/dist/ # 默认路径
 ## 参考链接
 
 - [GitHub Actions 官方文档](https://docs.github.com/en/actions)
-- [VitePress 部署指南](https://vitepress.dev/guide/deployment)
+- [VitePress 部署指南](https://vitepress.dev/guide/deploy)
 - [SSH 密钥管理](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)

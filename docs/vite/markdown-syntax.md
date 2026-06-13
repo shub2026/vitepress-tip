@@ -144,28 +144,28 @@ Markdown语法主要分为如下几大部分：
 链接可以由两种形式生成：**行内式**和**参考式**。  
 **行内式**：
 
-> \[younghz的Markdown库\]\(https:://github.com/younghz/Markdown "Markdown"\)。
+> \[younghz的Markdown库\]\(https://github.com/younghz/Markdown "Markdown"\)。
 
 效果：
 
-> [younghz的Markdown库](https:://github.com/younghz/Markdown 'Markdown')。
+> [younghz的Markdown库](https://github.com/younghz/Markdown 'Markdown')。
 
 **参考式**：
 
 > \[younghz的Markdown库1\]\[1\]  
 > \[younghz的Markdown库2\]\[2\]  
-> \[1\]:https:://github.com/younghz/Markdown "Markdown"  
-> \[2\]:https:://github.com/younghz/Markdown "Markdown"
+> \[1\]:https://github.com/younghz/Markdown "Markdown"  
+> \[2\]:https://github.com/younghz/Markdown "Markdown"
 
 效果：
 
 > [younghz的Markdown库1][1]  
 > [younghz的Markdown库2][2]
 
-[1]: https:://github.com/younghz/Markdown 'Markdown'
-[2]: https:://github.com/younghz/Markdown 'Markdown'
+[1]: https://github.com/younghz/Markdown 'Markdown'
+[2]: https://github.com/younghz/Markdown 'Markdown'
 
-**注意**：上述的`[1]:https:://github.com/younghz/Markdown "Markdown"`不出现在区块中。
+**注意**：上述的`[1]:https://github.com/younghz/Markdown "Markdown"`不出现在区块中。
 
 #### 2.9 图片
 

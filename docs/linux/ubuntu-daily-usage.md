@@ -529,7 +529,9 @@ network:
       dhcp4: no
       addresses:
         - 192.168.1.100/24
-      gateway4: 192.168.1.1
+      routes:
+        - to: default
+          via: 192.168.1.1
       nameservers:
         addresses:
           - 8.8.8.8
@@ -1111,7 +1113,6 @@ source ~/.bashrc
 | `fzf`      | `sudo apt install fzf`      | 模糊搜索工具       |
 | `tree`     | `sudo apt install tree`     | 目录树形显示       |
 | `jq`       | `sudo apt install jq`       | JSON 处理工具      |
-| `ncdu`     | `sudo apt install ncdu`     | 磁盘使用分析       |
 | `neofetch` | `sudo apt install neofetch` | 系统信息展示       |
 | `zoxide`   | `sudo apt install zoxide`   | 智能目录跳转       |
 

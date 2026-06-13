@@ -946,12 +946,6 @@ response = ollama.chat(
 ## 📝 更新日志
 
 - **2026-05-31**：更新至DeepSeek V4系列（V4-Pro 1.6T / V4-Flash 284B）
-- **2026-05-18**：初始版本发布，包含DeepSeek V2/R1/Coder提示词
-
----
-
-## 📝 更新日志
-
 - **2026-05-18**：初始版本发布，完成DeepSeek提示词指南
 - 包含DeepSeek-V2/R1/Coder的详细提示词技巧
 - 涵盖写作、代码、数据分析、推理等主流场景

@@ -1204,7 +1204,7 @@ Gemini可以结合工具使用，实现ReAct（Reasoning + Acting）范式。
 
 ```python
 # 注意：以下代码需要结合实际的工具调用机制
-# Gemini本身不具备原生的函数调用能力（像OpenAI的Function Calling）
+# Gemini 原生支持函数调用（Function Calling），通过 tools 参数声明可用函数
 # 但可以通过Prompt Engineering模拟ReAct
 
 prompt = """

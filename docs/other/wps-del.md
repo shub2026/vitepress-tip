@@ -27,19 +27,19 @@
 
 打开命令提示符，输入以下命令，即可删掉鼠标右键的“doc文档”
 
-```sh
+```cmd
 for /f "tokens=3* delims= " %i in ('reg query HKEY_CLASSES_ROOT\.doc /ve ^| findstr /i "REG_SZ"') do reg delete HKEY_CLASSES_ROOT\.doc\%i\ShellNew /f 2>nul
 ```
 
 删掉鼠标右键的“xls工作表”
 
-```sh
+```cmd
 for /f "tokens=3* delims= " %i in ('reg query HKEY_CLASSES_ROOT\.xls /ve ^| findstr /i "REG_SZ"') do reg delete HKEY_CLASSES_ROOT\.xls\%i\ShellNew /f 2>nul
 ```
 
 删掉鼠标右键的“ppt工作表”
 
-```sh
+```cmd
 for /f "tokens=3* delims= " %i in ('reg query HKEY_CLASSES_ROOT\.ppt /ve ^| findstr /i "REG_SZ"') do reg delete HKEY_CLASSES_ROOT\.ppt\%i\ShellNew /f 2>nul
 ```
 
@@ -47,7 +47,7 @@ for /f "tokens=3* delims= " %i in ('reg query HKEY_CLASSES_ROOT\.ppt /ve ^| find
 
 将命令复制到文本文件，并将其后缀名重命名为`.cmd`或`.bat`（使用ANSI码保存）
 
-```sh
+```cmd
 @echo off
 for %%e in (doc xls ppt) do call :rmShellNew %%e
 pause

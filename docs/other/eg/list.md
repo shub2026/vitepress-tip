@@ -142,3 +142,5 @@ export default config;
 ```bash
 pnpm add vitepress-plugin-group-icons
 ```
+
+:::

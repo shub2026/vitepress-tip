@@ -16,7 +16,7 @@ stages:
       - step: build@nodejs
         name: build-nodejs
         displayName: Node.js 构建
-        nodeVersion: 25.4.0
+        nodeVersion: 22.14.0
         commands:
           - npm config set registry https://registry.npmmirror.com
           - npm ci

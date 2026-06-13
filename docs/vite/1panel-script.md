@@ -19,7 +19,7 @@
 - SSH密钥：确保服务器已配置Gitee的部署公钥，否则 git pull 会失败
 - Node.js版本：VitePress 1.0要求Node.js 18及以上版本
 - 构建输出：确保网站根目录指向构建后的 `docs/.vitepress/dist` 目录
-  :::
+:::
 
 ## 脚本代码
 
