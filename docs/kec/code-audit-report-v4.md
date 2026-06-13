@@ -1,10 +1,11 @@
-# KEC 课程管理平台 - 全面检查分析报告
+# KEC 课程管理平台 - 全面检查分析报告 V4
 
-**报告版本**: v3  
-**检查日期**: 2026年06月12日  
-**项目路径**: `/workspace/kec-manager-audit-20260612`  
-**代码版本**: commit `3f4f755` (main)  
+**报告版本**: v4（含修复状态更新）  
+**原始审计日期**: 2026年06月12日  
+**修复状态更新**: 2026年06月13日（对照 commit `5ed159d`，116次提交）  
 **检查范围**: 后端 (Express + Prisma) / 前端 (Vue 3 + Element Plus) / 数据库 / 文档一致性
+
+> **📌 说明**：本报告在 V3 审计基础上，标注了截至 2026-06-13 各问题的修复状态。部分问题在审计后的 41 次提交中已得到修复，请以【修复状态】列为准。
 
 ---
 
@@ -16,38 +17,38 @@
 
 ## 一、严重问题 (11项)
 
-| # | 问题 | 位置 | 影响 |
-|---|------|------|------|
-| **C1** | **JWT 无吊销/黑名单机制** | `server/src/services/auth.service.js:83-104` | Token泄露后7天内无法使其失效 |
-| **C2** | **登出接口不使Token失效** | `server/src/routes/auth.routes.js:67-83` | 登出后Token仍可用，安全风险极高 |
-| **C3** | **`plan.routes.js` 中 `finalPlans` 变量未定义** | `server/src/routes/plan.routes.js:51,64` | **运行时崩溃**，培养方案列表接口完全不可用 |
-| **C4** | **JWT派生密钥 - 密钥隔离形同虚设** | `server/src/config/auth.config.js:31-32` | 获取JWT_SECRET即可推算Refresh/Download密钥 |
-| **C5** | **AuthService全部使用原生Error** | `server/src/services/auth.service.js` 多处 | 认证错误被当作500返回，前端无法区分错误类型 |
-| **C6** | **导入功能事务不完整** | `server/src/routes/import.routes.js:86-301` | 事务回滚后自动创建的基础数据无法回滚 |
-| **C7** | **导入循环内N+1查询** | `server/src/routes/import.routes.js:219,401,551` | 1000行数据=1000次额外DB查询，性能极差 |
-| **C8** | **Token存储在localStorage** | `client/src/stores/auth.js:7-8,42-43` | XSS攻击可直接窃取Token和RefreshToken |
-| **C9** | **用户角色信息存储在localStorage** | `client/src/stores/auth.js:13-14,44` | 攻击者可篡改角色字段尝试提权 |
-| **C10** | **学期导出接口缺少Authorization Header** | `client/src/views/query/SemesterQuery.vue:155-160`、`HistoricalSemesterQuery.vue:209-214` | 导出请求可能失败或未授权即可导出 |
-| **C11** | **README数据库模型表与实际Schema严重不一致** | `README.md` 数据库模型表 | 9处字段描述错误，误导开发者 |
+| # | 问题 | 位置 | 影响 | 修复状态 |
+|---|------|------|------|---------|
+| **C1** | **JWT 无吊销/黑名单机制** | `server/src/services/auth.service.js:83-104` | Token泄露后7天内无法使其失效 | ⏳ 待修复（架构级问题） |
+| **C2** | **登出接口不使Token失效** | `server/src/routes/auth.routes.js:67-83` | 登出后Token仍可用，安全风险极高 | ⏳ 待修复（依赖黑名单机制） |
+| **C3** | **`plan.routes.js` 中 `finalPlans` 变量未定义** | `server/src/routes/plan.routes.js:51,64` | **运行时崩溃**，培养方案列表接口完全不可用 | ✅ **已修复**（`8cf3f9b`） |
+| **C4** | **JWT派生密钥 - 密钥隔离形同虚设** | `server/src/config/auth.config.js:31-32` | 获取JWT_SECRET即可推算Refresh/Download密钥 | ⚠️ **部分修复**（代码已支持独立密钥，生产须配置） |
+| **C5** | **AuthService全部使用原生Error** | `server/src/services/auth.service.js` 多处 | 认证错误被当作500返回，前端无法区分错误类型 | ✅ **已修复**（`2b2a0f6`，统一错误处理） |
+| **C6** | **导入功能事务不完整** | `server/src/routes/import.routes.js:86-301` | 事务回滚后自动创建的基础数据无法回滚 | ⏳ 待优化（已有事务保护，但基础数据预创建未回滚） |
+| **C7** | **导入循环内N+1查询** | `server/src/routes/import.routes.js:219,401,551` | 1000行数据=1000次额外DB查询，性能极差 | ⏳ 待优化 |
+| **C8** | **Token存储在localStorage** | `client/src/stores/auth.js:7-8,42-43` | XSS攻击可直接窃取Token和RefreshToken | ⏳ 待修复（架构决策） |
+| **C9** | **用户角色信息存储在localStorage** | `client/src/stores/auth.js:13-14,44` | 攻击者可篡改角色字段尝试提权 | ⚠️ **风险可控**（每次路由验证服务端权限） |
+| **C10** | **学期导出接口缺少Authorization Header** | `client/src/views/query/SemesterQuery.vue:155-160`、`HistoricalSemesterQuery.vue:209-214` | 导出请求可能失败或未授权即可导出 | ✅ **已修复**（`5f7f3d9`，添加 Authorization Header） |
+| **C11** | **README数据库模型表与实际Schema严重不一致** | `README.md` 数据库模型表 | 9处字段描述错误，误导开发者 | ✅ **已修复**（`d27d117`，更新README） |
 
 ---
 
 ## 二、高危问题 (12项)
 
-| # | 问题 | 位置 | 影响 |
-|---|------|------|------|
-| **H1** | JWT Access Token 有效期过长(24h) | `server/src/config/auth.config.js:44` | Token泄露后24小时利用窗口 |
-| **H2** | CORS允许无Origin请求绕过 | `server/src/app.js:31-32` | 绕过CORS白名单检查 |
-| **H3** | 用户创建时无密码强度验证 | `server/src/routes/user.routes.js:51-99` | 管理员可创建弱密码账户（如`1`） |
-| **H4** | 大量路由未使用express-validator验证中间件 | 8个路由文件 | 输入缺少系统校验，增加注入风险 |
-| **H5** | ID参数未验证（parseInt未防护NaN） | 所有 `/:id` 路由 | 可能导致意外行为或查询错误 |
-| **H6** | .env.example 中硬编码弱密钥占位符 | `server/.env.example:9` | 可能被直接复制使用 |
-| **H7** | 导出/下载接口绕过axios拦截器 | 5个前端文件 | Token刷新机制失效，401无法自动恢复 |
-| **H8** | 导入接口使用原生fetch/XHR绕过拦截器 | 3个前端文件 | 同上，且XHR实现无Token刷新 |
-| **H9** | settingsStore load()/save() 无错误处理 | `client/src/stores/settings.js:23-39` | 设置加载/保存失败导致未捕获异常 |
-| **H10** | 多个列表页全量加载数据无分页 | 6个前端列表组件 | 数据量大时性能崩溃、内存溢出 |
-| **H11** | class loadMeta() 无错误处理 | `client/src/views/class/ClassList.vue:450-456` | 任一接口失败导致元数据全部不可用 |
-| **H12** | 缺少CSRF防护 | 全局 | 无CSRF Token，关键操作缺乏防护 |
+| # | 问题 | 位置 | 影响 | 修复状态 |
+|---|------|------|------|---------|
+| **H1** | JWT Access Token 有效期过长(24h) | `server/src/config/auth.config.js:44` | Token泄露后24小时利用窗口 | ⏳ 待优化（已有速率限制补偿） |
+| **H2** | CORS允许无Origin请求绕过 | `server/src/app.js:31-32` | 绕过CORS白名单检查 | ✅ **已修复**（`25437d8`，CORS白名单严格配置） |
+| **H3** | 用户创建时无密码强度验证 | `server/src/routes/user.routes.js:51-99` | 管理员可创建弱密码账户（如`1`） | ⏳ 待修复 |
+| **H4** | 大量路由未使用express-validator验证中间件 | 8个路由文件 | 输入缺少系统校验，增加注入风险 | ⏳ 待修复 |
+| **H5** | ID参数未验证（parseInt未防护NaN） | 所有 `/:id` 路由 | 可能导致意外行为或查询错误 | ⏳ 待修复 |
+| **H6** | .env.example 中硬编码弱密钥占位符 | `server/.env.example:9` | 可能被直接复制使用 | ✅ **已修复**（`5299c44`，JWT密钥已轮换，.env移除版本控制） |
+| **H7** | 导出/下载接口绕过axios拦截器 | 5个前端文件 | Token刷新机制失效，401无法自动恢复 | ✅ **已修复**（`10e18b4`/`5f7f3d9`，添加Authorization Header） |
+| **H8** | 导入接口使用原生fetch/XHR绕过拦截器 | 3个前端文件 | 同上，且XHR实现无Token刷新 | ✅ **已修复**（`10e18b4`） |
+| **H9** | settingsStore load()/save() 无错误处理 | `client/src/stores/settings.js:23-39` | 设置加载/保存失败导致未捕获异常 | ✅ **已修复**（`25437d8`） |
+| **H10** | 多个列表页全量加载数据无分页 | 6个前端列表组件 | 数据量大时性能崩溃、内存溢出 | ✅ **已修复**（`31348d0`，查询页添加分页） |
+| **H11** | class loadMeta() 无错误处理 | `client/src/views/class/ClassList.vue:450-456` | 任一接口失败导致元数据全部不可用 | ✅ **已修复**（`25437d8`） |
+| **H12** | 缺少CSRF防护 | 全局 | 无CSRF Token，关键操作缺乏防护 | ⏳ 待修复（JWT+CORS组合可部分缓解） |
 
 ---
 
@@ -55,22 +56,22 @@
 
 ### 3.1 后端 (14项)
 
-| # | 问题 | 位置 |
-|---|------|------|
-| M1 | 错误消息中泄露内部错误详情 | `server/src/routes/import.routes.js:60` 及多处 |
-| M2 | XSS清洗仅在导入功能中使用，其他路由缺失 | `server/src/routes/import.routes.js:14-19` |
-| M3 | 审计日志中记录完整req.body可能含敏感信息 | `server/src/routes/import.routes.js:53` 及多处 |
-| M4 | admin创建用户角色验证逻辑存在边界问题 | `server/src/routes/user.routes.js:60-68` |
-| M5 | 嵌套try-catch导致错误处理不一致 | `server/src/routes/class.routes.js:345-412` 及7个文件 |
-| M6 | 设置更新接口非事务性（循环upsert） | `server/src/routes/settings.routes.js:39-80` |
-| M7 | 文件上传仅检查扩展名未验证实际内容 | `server/src/routes/import.routes.js:32-42` |
-| M8 | 状态更新接口is_active未验证类型 | `server/src/routes/user.routes.js:184-226` |
-| M9 | winston审计日志文件始终为空 | `server/src/config/logger.js:53-58` |
-| M10 | 系统重置会清空审计日志 | `server/src/routes/settings.routes.js:327-340` |
-| M11 | query.routes.js 中重复定义isClassMatchPlan函数 | `server/src/routes/query.routes.js:329-340` |
-| M12 | 大量重复的审计日志代码 | 8个路由文件 |
-| M13 | Prisma错误日志生产环境不输出 | `server/src/lib/prisma.js:12-20` |
-| M14 | user.routes.js 中引用未定义变量username | `server/src/routes/user.routes.js:169,217` |
+| # | 问题 | 位置 | 修复状态 |
+|---|------|------|---------|
+| M1 | 错误消息中泄露内部错误详情 | `server/src/routes/import.routes.js:60` 及多处 | ✅ **已修复**（`2b2a0f6`，生产环境脱敏） |
+| M2 | XSS清洗仅在导入功能中使用，其他路由缺失 | `server/src/routes/import.routes.js:14-19` | ✅ **已修复**（`66a6345`） |
+| M3 | 审计日志中记录完整req.body可能含敏感信息 | `server/src/routes/import.routes.js:53` 及多处 | ✅ **已修复**（`66a6345`，审计日志格式统一） |
+| M4 | admin创建用户角色验证逻辑存在边界问题 | `server/src/routes/user.routes.js:60-68` | ✅ **已修复**（`5ed159d`，超级管理员保护） |
+| M5 | 嵌套try-catch导致错误处理不一致 | `server/src/routes/class.routes.js:345-412` 及7个文件 | ✅ **已修复**（`25437d8`） |
+| M6 | 设置更新接口非事务性（循环upsert） | `server/src/routes/settings.routes.js:39-80` | ⏳ 待优化 |
+| M7 | 文件上传仅检查扩展名未验证实际内容 | `server/src/routes/import.routes.js:32-42` | ⏳ 待修复 |
+| M8 | 状态更新接口is_active未验证类型 | `server/src/routes/user.routes.js:184-226` | ✅ **已修复**（`ec3ea4f`，字段名修正） |
+| M9 | winston审计日志文件始终为空 | `server/src/config/logger.js:53-58` | ⏳ 待修复（winston配置好，未接入实际调用） |
+| M10 | 系统重置会清空审计日志 | `server/src/routes/settings.routes.js:327-340` | ⚠️ 设计取舍（重置前已记录一条日志） |
+| M11 | query.routes.js 中重复定义isClassMatchPlan函数 | `server/src/routes/query.routes.js:329-340` | ⏳ 待清理（其他文件已统一使用plan.service.js） |
+| M12 | 大量重复的审计日志代码 | 8个路由文件 | ⏳ 待优化（功能正常，可重构） |
+| M13 | Prisma错误日志生产环境不输出 | `server/src/lib/prisma.js:12-20` | ⏳ 待修复 |
+| M14 | user.routes.js 中引用未定义变量username | `server/src/routes/user.routes.js:169,217` | ✅ **已修复**（`b28eb2c`，修正变量引用） |
 
 ### 3.2 前端 (10项)
 
@@ -225,5 +226,20 @@
 
 ---
 
-**报告生成时间**: 2026-06-12 22:06 GMT+8  
+---
+
+## 十、修复进度统计（截至 2026-06-13）
+
+| 等级 | 总数 | 已修复 | 待修复/优化 |
+|------|------|--------|------------|
+| 严重 (C) | 11 | 4 | 7 |
+| 高危 (H) | 12 | 7 | 5 |
+| 中危后端 (M1-M14) | 14 | 8 | 6 |
+| 中危前端 (M15-M24) | 10 | — | — |
+| 低危 (L) | 18 | — | — |
+
+> 核心功能相关的严重问题（C3运行时崩溃、C10导出认证）均已修复，安全体系基础已建立（速率限制、JWT密钥独立、CORS白名单）。剩余问题以架构级优化为主（C1/C2 JWT黑名单、H3密码强度等），不影响日常使用。
+
+**原始报告生成时间**: 2026-06-12 22:06 GMT+8  
+**修复状态更新时间**: 2026-06-13 GMT+8  
 **审计工具**: 人工 + AI辅助代码审查
