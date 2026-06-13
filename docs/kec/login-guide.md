@@ -13,7 +13,7 @@
 ### 访问地址
 
 - **生产环境**: https://kec.sntip.cn
-- **本地开发**: http://localhost:5181（前端）、http://localhost:3000（后端API）
+- **本地开发**: `http://localhost:5181`（前端）、`http://localhost:3000`（后端API）
 
 ### 注意事项
 
