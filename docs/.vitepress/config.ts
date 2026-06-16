@@ -108,8 +108,12 @@ export default withMermaid(
             { text: '初始化流程', link: '/kec/init-flow' },
             // 设计
             { text: '权限管理设计方案', link: '/kec/auth-design' },
-            { text: '详细实施方案', link: '/kec/plan' },
-            { text: '项目深度分析', link: '/kec/project-analysis' },
+            // 开发参考
+            { text: '代码重构指南', link: '/kec/refactoring-guide' },
+            { text: '重构总结', link: '/kec/refactoring-summary' },
+            { text: '前端修复总结', link: '/kec/frontend-fix-summary' },
+            { text: '验证中间件修复总结', link: '/kec/validation-fix-summary' },
+            { text: '验证中间件评估报告', link: '/kec/validation-middleware-assessment' },
             // 专题
             { text: '学期计算逻辑', link: '/kec/semester-calculation' },
             { text: '班级状态修复', link: '/kec/class-status-fix' },
@@ -118,22 +122,20 @@ export default withMermaid(
             { text: '教材查询性能优化', link: '/kec/textbook-query-optimization' },
             // 运维部署
             { text: '生产环境部署指南', link: '/kec/DEPLOYMENT_GUIDE' },
+            { text: '更新操作指南', link: '/kec/update-operations-guide' },
             { text: '部署检查清单', link: '/kec/PRODUCTION_DEPLOYMENT' },
             { text: '配置更新指南', link: '/kec/CONFIG_UPDATE_GUIDE' },
             { text: '500 错误排障修复', link: '/kec/kec-500-error-fix' },
+            { text: '紧急调试指南', link: '/kec/debug-500-error' },
+            { text: '生产环境 500 修复', link: '/kec/production-fix-500-error' },
             // 数据管理
             { text: '种子数据使用指南', link: '/kec/seed-usage' },
             { text: '变更日志', link: '/kec/changelog' },
             // 质量保障
-            { text: '代码审计报告 V5（最新）', link: '/kec/code-audit-report-v5' },
+            { text: '最新代码审计报告', link: '/kec/code-audit-latest' },
+            { text: '项目合规检查报告', link: '/kec/project-compliance-check' },
             { text: '自动化测试报告', link: '/kec/automated-testing' },
-            { text: '代码审计报告', link: '/kec/code-audit-report' },
-            { text: '代码审计报告 V2', link: '/kec/code-audit-report-v2' },
-            { text: '全面检查分析报告 V3', link: '/kec/code-audit-report-v3' },
-            { text: '全面检查分析报告 V4', link: '/kec/code-audit-report-v4' },
-            { text: '生产部署成熟度评估', link: '/kec/deploy-readiness-report' },
             { text: '全功能测试报告', link: '/kec/test-report' },
-            { text: '开发进度说明', link: '/kec/development-progress' },
           ],
         },
         {
