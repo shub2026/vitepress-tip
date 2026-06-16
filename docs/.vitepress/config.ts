@@ -103,39 +103,34 @@ export default withMermaid(
             { text: '平台说明', link: '/kec/kec-manager' },
             { text: 'KEC 说明文档', link: '/kec/kec-readme' },
             { text: '登录指南', link: '/kec/login-guide' },
+            { text: '初始化流程', link: '/kec/init-flow' },
+            // 部署
             { text: '1Panel 部署指南 (PM2)', link: '/kec/deploy-1panel' },
             { text: '1Panel Docker 部署', link: '/kec/1panel-docker-deploy' },
-            { text: '初始化流程', link: '/kec/init-flow' },
+            { text: '生产环境部署指南', link: '/kec/DEPLOYMENT_GUIDE' },
+            { text: '更新操作指南', link: '/kec/update-operations-guide' },
+            { text: '故障排查指南', link: '/kec/troubleshooting' },
             // 设计
             { text: '权限管理设计方案', link: '/kec/auth-design' },
-            // 开发参考
+            // 开发
             { text: '代码重构指南', link: '/kec/refactoring-guide' },
-            { text: '重构总结', link: '/kec/refactoring-summary' },
-            { text: '前端修复总结', link: '/kec/frontend-fix-summary' },
-            { text: '验证中间件修复总结', link: '/kec/validation-fix-summary' },
-            { text: '验证中间件评估报告', link: '/kec/validation-middleware-assessment' },
-            // 专题
+            { text: '版本管理指南', link: '/kec/version-management' },
+            // 技术专题
             { text: '学期计算逻辑', link: '/kec/semester-calculation' },
             { text: '班级状态修复', link: '/kec/class-status-fix' },
             { text: '子系统分析', link: '/kec/subsystem-analysis' },
             { text: '系统重置功能', link: '/kec/system-reset-feature' },
             { text: '教材查询性能优化', link: '/kec/textbook-query-optimization' },
-            // 运维部署
-            { text: '生产环境部署指南', link: '/kec/DEPLOYMENT_GUIDE' },
-            { text: '更新操作指南', link: '/kec/update-operations-guide' },
-            { text: '部署检查清单', link: '/kec/PRODUCTION_DEPLOYMENT' },
-            { text: '配置更新指南', link: '/kec/CONFIG_UPDATE_GUIDE' },
-            { text: '500 错误排障修复', link: '/kec/kec-500-error-fix' },
-            { text: '紧急调试指南', link: '/kec/debug-500-error' },
-            { text: '生产环境 500 修复', link: '/kec/production-fix-500-error' },
-            // 数据管理
             { text: '种子数据使用指南', link: '/kec/seed-usage' },
-            { text: '变更日志', link: '/kec/changelog' },
-            // 质量保障
+            // 质量
             { text: '最新代码审计报告', link: '/kec/code-audit-latest' },
             { text: '项目合规检查报告', link: '/kec/project-compliance-check' },
-            { text: '自动化测试报告', link: '/kec/automated-testing' },
-            { text: '全功能测试报告', link: '/kec/test-report' },
+            { text: '测试体系与报告', link: '/kec/testing' },
+            // 历史
+            { text: '重构总结', link: '/kec/refactoring-summary' },
+            { text: '前端修复总结', link: '/kec/frontend-fix-summary' },
+            { text: '验证中间件修复总结', link: '/kec/validation-fix-summary' },
+            { text: '变更日志', link: '/kec/changelog' },
           ],
         },
         {

@@ -427,7 +427,6 @@ kec-manager/
 ├── deploy.sh                        # 一键部署脚本
 ├── docs/                            # 项目文档
 │   ├── DEPLOYMENT_GUIDE.md          # 生产环境部署指南
-│   ├── PRODUCTION_DEPLOYMENT.md     # 部署检查清单
 │   ├── CODE_AUDIT_REPORT_2026-06-14.md  # 代码审计报告
 │   └── semester-calculation.md      # 学期计算逻辑
 ├── package.json                     # 根级脚本
@@ -561,7 +560,6 @@ pm2 restart kec-server
 ## 📚 相关文档
 
 - [生产环境部署指南](/kec/DEPLOYMENT_GUIDE) — 完整部署流程、Nginx 配置、HTTPS 设置
-- [部署检查清单](/kec/PRODUCTION_DEPLOYMENT) — 服务器准备、部署步骤、监控维护
 - [最新代码审计报告](/kec/code-audit-latest) — 全面代码质量与安全分析
 - [学期计算逻辑](/kec/semester-calculation) — 学期自动推算算法说明
 - [代码重构指南](/kec/refactoring-guide) — 代码重构策略与最佳实践

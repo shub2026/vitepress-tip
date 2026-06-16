@@ -2,7 +2,7 @@
 title: KEC平台 - 权限管理系统设计方案
 ---
 
-本文档反映的代码版本：2026-06-11
+本文档反映的代码版本：v1.5.19（2026-06-16）
 
 # 权限管理系统设计方案
 
@@ -215,8 +215,10 @@ npm install --save-dev @types/jsonwebtoken @types/bcryptjs
 // server/src/config/auth.config.js
 export const authConfig = {
   jwtSecret: process.env.JWT_SECRET || 'your-secret-key-change-in-production',
-  jwtExpiresIn: '24h', // Token有效期24小时
-  jwtRefreshExpiresIn: '7d' // Refresh Token有效期7天
+  jwtExpiresIn: '15m', // Access Token有效期15分钟（安全修复）
+  jwtRefreshExpiresIn: '7d', // Refresh Token有效期7天
+  jwtDownloadSecret: process.env.JWT_DOWNLOAD_SECRET || jwtSecret + '_download',
+  jwtDownloadExpiresIn: '60s', // Download Token短期有效
 }
 ```
 
@@ -1153,8 +1155,9 @@ export default service
 ### 6.2 Token安全
 
 - JWT Secret必须足够复杂，不要硬编码在代码中
-- Access Token有效期不宜过长（建议24小时）
+- Access Token有效期不宜过长（已设为15分钟）
 - Refresh Token妥善存储，避免XSS攻击
+- Download Token用于文件下载场景，60秒短期有效
 - HTTPS环境下传输（生产环境必须）
 
 ### 6.3 防护措施
