@@ -13,8 +13,8 @@ hero:
       text: 部署指南
       link: /kec/deploy-1panel
     - theme: alt
-      text: GitHub
-      link: https://github.com/shub2026/kec-manager
+      text: Gitee
+      link: https://gitee.com/shub77/kec-manager
     - theme: alt
       text: KEC平台
       link: https://kec.sntip.cn
@@ -35,7 +35,7 @@ features:
   - title: 🏫 学期自动推算
     details: 根据入学年份与学制自动计算年级和学期序号，班级在校/毕业状态实时判定，无需手动维护
     link: /kec/semester-calculation
-  - title: ⚡ 轻量部署
-    details: SQLite 开箱即用，MySQL 生产无忧，1Panel + PM2 + Nginx 一键上线，前后端分离架构
+  - title: ⚡ 自动教学排课
+    details: 四轮匹配算法，支持学院偏好、培养层次偏好、教材匹配和容量约束，全量模式和标准模式进行一键安排
     link: /kec/deploy-1panel
 ---
