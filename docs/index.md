@@ -4,11 +4,11 @@ layout: home
 hero:
   name: 'KEC'
   text: '课程管理平台'
-  tagline: '面向职业院校的轻量级教务编排系统 — 基础数据 · 培养方案 · 查询报表，一站式解决'
+  tagline: '面向职业院校的轻量级教务编排系统 — 基础数据 · 培养方案 · 自动排课 · 查询报表，一站式解决'
   actions:
     - theme: brand
       text: 快速入门
-      link: /kec/kec-manager
+      link: /kec/kec-readme
     - theme: alt
       text: 部署指南
       link: /kec/deploy-1panel
@@ -22,10 +22,10 @@ hero:
 features:
   - title: 📋 基础数据管理
     details: 学院、专业、培养层次、课程、教材一站式维护，支持 Excel 批量导入，数据骨架一次搭建长期复用
-    link: /kec/kec-manager
+    link: /kec/kec-readme
   - title: 🎓 智能培养方案
     details: 课程矩阵视图直观展示学期开课分布，自动匹配专业与层次，学期课时教材一目了然
-    link: /kec/plan
+    link: /kec/kec-readme
   - title: 📊 查询报表导出
     details: 一键查看当前及历史学期开课情况，按学院/专业/层次筛选，直接导出 Excel 统计报表
     link: /kec/kec-readme
@@ -37,5 +37,5 @@ features:
     link: /kec/semester-calculation
   - title: ⚡ 自动教学排课
     details: 四轮匹配算法，支持学院偏好、培养层次偏好、教材匹配和容量约束，全量模式和标准模式进行一键安排
-    link: /kec/deploy-1panel
+    link: /kec/kec-readme
 ---

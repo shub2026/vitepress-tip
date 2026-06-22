@@ -100,36 +100,24 @@ export default withMermaid(
           collapsed: false,
           items: [
             // 入门
-            { text: '平台说明', link: '/kec/kec-manager' },
             { text: 'KEC 说明文档', link: '/kec/kec-readme' },
             { text: '登录指南', link: '/kec/login-guide' },
             { text: '初始化流程', link: '/kec/init-flow' },
-            // 部署
+            // 部署与运维
             { text: '1Panel 部署指南 (PM2)', link: '/kec/deploy-1panel' },
             { text: '1Panel Docker 部署', link: '/kec/1panel-docker-deploy' },
             { text: '生产环境部署指南', link: '/kec/DEPLOYMENT_GUIDE' },
             { text: '更新操作指南', link: '/kec/update-operations-guide' },
             { text: '故障排查指南', link: '/kec/troubleshooting' },
-            // 设计
+            // 设计与开发
             { text: '权限管理设计方案', link: '/kec/auth-design' },
-            // 开发
-            { text: '代码重构指南', link: '/kec/refactoring-guide' },
             { text: '版本管理指南', link: '/kec/version-management' },
             // 技术专题
             { text: '学期计算逻辑', link: '/kec/semester-calculation' },
             { text: '班级状态修复', link: '/kec/class-status-fix' },
             { text: '子系统分析', link: '/kec/subsystem-analysis' },
             { text: '系统重置功能', link: '/kec/system-reset-feature' },
-            { text: '教材查询性能优化', link: '/kec/textbook-query-optimization' },
-            { text: '种子数据使用指南', link: '/kec/seed-usage' },
-            // 质量
-            { text: '最新代码审计报告', link: '/kec/code-audit-latest' },
-            { text: '项目合规检查报告', link: '/kec/project-compliance-check' },
-            { text: '测试体系与报告', link: '/kec/testing' },
-            // 历史
-            { text: '重构总结', link: '/kec/refactoring-summary' },
-            { text: '前端修复总结', link: '/kec/frontend-fix-summary' },
-            { text: '验证中间件修复总结', link: '/kec/validation-fix-summary' },
+            // 其他
             { text: '变更日志', link: '/kec/changelog' },
           ],
         },
@@ -141,7 +129,6 @@ export default withMermaid(
             { text: '远程同步关联', link: '/vite/remote-connect' },
             { text: 'Git常用命令', link: '/vite/git-commands' },
             { text: '1Panel拉取脚本', link: '/vite/1panel-script' },
-            { text: '配置优化报告', link: '/vite/config-optimization-report' },
             { text: 'Gitee Go流水线', link: '/vite/gitee-go-deploy' },
             { text: 'Gitee Go优化V2', link: '/vite/gitee-go-deploy-v2' },
             { text: 'GitHub Actions + SSH部署', link: '/vite/github-actions-ssh-deploy' },
@@ -166,17 +153,6 @@ export default withMermaid(
             { text: 'ERNIE 文心一言 提示词', link: '/AI_about/ernie-prompts' },
             { text: '混元3 提示词', link: '/AI_about/hy3-prompts' },
             { text: '国产大模型选型指南', link: '/AI_about/domestic-llm-guide' },
-          ],
-        },
-        {
-          text: 'Linux 学习',
-          collapsed: true,
-          items: [
-            {
-              text: 'Ubuntu 文件系统架构与挂载详解',
-              link: '/linux/ubuntu-filesystem-architecture',
-            },
-            { text: 'Ubuntu 日常使用说明', link: '/linux/ubuntu-daily-usage' },
           ],
         },
         {
