@@ -734,8 +734,6 @@ chmod +x scripts/update.sh
 
 - [KEC 说明文档](/kec/kec-readme) - 项目概览
 - [部署指南](/kec/DEPLOYMENT_GUIDE) - 部署指南
-- [代码重构指南](/kec/refactoring-guide) - 重构指南
-- [最新代码审计报告](/kec/code-audit-latest) - 代码审计报告
 
 ### 常用命令速查
 

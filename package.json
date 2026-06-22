@@ -16,7 +16,7 @@
     "docs:preview": "vitepress preview docs",
     "format": "prettier --write \"docs/**/*.{md,ts,css,vue}\"",
     "type-check": "tsc --noEmit",
-    "clean": "rm -rf docs/.vitepress/dist docs/.vitepress/cache"
+    "clean": "node -e \"require('fs').rmSync('docs/.vitepress/dist',{recursive:true,force:true});require('fs').rmSync('docs/.vitepress/cache',{recursive:true,force:true})\""
   },
   "devDependencies": {
     "mermaid": "^11.13.0",

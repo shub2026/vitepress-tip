@@ -560,9 +560,7 @@ pm2 restart kec-server
 ## 📚 相关文档
 
 - [生产环境部署指南](/kec/DEPLOYMENT_GUIDE) — 完整部署流程、Nginx 配置、HTTPS 设置
-- [最新代码审计报告](/kec/code-audit-latest) — 全面代码质量与安全分析
 - [学期计算逻辑](/kec/semester-calculation) — 学期自动推算算法说明
-- [代码重构指南](/kec/refactoring-guide) — 代码重构策略与最佳实践
 
 ---
 
