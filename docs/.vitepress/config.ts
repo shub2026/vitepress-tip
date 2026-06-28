@@ -100,24 +100,29 @@ export default withMermaid(
           collapsed: false,
           items: [
             // 入门
+            { text: '平台说明', link: '/kec/kec-manager' },
             { text: 'KEC 说明文档', link: '/kec/kec-readme' },
             { text: '登录指南', link: '/kec/login-guide' },
-            { text: '初始化流程', link: '/kec/init-flow' },
-            // 部署与运维
+            // 部署
             { text: '1Panel 部署指南 (PM2)', link: '/kec/deploy-1panel' },
             { text: '1Panel Docker 部署', link: '/kec/1panel-docker-deploy' },
             { text: '生产环境部署指南', link: '/kec/DEPLOYMENT_GUIDE' },
             { text: '更新操作指南', link: '/kec/update-operations-guide' },
             { text: '故障排查指南', link: '/kec/troubleshooting' },
-            // 设计与开发
+            // 核心功能
             { text: '权限管理设计方案', link: '/kec/auth-design' },
-            { text: '版本管理指南', link: '/kec/version-management' },
+            { text: '排课逻辑详解', link: '/kec/teaching-arrange-logic' },
+            { text: '自动排课算法 v2', link: '/kec/auto-arrange-logic-v2' },
+            { text: '排课算法优化', link: '/kec/scheduling-algorithm-optimization' },
+            { text: '教材内聚度分析', link: '/kec/textbook-cohesion-analysis' },
             // 技术专题
             { text: '学期计算逻辑', link: '/kec/semester-calculation' },
-            { text: '班级状态修复', link: '/kec/class-status-fix' },
-            { text: '子系统分析', link: '/kec/subsystem-analysis' },
-            { text: '系统重置功能', link: '/kec/system-reset-feature' },
-            // 其他
+            { text: '代码格式化指南', link: '/kec/code-formatting' },
+            { text: '导出导入审计', link: '/kec/export-import-audit' },
+            // 质量
+            { text: '安全审计报告', link: '/kec/kec-audit-report' },
+            // 历史
+            { text: '版本管理指南', link: '/kec/version-management' },
             { text: '变更日志', link: '/kec/changelog' },
           ],
         },
